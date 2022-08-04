@@ -1,4 +1,4 @@
-repository: tomjoht/documentation-theme-jekyll
+repository: pcanelas/rspoec.github.io
 
 output: web
 
@@ -22,32 +22,18 @@ exclude:
   - .gitignore
   - vendor
 
+feedback_disable: true
 
-feedback_subject_line: Jekyll documentation theme
-
-feedback_email: tomjoht@gmail.com
-# used as a contact email for the Feedback link in the top navigation bar
-
-# feedback_disable: true
-# if you uncomment the previous line, the Feedback link gets removed
-
-# feedback_text: "Need help?"
-# if you uncomment the previous line, it changes the Feedback text
-
-# feedback_link: "http://helpy.io/"
-# if you uncomment the previous line, it changes where the feedback link points to
-
-highlighter: rouge
 # library used for syntax highlighting
-
+highlighter: rouge
 markdown: kramdown
+
+# filter used to process markdown.
 kramdown:
  input: GFM
  auto_ids: true
  hard_wrap: false
  syntax_highlighter: rouge
-
-# filter used to process markdown. note that kramdown differs from github-flavored markdown in some subtle ways
 
 collections:
   tooltips:
@@ -61,9 +47,9 @@ defaults:
       type: "pages"
     values:
       layout: "page"
-      comments: true
+      comments: false
       # if you don't want to use Commento.io and just hide comments, change true to false wherever you see the comments property
-      search: true
+      search: false
       sidebar: home_sidebar
       topnav: topnav
   -
@@ -72,7 +58,7 @@ defaults:
       type: "tooltips"
     values:
       layout: "page"
-      search: true
+      search: false
       tooltip: true
 
   -
@@ -81,9 +67,9 @@ defaults:
       type: "posts"
     values:
       layout: "post"
-      comments: true
+      comments: false
       # if you don't want to use Commento.io and just hide comments, change true to false wherever you see the comments property
-      search: true
+      search: false
       sidebar: home_sidebar
       topnav: topnav
 
@@ -92,17 +78,8 @@ defaults:
 sidebars:
 - home_sidebar
 - mydoc_sidebar
-- product1_sidebar
-- product2_sidebar
-- other
 
-description: "Intended as a documentation theme based on Jekyll for technical writers documenting software and other technical products, this theme has all the elements you would need to handle multiple products with both multi-level sidebar navigation, tags, and other documentation features."
-# the description is used in the feed.xml file
-
-# needed for sitemap.xml file only
-# url: http://idratherbewriting.com
-# baseurl: /documentation-theme-jekyll
-
+description: "ROSPEC is a domain-specific language that allows users to turn explicit assumptions about the robotic system. The set of features in the language allow the user to describe the structural and behavioral architecture of the system."
 
 github: [metadata]
 
