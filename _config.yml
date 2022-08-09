@@ -35,11 +35,6 @@ kramdown:
  hard_wrap: false
  syntax_highlighter: rouge
 
-collections:
-  tooltips:
-    output: false
-# collections are declared here. this renders the content in _tooltips and processes it, but doesn't output it as actual files in the output unless you change output to true
-
 defaults:
   -
     scope:
@@ -52,14 +47,14 @@ defaults:
       search: false
       sidebar: home_sidebar
       topnav: topnav
-  -
-    scope:
-      path: ""
-      type: "tooltips"
-    values:
-      layout: "page"
-      search: false
-      tooltip: true
+  #-
+  #  scope:
+  #    path: ""
+  #    type: "tooltips"
+  #  values:
+  #    layout: "page"
+  #    search: false
+  #    tooltip: true
 
   -
     scope:
@@ -77,9 +72,8 @@ defaults:
 
 sidebars:
 - home_sidebar
-- mydoc_sidebar
 
-description: "ROSPEC is a domain-specific language that allows users to turn explicit assumptions about the robotic system. The set of features in the language allow the user to describe the structural and behavioral architecture of the system."
+description: "ROSpec is a domain-specific language that allows users to turn explicit assumptions about the robotic system. The set of features in the language allow the user to describe the structural and behavioral architecture of the system."
 
 github: [metadata]
 

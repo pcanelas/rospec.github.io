@@ -1,32 +1,37 @@
 ---
 title: "Specification Language for Component-based Robotic Systems"
-keywords: sample homepage
-tags: [getting_started]
-sidebar: mydoc_sidebar
+sidebar: home_sidebar
 permalink: index.html
-summary: These brief instructions will help you get started quickly with the theme. The other topics in this help provide additional information and detail about working with other aspects of this theme and Jekyll.
+# summary: These brief instructions will help you get started quickly with the theme. The other topics in this help provide additional information and detail about working with other aspects of this theme and Jekyll.
 ---
 
-Hi, bye
+## Introduction
 
-{% include note.html content="If you're cloning this theme, you're probably writing documentation of some kind. I have a blog on technical writing here called <a alt='technical writing blog' href='http://idratherbewriting.com'>I'd Rather Be Writing</a>. If you'd like to stay updated with the latest trends, best practices, and other methods for writing documentation, consider <a href='https://tinyletter.com/tomjoht'>subscribing</a>. I also have a site on <a href='http://idratherbewriting.com/learnapidoc'>writing API documentation</a>." %}
+- Introduction to robotic systems and ROS
+- ROS has the component-developer and the system-developer
+- 
+- 
 
-## Build the Theme
+RQ:
+- How effective are specification based techniques at identifying architectural misconfigurations in component-based robotic systems? 
+- 
+- 
 
-Follow these instructions to build the theme.
 
-### 1. Download the theme
+**ROSpec** is a lang 
 
-First, download or clone the theme from the [Github repo](https://github.com/tomjoht/documentation-theme-jekyll). Most likely you won't be pulling in updates once you start customizing the theme, so downloading the theme (instead of cloning it) probably makes the most sense. In Github, click the **Clone or download** button, and then click **Download ZIP**.
 
-### 2. Install Jekyll
+### 1. Installation
 
-If you've never installed or run a Jekyll site locally on your computer, follow these instructions to install Jekyll:
+The tool is available for download on [Github](https://github.com/pcanelas/rospec) and can be installed using pip:
 
-* [Install Jekyll on Mac][mydoc_install_jekyll_on_mac]
-* [Install Jekyll on Windows][mydoc_install_jekyll_on_windows]
+```bash
+pip  install rospec
+```
 
-### 3. Install Bundler
+### 4. How to use
+
+
 
 In case you haven't installed Bundler, install it:
 

@@ -1,24 +1,79 @@
 # This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
 
 entries:
-- title: Sidebar
-  levels: one
+- title: sidebar
+  product: ROSpec
+  version: 0.1
   folders:
 
-  - title: Products
+
+
+  - title: Overview
     output: web
     folderitems:
-    - title: News
-      url: /news.html
+
+    - title: Get started
+      url: /index.html
       output: web
-    - title: Theme instructions
-      url: /mydoc_introduction.html
+
+
+
+  - title: System Specification
+    output: web
+    folderitems:
+
+    - title: Structural Specification
+      url: /struct-specification.html
       output: web
-    - title: Product 1
-      url: /p1_landing_page.html
+
+    - title: Global Constants and Declarations
+      url: /constants-declarations.html
       output: web
-    - title: Product 2
-      url: /p2_landing_page.html
+
+    - title: Specification Predicates
+      url: /spec-predicates.html
+      output: web
+
+    - title: Local Assignments
+      url: /local-assignments.html
+      output: web
+
+
+
+  - title: Component Specification
+    output: web
+    folderitems:
+
+    - title: Something here
+      url: /index2.html
+      output: web
+
+
+
+  - title: Architectural Verification
+    output: web
+    folderitems:
+
+    - title: Structural Validation
+      url: /index2.html
+      output: web
+
+    - title: Specification Verification
+      url: /index2.html
+      output: web
+    
+    - title: Runtime Monitoring of System Properties (Future)
+      url: /index2.html
+      output: web
+
+
+
+  - title: Standard Library
+    output: web
+    folderitems:
+
+    - title: Functions Signature
+      url: /fun-signature.html
       output: web
 
 # Copyright 2021 Google LLC
