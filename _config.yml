@@ -4,6 +4,8 @@ baseurl: "" # the first page that we get into
 url: "https://pcanelas.com"
 repository: pcanelas/rospec.github.io
 
+remote_theme: just-the-docs/just-the-docs
+
 permalink: pretty
 
 defaults:
