@@ -1,7 +1,8 @@
 ---
-title: ROSpec Examples
+title: Examples
 sidebar: home_sidebar
 permalink: examples.html
+nav_order: 4
 summary: Real-world examples of ROSpec specifications for common ROS components and systems.
 ---
 

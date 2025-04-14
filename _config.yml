@@ -1,5 +1,5 @@
-title: ROSpec - A DSL for ROSc
-description: A Jekyll theme for documentation
+title: ROSpec
+description: A Domain Specification Language for detecting configuration and integration errors in ROS-based Robot Software.
 baseurl: "" # the first page that we get into
 url: "https://pcanelas.com"
 repository: pcanelas/rospec.github.io
@@ -140,16 +140,16 @@ callouts:
     color: yellow
   important:
     title: Important
-    color: blue
+    color: red
   new:
     title: New
     color: green
   note:
     title: Note
-    color: purple
+    color: blue
   warning:
     title: Warning
-    color: red
+    color: orange
 
 # Google Analytics Tracking (optional)
 # Supports a CSV of tracking ID strings (eg. "UA-1234567-89,G-1AB234CDE5")

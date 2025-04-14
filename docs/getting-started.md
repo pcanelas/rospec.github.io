@@ -1,11 +1,12 @@
 ---
-title: Getting Started with ROSpec
+title: Getting Started
 sidebar: home_sidebar
 permalink: getting-started.html
 summary: Learn how to install and set up ROSpec for your ROS-based robot software projects.
+nav_order: 2
 ---
 
-# Getting Started with ROSpec
+# Getting Started
 
 This guide will help you set up ROSpec and start creating your first component specifications.
 

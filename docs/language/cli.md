@@ -1,11 +1,15 @@
 ---
-title: ROSpec Command Line Interface
+title: Command Line Interface
 sidebar: home_sidebar
 permalink: cli.html
+parent: Language
 summary: Learn how to use the ROSpec command line interface to verify and analyze ROS component configurations.
 ---
 
 # ROSpec Command Line Interface
+
+(Not working yet - coming soon)
+{: .important }
 
 The ROSpec command line interface (CLI) provides tools for verifying, analyzing, and managing specifications for ROS-based systems.
 

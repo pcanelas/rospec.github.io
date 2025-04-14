@@ -2,8 +2,12 @@
 title: Component Communication
 sidebar: home_sidebar
 permalink: component-communication.html
+parent: Language
 summary: Learn how to specify and verify communication between ROS components using ROSpec.
 ---
+
+(Coming soon)
+{: .important }
 
 # Component Communication in ROSpec
 
@@ -15,27 +19,9 @@ The most common communication pattern in ROS is publisher-subscriber, where comp
 
 ### Specifying Publishers
 
-```
-node type camera_driver_type {
-  param image_topic: string = "image_raw";
-  param camera_name: string = "camera";
-  
-  publishes to /$(camera_name)/$(image_topic): sensor_msgs/Image;
-  publishes to /$(camera_name)/camera_info: sensor_msgs/CameraInfo;
-}
-```
 
 ### Specifying Subscribers
 
-```
-node type image_processor_type {
-  param image_topic: string = "image_raw";
-  param camera_name: string = "camera";
-  
-  subscribes to /$(camera_name)/$(image_topic): sensor_msgs/Image;
-  subscribes to /$(camera_name)/camera_info: sensor_msgs/CameraInfo;
-}
-```
 
 ### Topic Remapping
 
@@ -69,13 +55,6 @@ node type map_server_type {
 
 ### Service Consumers
 
-```
-node type navigation_type {
-  param map_service: string = "get_map";
-  
-  consumes service /map_server/$(map_service): nav_msgs/GetMap;
-}
-```
 
 ### Dynamic Service Names
 
@@ -204,108 +183,6 @@ message alias ValidLaserScan: sensor_msgs/LaserScan {
 
 node type laser_driver_type {
   publishes to /scan: ValidLaserScan;
-}
-```
-
-## Conditional Connections
-
-Connections can be conditional based on parameter values:
-
-```
-node type image_processor_type {
-  param use_compressed: bool = false;
-  
-  subscribes to /camera/image_raw when !use_compressed: sensor_msgs/Image;
-  subscribes to /camera/compressed when use_compressed: sensor_msgs/CompressedImage;
-}
-```
-
-## Complete Communication Example
-
-Here's a complete example of a system with various communication patterns:
-
-```
-// Node type definitions
-node type camera_driver_type {
-  param camera_name: string;
-  param frame_id: string;
-  
-  @qos{sensor_data}
-  publishes to /$(camera_name)/image_raw: sensor_msgs/Image;
-  
-  @qos{reliable_small}
-  publishes to /$(camera_name)/camera_info: sensor_msgs/CameraInfo;
-  
-  provides service /$(camera_name)/set_parameters: rcl_interfaces/SetParameters;
-  
-  broadcast $(frame_id) to $(camera_name)_optical_frame;
-}
-
-node type object_detector_type {
-  param camera_name: string;
-  param detection_threshold: double where {_ >= 0.0 && _ <= 1.0};
-  
-  @qos{sensor_data}
-  subscribes to /$(camera_name)/image_raw: sensor_msgs/Image;
-  
-  @qos{reliable_small}
-  subscribes to /$(camera_name)/camera_info: sensor_msgs/CameraInfo;
-  
-  @qos{reliable_large}
-  publishes to /detections: vision_msgs/Detection2DArray;
-  
-  listens $(camera_name)_optical_frame to map;
-}
-
-node type robot_controller_type {
-  @qos{reliable_large}
-  subscribes to /detections: vision_msgs/Detection2DArray;
-  
-  @qos{command}
-  publishes to /cmd_vel: geometry_msgs/Twist;
-  
-  provides action /follow_object: custom_msgs/FollowObject;
-  
-  listens map to base_link;
-}
-
-// System configuration
-system {
-  policy instance sensor_data: qos {
-    param depth = 5;
-    param reliability = BestEffort;
-    param durability = Volatile;
-  }
-  
-  policy instance reliable_small: qos {
-    param depth = 1;
-    param reliability = Reliable;
-    param durability = TransientLocal;
-  }
-  
-  policy instance reliable_large: qos {
-    param depth = 10;
-    param reliability = Reliable;
-    param durability = Volatile;
-  }
-  
-  policy instance command: qos {
-    param depth = 1;
-    param reliability = Reliable;
-    param durability = Volatile;
-  }
-  
-  node instance front_camera: camera_driver_type {
-    param camera_name = "front_camera";
-    param frame_id = "base_link";
-  }
-  
-  node instance object_detector: object_detector_type {
-    param camera_name = "front_camera";
-    param detection_threshold = 0.7;
-  }
-  
-  node instance controller: robot_controller_type {}
 }
 ```
 

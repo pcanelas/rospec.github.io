@@ -45,6 +45,7 @@ $blue-000: #2c84fa !default;
 $blue-100: #2869e6 !default;
 $blue-200: #264caf !default;
 $blue-300: #183385 !default;
+$blue-400: #344067 !default;
 $green-000: #41d693 !default;
 $green-100: #11b584 !default;
 $green-200: #009c7b !default;
@@ -57,6 +58,10 @@ $red-000: #f77e7e !default;
 $red-100: #f96e65 !default;
 $red-200: #e94c4c !default;
 $red-300: #dd2e2e !default;
+$orange-000: #f7b07e !default;
+$orange-100: #f9a365 !default;
+$orange-200: #e9a04c !default;
+$orange-300: #dd972e !default;
 
 // Spacing
 
@@ -101,7 +106,7 @@ $nav-width-md: 15.5rem !default;
 $nav-list-item-height: $sp-6 !default;
 $nav-list-item-height-sm: $sp-8 !default;
 $nav-list-expander-right: true;
-$content-width: 50rem !default;
+$content-width: 90rem !default;
 $header-height: 3.75rem !default;
 $search-results-width: $content-width - $nav-width !default;
 $transition-duration: 400ms;

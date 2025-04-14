@@ -2,8 +2,12 @@
 title: Configuration Verification
 sidebar: home_sidebar
 permalink: configuration-verification.html
+parent: Language
 summary: Learn how ROSpec verifies configurations and detects misconfigurations in ROS-based systems.
 ---
+
+(Coming soon)
+{: .important }
 
 # Configuration Verification with ROSpec
 
@@ -125,39 +129,3 @@ system {
   }
 }
 ```
-
-## Continuous Integration
-
-ROSpec can be integrated into your CI/CD pipeline to catch misconfigurations early:
-
-```yaml
-# Example GitHub Actions workflow
-name: ROSpec Verification
-
-on: [push, pull_request]
-
-jobs:
-  verify:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install ROSpec
-        run: pip install rospec
-      - name: Verify configurations
-        run: rospec verify path/to/specs/ --report=report.json
-      - name: Upload verification report
-        uses: actions/upload-artifact@v2
-        with:
-          name: rospec-verification-report
-          path: report.json
-```
-
-## Best Practices
-
-1. **Run verification early and often** to catch misconfigurations before testing
-2. **Include verification in your CI/CD pipeline** to prevent misconfigurations from being merged
-3. **Create specifications incrementally**, starting with the most critical components
-4. **Use the most specific constraints possible** to catch more potential issues
-5. **Document the meaning of parameters** with clear naming and comments
-
-By using ROSpec's verification capabilities, you can significantly reduce the time spent debugging configuration issues in your ROS-based robotic systems.

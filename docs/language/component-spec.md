@@ -2,8 +2,12 @@
 title: Component Specifications
 sidebar: home_sidebar
 permalink: component-spec.html
+parent: Language
 summary: Learn how to write ROSpec specifications for ROS components.
 ---
+
+(Work In Progress)
+{: .important }
 
 # Component Specifications in ROSpec
 
@@ -151,40 +155,3 @@ plugin type right_arm_type {
   optional param robot_description: string = "robot_description";
 }
 ```
-
-## Examples
-
-### AMCL Node Type
-
-```
-node type amcl_type {
-  context distribution: AfterHumbleVersion;
-  
-  param robot_model_type: Enum[DifferentialMotionModel, OmniMotionModel];
-  param scan_topic_name: string;
-  param map_topic_name: string;
-  
-  optional param z_hit: double = 0.5;
-  optional param laser_model_type: LaserModelType = LikelihoodField;
-  
-  @qos{sensor_data}
-  publishes to particle_cloud: nav2_msgs/ParticleCloud;
-  
-  @qos{sensor_data_profile}
-  subscribes to content(scan_topic_name): RestrictedLaserScan;
-  
-  @qos{transient_reliable_qos}
-  subscribes to content(map_topic_name): nav_msgs/OccupancyGrid;
-  
-  provides service reinitialize_global_localization: std_srvs/Empty;
-  
-  broadcast map to odom;
-  broadcast odom to base_link;
-  
-} where {
-  laser_model_type == Beam -> z_hit + z_max + z_rand + z_short == 1;
-  laser_model_type == LikelihoodField -> z_hit + z_rand == 1;
-}
-```
-
-This example defines an AMCL node type with parameters, connections, services, and parameter dependencies.
