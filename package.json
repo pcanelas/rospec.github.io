@@ -42,5 +42,8 @@
     "singleQuote": false,
     "tabWidth": 2,
     "trailingComma": "es5"
+  },
+  "dependencies": {
+    "sass-migrator": "^2.3.1"
   }
 }
