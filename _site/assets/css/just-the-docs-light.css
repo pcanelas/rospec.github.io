@@ -695,6 +695,23 @@ blockquote {
   border-left: 3px solid #eeebee;
 }
 
+.misconfig-label-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px; /* space between labels */
+  max-width: 315px; /* or whatever fits your layout */
+}
+
+.label-misconfiguration {
+  display: inline-block;
+  background-color: #eaeaea;
+  color: #333;
+  border-radius: 6px;
+  padding: 0.25em 0.5em;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
 .side-bar {
   z-index: 0;
   display: flex;
@@ -1518,6 +1535,24 @@ h6,
 .label-yellow:not(g) {
   color: #44434d;
   background-color: #f7d12e;
+}
+
+.label-misconfiguration:not(g) {
+  display: inline-block;
+  padding: 0.16em 0.56em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  color: #27262b;
+  background-color: #f5f6fa;
+  border-radius: 12px;
+}
+.label-misconfiguration:not(g) {
+  font-size: 0.6875rem !important;
+}
+@media (min-width: 31.25rem) {
+  .label-misconfiguration:not(g) {
+    font-size: 0.75rem !important;
+  }
 }
 
 .btn {
