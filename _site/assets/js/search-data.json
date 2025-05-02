@@ -22,7 +22,7 @@
   },"3": {
     "doc": "About us",
     "title": "Publications",
-    "content": ". | The Usability Argument for ROS-based Robot Architectural Description Languages. Paulo Canelas, Bradley Schmerl, Alcides Fonseca, and Christopher S. Timperley. 2025. In Proceedings the 15th annual workshop on the intersection of HCI and PL (PLATEAU). | Understanding Misconfigurations in ROS: An Empirical Study and Current Approaches. 2024. Paulo Canelas, Bradley Schmerl, Alcides Fonseca, and Christopher S. Timperley. In Proceedings of the 33rd ACM SIGSOFT International Symposium on Software Testing and Analysis (ISSTA). | . ",
+    "content": ". | The Usability Argument for ROS-based Robot Architectural Description Languages. Paulo Canelas, Bradley Schmerl, Alcides Fonseca, and Christopher S. Timperley. In Proceedings the 15th annual workshop on the intersection of HCI and PL (PLATEAU). 2025. | Understanding Misconfigurations in ROS: An Empirical Study and Current Approaches. Paulo Canelas, Bradley Schmerl, Alcides Fonseca, and Christopher S. Timperley. In Proceedings of the 33rd ACM SIGSOFT International Symposium on Software Testing and Analysis (ISSTA). 2024. | . ",
     "url": "/about-us.html#publications",
     
     "relUrl": "/about-us.html#publications"
@@ -379,45 +379,45 @@
   },"54": {
     "doc": "Getting Started",
     "title": "Getting Started",
-    "content": "This guide will help you set up rospec and start creating your first component specifications. ",
+    "content": " ",
     "url": "/getting-started.html",
     
     "relUrl": "/getting-started.html"
   },"55": {
     "doc": "Getting Started",
-    "title": "Installation",
-    "content": "rospec can be installed via pip, the Python package manager: . pip install rospec . Verify the installation by checking the version: . rospec --version . ",
-    "url": "/getting-started.html#installation",
-    
-    "relUrl": "/getting-started.html#installation"
-  },"56": {
-    "doc": "Getting Started",
     "title": "Prerequisites",
-    "content": "rospec requires: . | Python 3.9 or higher | poetry | . ",
+    "content": "Before you begin, ensure you have the following installed: . | Python 3.9 or higher installed on your system; | Poetry, for dependency management tool in Python. | . ",
     "url": "/getting-started.html#prerequisites",
     
     "relUrl": "/getting-started.html#prerequisites"
+  },"56": {
+    "doc": "Getting Started",
+    "title": "Installation",
+    "content": "rospec can be installed either via pip or from source. Install via pip . You can install rospec using pip, which is the recommended method for most users. Open a terminal and run the following command to install rospec and check its version: . pip install rospec rospec --version . Install from source . Installing from source is useful if you want to contribute to the project or if you need the latest features that are not yet available in the pip version. To install from source, follow these steps: . | Clone the repository and navigate to the project directory; git clone https://github.com/pcanelas/rospec.git cd rospec . | Install dependencies using Poetry poetry install . | Activate the virtual environment poetry shell . | . The virtual environment will be activated, and you can run rospec commands from there. We recommend installing rospec using pip in a virtual environment to avoid conflicts with other Python packages. You can create a virtual environment using python -m venv venv and activate it with source venv/bin/activate (Linux/Mac) or venv\\Scripts\\activate (Windows). ",
+    "url": "/getting-started.html#installation",
+    
+    "relUrl": "/getting-started.html#installation"
   },"57": {
     "doc": "Getting Started",
     "title": "Basic Workflow",
-    "content": "The typical workflow with rospec involves: . | Define component specifications: Create specifications for each component in your system | Create system integration specifications: Define how components integrate together | Verify configurations: Use rospec to check for misconfigurations | . ",
+    "content": "The typical workflow when using rospec involves the following steps: . | Component specifications: Each component in your system should contain a specification file that describes its configurations, their types, and connections; | System specification through component configuration: Define a system declaring the components used and their configurations; | Verify configurations: Use rospec to check for misconfigurations | . ",
     "url": "/getting-started.html#basic-workflow",
     
     "relUrl": "/getting-started.html#basic-workflow"
   },"58": {
     "doc": "Getting Started",
     "title": "Your First Component Specification",
-    "content": "Let’s create a simple specification for a ROS node: . node type camera_node_type { param frame_rate: double where {_ &gt; 0.0 &amp;&amp; _ &lt;= 30.0}; param resolution: string; publishes to camera/image_raw: sensor_msgs/Image; optional param camera_name: string = \"main_camera\"; } . This specification defines a camera node type with: . | A required frame_rate parameter that must be a positive number not exceeding 30 | A required resolution parameter of type string | A defined topic it publishes to with the message type | An optional parameter with a default value | . ",
+    "content": "Let’s create a very simple specification with a single parameter and its refinement for a ROS node: . node type camera_node_type { param frame_rate: double where {_ &gt; 0.0 &amp;&amp; _ &lt;= 30.0}; publishes to camera/image_raw: sensor_msgs/Image; } . This specification defines a camera node type with: . | A required frame_rate parameter that must be a positive number not exceeding 30; | A defined topic called camera/image_raw that it publishes to with the message type sensor_msgs/Image. | . ",
     "url": "/getting-started.html#your-first-component-specification",
     
     "relUrl": "/getting-started.html#your-first-component-specification"
   },"59": {
     "doc": "Getting Started",
-    "title": "System Integration",
-    "content": "Create a system integration file to specify how components connect: . system { node instance main_camera: camera_node_type { param frame_rate = -15.0; param resolution = \"640x480\"; } node instance image_processor: processor_type { param min_frame_rate = 10.0; } } . ",
-    "url": "/getting-started.html#system-integration",
+    "title": "System Specification",
+    "content": "Create a system integration file to specify how components connect: . system { node instance main_camera: camera_node_type { param frame_rate = -15.0; param resolution = \"640x480\"; } } . ",
+    "url": "/getting-started.html#system-specification",
     
-    "relUrl": "/getting-started.html#system-integration"
+    "relUrl": "/getting-started.html#system-specification"
   },"60": {
     "doc": "Getting Started",
     "title": "Verifying Configurations",
