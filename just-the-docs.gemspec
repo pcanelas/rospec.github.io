@@ -24,4 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "jekyll-seo-tag", ">= 2.0"
   spec.add_runtime_dependency "jekyll-include-cache"
   spec.add_runtime_dependency "rake", ">= 12.3.1"
+  spec.add_runtime_dependency "logger"
 end
