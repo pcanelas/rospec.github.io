@@ -111,3 +111,20 @@ blockquote {
   padding-left: 1rem;
   border-left: 3px solid $border-color;
 }
+
+.misconfig-label-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px; /* space between labels */
+  max-width: 315px; /* or whatever fits your layout */
+}
+
+.label-misconfiguration {
+  display: inline-block;
+  background-color: #eaeaea;
+  color: #333;
+  border-radius: 6px;
+  padding: 0.25em 0.5em;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
