@@ -5,7 +5,6 @@ PATH
       jekyll (>= 3.8.5)
       jekyll-include-cache
       jekyll-seo-tag (>= 2.0)
-      logger
       rake (>= 12.3.1)
 
 GEM
@@ -40,8 +39,6 @@ GEM
       faraday-net_http (>= 2.0, < 3.2)
     faraday-net_http (3.1.0)
       net-http
-    faraday-retry (2.3.1)
-      faraday (~> 2.0)
     ffi (1.17.1-arm64-darwin)
     ffi (1.17.1-x86_64-linux-gnu)
     fiber-annotation (0.2.0)
@@ -110,7 +107,6 @@ GEM
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    logger (1.6.4)
     mercenary (0.4.0)
     metrics (0.12.1)
     net-http (0.4.1)
@@ -169,7 +165,6 @@ DEPENDENCIES
   base64
   bundler (>= 2.3.5)
   csv
-  faraday-retry
   html-proofer (~> 5.0)
   jekyll-github-metadata (>= 2.15)
   jekyll-include-cache
