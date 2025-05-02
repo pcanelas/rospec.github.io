@@ -1,4 +1,3 @@
-@use "sass:meta";
 // The basic two column layout
 
 .side-bar {
@@ -145,7 +144,7 @@
   }
 }
 
-@if meta.variable-exists(logo) {
+@if variable-exists(logo) {
   .site-logo {
     width: 100%;
     height: 100%;
