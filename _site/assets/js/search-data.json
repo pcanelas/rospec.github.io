@@ -1,0 +1,737 @@
+{"0": {
+    "doc": "About us",
+    "title": "About us",
+    "content": " ",
+    "url": "/about-us.html",
+    
+    "relUrl": "/about-us.html"
+  },"1": {
+    "doc": "Command Line Interface",
+    "title": "rospec Command Line Interface",
+    "content": "(Not working yet - coming soon) . The rospec command line interface (CLI) provides tools for verifying, analyzing, and managing specifications for ROS-based systems. ",
+    "url": "/cli.html#rospec-command-line-interface",
+    
+    "relUrl": "/cli.html#rospec-command-line-interface"
+  },"2": {
+    "doc": "Command Line Interface",
+    "title": "Installation",
+    "content": "The CLI is installed automatically when you install rospec: . pip install rospec . ",
+    "url": "/cli.html#installation",
+    
+    "relUrl": "/cli.html#installation"
+  },"3": {
+    "doc": "Command Line Interface",
+    "title": "Basic Commands",
+    "content": "Verify Command . The most common command is verify, which checks specifications for errors: . # Verify a single specification file rospec verify myspec.rspec # Verify all specification files in a directory rospec verify path/to/specs/ # Verify and generate a detailed report rospec verify myspec.rspec --report=report.json . Syntax Check . To quickly check for syntax errors without performing full verification: . rospec syntax myspec.rspec . Format Command . To format rospec files according to the standard style: . rospec format myspec.rspec # Format all rospec files in a directory rospec format path/to/specs/ --in-place . Info Command . To get information about a specification file: . rospec info myspec.rspec . This provides a summary of the components, connections, and properties defined in the file. ",
+    "url": "/cli.html#basic-commands",
+    
+    "relUrl": "/cli.html#basic-commands"
+  },"4": {
+    "doc": "Command Line Interface",
+    "title": "Command Options",
+    "content": "Common Options . These options work with most commands: . --verbose, -v Increase output verbosity --quiet, -q Suppress non-essential output --help, -h Show help message --version Show version information . Verify Options . --report=FILE Generate a verification report in JSON format --summary Show only a summary of verification results --fail-fast Stop on the first error --include-warnings Treat warnings as errors --ignore-warnings Don't show warnings --max-errors=N Show at most N errors (default: 10) . Format Options . --in-place, -i Modify files in place --check Check if files are formatted correctly --diff Show diff of formatting changes . ",
+    "url": "/cli.html#command-options",
+    
+    "relUrl": "/cli.html#command-options"
+  },"5": {
+    "doc": "Command Line Interface",
+    "title": "Verification Reports",
+    "content": "The --report option generates a detailed JSON report with information about verification results: . { \"verification_time\": \"2025-04-13T15:30:45\", \"rospec_version\": \"0.1.0\", \"files\": [ { \"filename\": \"warehouse_robot.rspec\", \"status\": \"failed\", \"errors\": [ { \"severity\": \"error\", \"message\": \"Parameter dependency violation in node 'controller'\", \"details\": \"Condition 'min_velocity &lt; max_velocity' is not satisfied\", \"location\": { \"line\": 42, \"column\": 3 } }, { \"severity\": \"warning\", \"message\": \"Subscriber to topic '/scan' has no matching publisher\", \"location\": { \"line\": 56, \"column\": 5 } } ] } ], \"summary\": { \"total_files\": 1, \"passed\": 0, \"failed\": 1, \"errors\": 1, \"warnings\": 1 } } . ",
+    "url": "/cli.html#verification-reports",
+    
+    "relUrl": "/cli.html#verification-reports"
+  },"6": {
+    "doc": "Command Line Interface",
+    "title": "Exit Codes",
+    "content": "The rospec CLI uses the following exit codes: . | 0: Success (no errors) | 1: Verification errors found | 2: Command line or syntax errors | 3: File system errors (e.g., file not found) | 4: Internal errors | . ",
+    "url": "/cli.html#exit-codes",
+    
+    "relUrl": "/cli.html#exit-codes"
+  },"7": {
+    "doc": "Command Line Interface",
+    "title": "Environment Variables",
+    "content": "rospec behavior can be modified with environment variables: . | ROSPEC_CONFIG: Path to configuration file | ROSPEC_INCLUDE_PATH: Additional directories to search for imported specifications | ROSPEC_LOG_LEVEL: Set logging level (DEBUG, INFO, WARNING, ERROR) | . ",
+    "url": "/cli.html#environment-variables",
+    
+    "relUrl": "/cli.html#environment-variables"
+  },"8": {
+    "doc": "Command Line Interface",
+    "title": "Configuration File",
+    "content": "rospec can be configured with a .rospec.yaml file in the project directory: . # .rospec.yaml include_paths: - /path/to/specs - /another/path verification: max_errors: 20 include_warnings: true fail_fast: false format: indent_size: 2 max_line_length: 100 . ",
+    "url": "/cli.html#configuration-file",
+    
+    "relUrl": "/cli.html#configuration-file"
+  },"9": {
+    "doc": "Command Line Interface",
+    "title": "Examples",
+    "content": "Basic Verification . # Verify a system specification rospec verify warehouse_system.rspec # Output might look like: # Verifying warehouse_system.rspec... # Error: Parameter dependency violation in node 'controller' # Condition 'min_velocity &lt; max_velocity' is not satisfied # at warehouse_system.rspec:42:3 # # Warning: Subscriber to topic '/scan' has no matching publisher # at warehouse_system.rspec:56:5 # # Verification failed: 1 error, 1 warning . Verifying Multiple Files . # Verify all rospec files in a directory rospec verify path/to/specs/ # Output might look like: # Verifying path/to/specs/node_types.rspec... OK # Verifying path/to/specs/system.rspec... Failed (2 errors) # Verifying path/to/specs/plugins.rspec... OK # # Verification failed: 2 errors in 1 file . Generate and Export JSON Report . # Verify and generate a report rospec verify warehouse_system.rspec --report=report.json # The report can be used by other tools or CI/CD systems . Check Formatting . # Check if files are formatted correctly rospec format path/to/specs/ --check # Output might look like: # path/to/specs/node_types.rspec: OK # path/to/specs/system.rspec: Would reformat # path/to/specs/plugins.rspec: OK # # 1 file would be reformatted, 2 files would be left unchanged. Get Specification Information . # Get information about a specification rospec info warehouse_system.rspec # Output might look like: # File: warehouse_system.rspec # # Node Types: 0 # Plugin Types: 0 # Node Instances: 5 # Plugin Instances: 3 # # Connections: # Publishers: 12 # Subscribers: 15 # Service Providers: 3 # Service Consumers: 3 # Action Servers: 1 # Action Clients: 1 # # Parameters: 42 # TF Frames: 8 . ",
+    "url": "/cli.html#examples",
+    
+    "relUrl": "/cli.html#examples"
+  },"10": {
+    "doc": "Command Line Interface",
+    "title": "Integration with Build Tools",
+    "content": "Make . verify: rospec verify path/to/specs/ format: rospec format path/to/specs/ --in-place check_format: rospec format path/to/specs/ --check . CMake . add_custom_target(verify COMMAND rospec verify ${CMAKE_SOURCE_DIR}/specs/ WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMENT \"Verifying rospec specifications\" ) . ",
+    "url": "/cli.html#integration-with-build-tools",
+    
+    "relUrl": "/cli.html#integration-with-build-tools"
+  },"11": {
+    "doc": "Command Line Interface",
+    "title": "Continuous Integration",
+    "content": "GitHub Actions . name: rospec Verification on: [push, pull_request] jobs: verify: runs-on: ubuntu-latest steps: - uses: actions/checkout@v2 - name: Install rospec run: pip install rospec - name: Verify specifications run: rospec verify path/to/specs/ --report=report.json - name: Upload verification report uses: actions/upload-artifact@v2 with: name: rospec-verification-report path: report.json . The rospec CLI provides a powerful and flexible way to integrate configuration verification into your development workflow, helping you catch misconfigurations early and ensure system reliability. ",
+    "url": "/cli.html#continuous-integration",
+    
+    "relUrl": "/cli.html#continuous-integration"
+  },"12": {
+    "doc": "Command Line Interface",
+    "title": "Command Line Interface",
+    "content": " ",
+    "url": "/cli.html",
+    
+    "relUrl": "/cli.html"
+  },"13": {
+    "doc": "Component Communication",
+    "title": "Component Communication in rospec",
+    "content": "Effective communication between components is essential for ROS-based systems. rospec provides robust mechanisms to specify and verify various communication patterns, ensuring components are correctly integrated. ",
+    "url": "/component-communication.html#component-communication-in-rospec",
+    
+    "relUrl": "/component-communication.html#component-communication-in-rospec"
+  },"14": {
+    "doc": "Component Communication",
+    "title": "Publisher-Subscriber Communication",
+    "content": "The most common communication pattern in ROS is publisher-subscriber, where components exchange messages through named topics. Specifying Publishers . Specifying Subscribers . Topic Remapping . system { node instance camera: camera_driver_type { param camera_name = \"front_camera\"; } node instance processor: image_processor_type { param camera_name = \"front_camera\"; // Optional remapping if needed remap /front_camera/image_raw to /custom_image_topic; } } . ",
+    "url": "/component-communication.html#publisher-subscriber-communication",
+    
+    "relUrl": "/component-communication.html#publisher-subscriber-communication"
+  },"15": {
+    "doc": "Component Communication",
+    "title": "Service-Based Communication",
+    "content": "Services provide a request-response pattern for synchronous communication. Service Providers . node type map_server_type { provides service /map_server/get_map: nav_msgs/GetMap; provides service /map_server/get_map_properties: nav_msgs/GetMapProperties; } . Service Consumers . Dynamic Service Names . You can use parameters to dynamically determine service names: . node type object_tracker_type { param distance_service: string; consumes service content(distance_service): hector_nav_msgs/GetDistanceToObstacle; } system { node instance tracker: object_tracker_type { param distance_service = \"/get_distance_to_obstacle\"; } } . ",
+    "url": "/component-communication.html#service-based-communication",
+    
+    "relUrl": "/component-communication.html#service-based-communication"
+  },"16": {
+    "doc": "Component Communication",
+    "title": "Action-Based Communication",
+    "content": "Actions are used for long-running tasks with feedback and preemption capabilities. Action Servers . node type move_base_type { provides action /move_base: nav_msgs/MoveBase; provides action /clear_costmaps: std_msgs/Empty; } . Action Clients . node type mission_executor_type { consumes action /move_base: nav_msgs/MoveBase; consumes action /clear_costmaps: std_msgs/Empty; } . ",
+    "url": "/component-communication.html#action-based-communication",
+    
+    "relUrl": "/component-communication.html#action-based-communication"
+  },"17": {
+    "doc": "Component Communication",
+    "title": "Quality of Service (QoS)",
+    "content": "ROS 2 introduced Quality of Service settings for fine-grained control of communication properties. Defining QoS Policies . policy instance sensor_data: qos { param depth = 5; param reliability = BestEffort; param durability = Volatile; } policy instance reliable_transient: qos { param depth = 10; param reliability = Reliable; param durability = TransientLocal; } . Applying QoS to Publishers . node type camera_type { @qos{sensor_data} publishes to /camera/image_raw: sensor_msgs/Image; @qos{reliable_transient} publishes to /camera/camera_info: sensor_msgs/CameraInfo; } . Applying QoS to Subscribers . node type image_processor_type { @qos{sensor_data} subscribes to /camera/image_raw: sensor_msgs/Image; @qos{reliable_transient} subscribes to /camera/camera_info: sensor_msgs/CameraInfo; } . ",
+    "url": "/component-communication.html#quality-of-service-qos",
+    
+    "relUrl": "/component-communication.html#quality-of-service-qos"
+  },"18": {
+    "doc": "Component Communication",
+    "title": "Message Type Compatibility",
+    "content": "rospec checks that connected components use compatible message types: . node type camera_type { publishes to /camera/image_raw: sensor_msgs/Image; } node type processor_type { subscribes to /camera/image_raw: sensor_msgs/CompressedImage; // Error: Incompatible types } . ",
+    "url": "/component-communication.html#message-type-compatibility",
+    
+    "relUrl": "/component-communication.html#message-type-compatibility"
+  },"19": {
+    "doc": "Component Communication",
+    "title": "Publisher Cardinality",
+    "content": "You can specify constraints on the number of publishers or subscribers: . node type pose_initializer_type { publishes to /initialpose: geometry_msgs/PoseWithCovariance; } node type localization_type { subscribes to /initialpose: geometry_msgs/PoseWithCovariance where {count(publishers(_)) == 1}; // Ensure exactly one publisher } . ",
+    "url": "/component-communication.html#publisher-cardinality",
+    
+    "relUrl": "/component-communication.html#publisher-cardinality"
+  },"20": {
+    "doc": "Component Communication",
+    "title": "Message Field Constraints",
+    "content": "rospec allows you to specify constraints on message fields: . message alias ValidLaserScan: sensor_msgs/LaserScan { field angle_min: float where {_ &gt;= -3.14159 &amp;&amp; _ &lt;= 0.0}; field angle_max: float where {_ &gt;= 0.0 &amp;&amp; _ &lt;= 3.14159}; field range_min: float where {_ &gt;= 0.0}; field range_max: float where {_ &gt; range_min}; } node type laser_driver_type { publishes to /scan: ValidLaserScan; } . ",
+    "url": "/component-communication.html#message-field-constraints",
+    
+    "relUrl": "/component-communication.html#message-field-constraints"
+  },"21": {
+    "doc": "Component Communication",
+    "title": "Verification",
+    "content": "rospec automatically verifies communication configurations: . | Connection verification: Ensuring subscribers have corresponding publishers | Message type compatibility: Checking that connected components use compatible message types | QoS compatibility: Verifying QoS settings are compatible between publishers and subscribers | Service availability: Ensuring service clients have corresponding servers | Action availability: Checking that action clients have matching servers | Field constraints: Validating message field constraints | . By specifying communication patterns in rospec, you can ensure that components are correctly integrated and detect potential communication issues before deployment. ",
+    "url": "/component-communication.html#verification",
+    
+    "relUrl": "/component-communication.html#verification"
+  },"22": {
+    "doc": "Component Communication",
+    "title": "Component Communication",
+    "content": "(Coming soon) . ",
+    "url": "/component-communication.html",
+    
+    "relUrl": "/component-communication.html"
+  },"23": {
+    "doc": "Component Specifications",
+    "title": "Component Specifications in rospec",
+    "content": "Component specifications define the expected behavior, configuration parameters, and communication interfaces for ROS components. They serve as a formal contract and documentation for component users. ",
+    "url": "/component-spec.html#component-specifications-in-rospec",
+    
+    "relUrl": "/component-spec.html#component-specifications-in-rospec"
+  },"24": {
+    "doc": "Component Specifications",
+    "title": "Node Type Definition",
+    "content": "The basic structure for defining a node type in rospec: . node type &lt;node_type_name&gt; { // Parameters param &lt;param_name&gt;: &lt;type&gt; [where {&lt;constraints&gt;}]; optional param &lt;param_name&gt;: &lt;type&gt; = &lt;default_value&gt;; // Connections publishes to &lt;topic&gt;: &lt;message_type&gt;; subscribes to &lt;topic&gt;: &lt;message_type&gt;; // Services provides service &lt;service_name&gt;: &lt;service_type&gt;; consumes service &lt;service_name&gt;: &lt;service_type&gt;; // TF Frames broadcast &lt;parent_frame&gt; to &lt;child_frame&gt;; listens &lt;parent_frame&gt; to &lt;child_frame&gt;; // Context context &lt;context_name&gt;: &lt;type&gt;; } where { // Parameter dependencies &lt;dependency_expressions&gt;; } . ",
+    "url": "/component-spec.html#node-type-definition",
+    
+    "relUrl": "/component-spec.html#node-type-definition"
+  },"25": {
+    "doc": "Component Specifications",
+    "title": "Parameters",
+    "content": "Parameters are configuration values that affect component behavior. Required Parameters . param max_speed: double where {_ &gt;= 0.0 &amp;&amp; _ &lt;= 10.0}; param frame_id: string; . Optional Parameters with Defaults . optional param use_sim_time: bool = false; optional param retry_count: int = 3; . Parameter Constraints . rospec uses liquid types to express constraints on parameter values: . param timeout: double where {_ &gt; 0.0}; param port: int where {_ &gt;= 1024 &amp;&amp; _ &lt;= 65535}; param mode: string where {_ in [\"fast\", \"normal\", \"safe\"]}; . ",
+    "url": "/component-spec.html#parameters",
+    
+    "relUrl": "/component-spec.html#parameters"
+  },"26": {
+    "doc": "Component Specifications",
+    "title": "Connections",
+    "content": "Define how nodes communicate through topics: . Publishers . publishes to /cmd_vel: geometry_msgs/Twist; publishes to /image_raw: sensor_msgs/Image; . Subscribers . subscribes to /laser_scan: sensor_msgs/LaserScan; subscribes to /map: nav_msgs/OccupancyGrid; . Quality of Service (QoS) . @qos{sensor_data} publishes to /camera/image_raw: sensor_msgs/Image; @qos{reliable_qos} subscribes to /map: nav_msgs/OccupancyGrid; . ",
+    "url": "/component-spec.html#connections",
+    
+    "relUrl": "/component-spec.html#connections"
+  },"27": {
+    "doc": "Component Specifications",
+    "title": "Services",
+    "content": "Define service providers and consumers: . provides service /get_map: nav_msgs/GetMap; consumes service /set_pose: geometry_msgs/SetPose; . ",
+    "url": "/component-spec.html#services",
+    
+    "relUrl": "/component-spec.html#services"
+  },"28": {
+    "doc": "Component Specifications",
+    "title": "TF Transforms",
+    "content": "Specify transform broadcasts and listeners: . broadcast map to odom; broadcast odom to base_link; listens base_link to camera; . ",
+    "url": "/component-spec.html#tf-transforms",
+    
+    "relUrl": "/component-spec.html#tf-transforms"
+  },"29": {
+    "doc": "Component Specifications",
+    "title": "Context Information",
+    "content": "Specify deployment context requirements: . context distribution: AfterHumbleVersion; context is_simulation: bool; . ",
+    "url": "/component-spec.html#context-information",
+    
+    "relUrl": "/component-spec.html#context-information"
+  },"30": {
+    "doc": "Component Specifications",
+    "title": "Parameter Dependencies",
+    "content": "Express relationships between parameters: . node type controller_type { param max_velocity: double; optional param use_limits: bool = false; optional param min_velocity: double = 0.0; } where { use_limits -&gt; exists(min_velocity); max_velocity &gt; min_velocity; } . ",
+    "url": "/component-spec.html#parameter-dependencies",
+    
+    "relUrl": "/component-spec.html#parameter-dependencies"
+  },"31": {
+    "doc": "Component Specifications",
+    "title": "Plugin Types",
+    "content": "Define pluggable extensions: . plugin type right_arm_type { param tip_name: string; param root_name: string; optional param robot_description: string = \"robot_description\"; } . ",
+    "url": "/component-spec.html#plugin-types",
+    
+    "relUrl": "/component-spec.html#plugin-types"
+  },"32": {
+    "doc": "Component Specifications",
+    "title": "Component Specifications",
+    "content": "(Work In Progress) . ",
+    "url": "/component-spec.html",
+    
+    "relUrl": "/component-spec.html"
+  },"33": {
+    "doc": "Configuration Verification",
+    "title": "Configuration Verification with rospec",
+    "content": "rospec provides powerful verification capabilities to detect misconfigurations in ROS-based systems before they cause issues during runtime. This page explains the different types of verification performed by rospec and how to interpret the results. ",
+    "url": "/configuration-verification.html#configuration-verification-with-rospec",
+    
+    "relUrl": "/configuration-verification.html#configuration-verification-with-rospec"
+  },"34": {
+    "doc": "Configuration Verification",
+    "title": "Verification Process",
+    "content": "When you run the rospec verification tool on your specifications, it performs the following checks: . | Syntax validation: Ensures your specifications follow the correct rospec syntax | Type checking: Verifies that all parameter values match their declared types | Constraint validation: Checks that parameter values satisfy their constraints | Dependency verification: Ensures that relationships between parameters are respected | Connection validation: Verifies that publishers and subscribers are properly connected | QoS compatibility: Checks that QoS settings are compatible between connected components | TF tree validation: Ensures the TF tree is properly connected | Context validation: Verifies that deployment context requirements are met | . ",
+    "url": "/configuration-verification.html#verification-process",
+    
+    "relUrl": "/configuration-verification.html#verification-process"
+  },"35": {
+    "doc": "Configuration Verification",
+    "title": "Running Verification",
+    "content": "To verify your specifications, use the rospec verify command: . # Verify a single file rospec verify system.spec # Verify all specification files in a directory rospec verify path/to/specs/ # Verify and generate a report rospec verify system.spec --report=report.json . ",
+    "url": "/configuration-verification.html#running-verification",
+    
+    "relUrl": "/configuration-verification.html#running-verification"
+  },"36": {
+    "doc": "Configuration Verification",
+    "title": "Understanding Verification Results",
+    "content": "rospec provides detailed error messages that help you identify and fix misconfigurations. For example: . Error: Parameter 'max_velocity' in node 'controller' must be greater than 0.0 at system.spec:15:18 Error: Required parameter 'map_topic' is missing in node 'amcl' at system.spec:23:3 Error: Type mismatch in node 'image_processor'. Expected 'double' for parameter 'timeout', got 'string' at system.spec:31:24 Error: Subscriber to topic '/scan' in node 'obstacle_detector' has no matching publisher at system.spec:42:5 Error: Incompatible QoS settings for topic '/camera/image_raw': Publisher in 'camera_node' uses 'BestEffort' reliability Subscriber in 'image_processor' requires 'Reliable' reliability at system.spec:52:7 . ",
+    "url": "/configuration-verification.html#understanding-verification-results",
+    
+    "relUrl": "/configuration-verification.html#understanding-verification-results"
+  },"37": {
+    "doc": "Configuration Verification",
+    "title": "Verification Categories",
+    "content": "rospec detects various categories of misconfigurations: . 1. Argument and Parameter Configurations . | Type Mismatch: Parameter values don’t match their declared types | Bounds Violation: Parameter values fall outside their specified ranges | Missing Required Parameters: Required parameters not provided | Inconsistent Parameters: Conflicting parameter values | . Example: . node type controller_type { param max_velocity: double where {_ &gt; 0.0}; } system { node instance controller: controller_type { param max_velocity = -2.0; // Error: Bounds violation } } . 2. Component Integration . | Missing Publishers: Subscribers without matching publishers | Message Type Mismatch: Incompatible message types between publishers and subscribers | Service Provider Missing: Service consumers without corresponding providers | QoS Incompatibility: Conflicting QoS settings between publishers and subscribers | . Example: . node type camera_type { publishes to /camera/image_raw: sensor_msgs/CompressedImage; } node type processor_type { subscribes to /camera/image_raw: sensor_msgs/Image; // Error: Message type mismatch } . 3. Deployment Context . | Context Violation: Component used in an incompatible context | TF Tree Disconnection: Missing transforms in the TF tree | Distribution Incompatibility: Components from incompatible ROS distributions | . Example: . node type navigation_type { context is_simulation: bool; optional param use_sim_time: bool = false; } where { is_simulation -&gt; use_sim_time; } system { node instance navigation: navigation_type { context is_simulation = true; param use_sim_time = false; // Error: Context dependency violation } } . ",
+    "url": "/configuration-verification.html#verification-categories",
+    
+    "relUrl": "/configuration-verification.html#verification-categories"
+  },"38": {
+    "doc": "Configuration Verification",
+    "title": "Configuration Verification",
+    "content": "(Coming soon) . ",
+    "url": "/configuration-verification.html",
+    
+    "relUrl": "/configuration-verification.html"
+  },"39": {
+    "doc": "Evaluation",
+    "title": "Evaluation",
+    "content": "Here we have the evaluation of our paper… . | Question | Misconfiguration | Status | Writer | Integrator | . | ",
+    "url": "/questions.html",
+    
+    "relUrl": "/questions.html"
+  },"40": {
+    "doc": "Examples",
+    "title": "rospec Examples",
+    "content": "This page provides practical examples of rospec specifications to help you understand how to apply rospec to real-world ROS components and systems. ",
+    "url": "/examples.html#rospec-examples",
+    
+    "relUrl": "/examples.html#rospec-examples"
+  },"41": {
+    "doc": "Examples",
+    "title": "Basic Node Type Example",
+    "content": "node type laser_scan_matcher_type { context is_simulation: bool; optional param use_sim_time: bool = false; broadcast world to base_link; listens base_link to laser; } where { is_simulation -&gt; use_sim_time; } . This example defines a laser scan matcher node type with: . | A context requirement indicating whether it’s running in simulation | An optional parameter with a default value | TF frame broadcast and listen declarations | A dependency that enforces use_sim_time must be true in simulation context | . ",
+    "url": "/examples.html#basic-node-type-example",
+    
+    "relUrl": "/examples.html#basic-node-type-example"
+  },"42": {
+    "doc": "Examples",
+    "title": "Publisher-Subscriber Example",
+    "content": "node type hector_object_tracker_type { param distance_to_obstacle_service: string; subscribes to worldmodel/image_percept: hector_worldmodel_msgs/ImagePercept; publishes to visualization_marker: visualization_msgs/Marker; consumes service content(distance_to_obstacle_service): hector_nav_msgs/GetDistanceToObstacle; } node type hector_map_server_type { provides service /hector_map_server/get_distance_to_obstacle: hector_nav_msgs/GetDistanceToObstacle; } . The system integration would look like: . system { node instance hector_object_tracker: hector_object_tracker_type { param distance_to_obstacle_service = \"get_distance_to_obstacle\"; } node instance hector_map_server: hector_map_server_type { remap /hector_map_server/get_distance_to_obstacle to get_distance_to_obstacle; } } . ",
+    "url": "/examples.html#publisher-subscriber-example",
+    
+    "relUrl": "/examples.html#publisher-subscriber-example"
+  },"43": {
+    "doc": "Examples",
+    "title": "Message Alias Example",
+    "content": "type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16, 16UC1, 16UC2, 16UC3, 16UC4, 16SC1, 16SC2, 16SC3, 16SC4, BAYER_RGGB16, BAYER_BGGR16, BAYER_GBRG16, BAYER_GRBG16]; type alias Millimeter: int8; message alias ImageWith16Encoding: sensor_msgs/Image { field header: Header; field encoding: ImageEncoding16; field data: Millimeter[]; } . ",
+    "url": "/examples.html#message-alias-example",
+    
+    "relUrl": "/examples.html#message-alias-example"
+  },"44": {
+    "doc": "Examples",
+    "title": "Quality of Service (QoS) Example",
+    "content": "policy instance best_effort_qos5: qos { param depth = 5; param reliability = BestEffort; } node type openni_camera_driver_depth_type { optional param depth_registration: bool = true; @qos{best_effort_qos5} publishes to /camera/rgb/image_raw: GrayScale; } node type custom_node_type { @qos{reliable_qos5} subscribes to /camera/rgb/image_raw: RGB8; } . ",
+    "url": "/examples.html#quality-of-service-qos-example",
+    
+    "relUrl": "/examples.html#quality-of-service-qos-example"
+  },"45": {
+    "doc": "Examples",
+    "title": "Plugin Example",
+    "content": "node type arm_kinematics_constraint_aware_type { param group: Plugin; } plugin type right_arm_type { param tip_name: string; param root_name: string; optional param robot_description: string = \"robot_description\"; optional param tf_safety_timeout: Second = 0.0; } . ",
+    "url": "/examples.html#plugin-example",
+    
+    "relUrl": "/examples.html#plugin-example"
+  },"46": {
+    "doc": "Examples",
+    "title": "AMCL Node Example",
+    "content": "type alias LaserModelType: Enum[Beam, LikelihoodField, LikelihoodFieldProb] node type amcl_type { context distribution: AfterHumbleVersion; param robot_model_type: Enum[DifferentialMotionModel, OmniMotionModel]; param scan_topic_name: string; param map_topic_name: string; optional param z_hit: double = 0.5; optional param z_max: double = 0.05; optional param z_rand: double = 0.5; optional param z_short: double = 0.005; optional param always_reset_initial_pose: bool = false; optional param laser_model_type: LaserModelType = LikelihoodField; @qos{sensor_data} publishes to particle_cloud: nav2_msgs/ParticleCloud; @qos{sensor_data_profile} subscribes to content(scan_topic_name): RestrictedLaserScan; @qos{system_default_qos} subscribes to initialpose: geometry_msgs/PoseWithCovarianceStamped where {count(publishers(_)) == 1}; @qos{transient_reliable_qos} subscribes to content(map_topic_name): nav_msgs/OccupancyGrid; provides service reinitialize_global_localization: std_srvs/Empty; provides service set_initial_pose: nav2_msgs/SetInitialPose; broadcast map to odom; broadcast odom to base_link; broadcast base_link to scan; } where { laser_model_type == Beam -&gt; z_hit + z_max + z_rand + z_short == 1; laser_model_type == LikelihoodField -&gt; z_hit + z_rand == 1; always_reset_initial_pose -&gt; exists(initial_pose); } . ",
+    "url": "/examples.html#amcl-node-example",
+    
+    "relUrl": "/examples.html#amcl-node-example"
+  },"47": {
+    "doc": "Examples",
+    "title": "Complete Warehouse Robot Example",
+    "content": "``` system { node instance amcl: amcl_type { param robot_model_type = DifferentialMotionModel; param scan_topic_name = “scan”; param map_topic_name = “map”; param z_hit = 0.7; param z_rand = 0.3; param laser_model_type = LikelihoodField; } . node instance map_server: map_server_type { param map_file = “warehouse_map.yaml”; param use_sim_time = true; } . node instance controller_server: controller_server_type { param controller_frequency = 20.0; param min_x_velocity_threshold = 0.001; param min_y_velocity_threshold = 0.5; param min_theta_velocity_threshold = 0.001; . param plugins = [\"FollowPath\"]; context is_simulation = true; } . plugin instance follow_path: follow_path_type { param plugin_name = “follow_path”; param controller_frequency = 20.0; param max_velocity = [0.5, 0.0, 1.0]; param min_velocity = [-0.5, 0.0, -1.0]; param max_acceleration = [1.0, 0.0, 2.0]; } . plugin instance keep_out_filter: keep_out_filter_type { param plugin_name = “keep_out_filter”; param enabled = true; param filter_info_topic = “costmap_filter_info”; param mask_topic = “keep_out_mask”; } . node instance planner_server: planner_server_type { param planner_plugins = [“GridBased”]; param use_sim_time = true; . context is_simulation = true; } . plugin instance grid_based: grid_based_type { param plugin_name = “GridBased”; param allow_unknown = true; param use_astar = false; param use_final_approach_orientation = true; } . node instance costmap: costmap_type { param global_frame = “map”; param robot_base_frame = “base_link”; param rolling_window = true; param always_send_full_costmap = false; param footprint = [[0.12, 0.12], [0.12, -0.12], [-0.12, -0.12], [-0.12, 0.12]]; . param plugins = [\"obstacle_layer\", \"inflation_layer\"]; context is_simulation = true; } } . ",
+    "url": "/examples.html#complete-warehouse-robot-example",
+    
+    "relUrl": "/examples.html#complete-warehouse-robot-example"
+  },"48": {
+    "doc": "Examples",
+    "title": "Examples",
+    "content": " ",
+    "url": "/examples.html",
+    
+    "relUrl": "/examples.html"
+  },"49": {
+    "doc": "Getting Started",
+    "title": "Getting Started",
+    "content": "This guide will help you set up rospec and start creating your first component specifications. ",
+    "url": "/getting-started.html",
+    
+    "relUrl": "/getting-started.html"
+  },"50": {
+    "doc": "Getting Started",
+    "title": "Installation",
+    "content": "rospec can be installed via pip, the Python package manager: . pip install rospec . Verify the installation by checking the version: . rospec --version . ",
+    "url": "/getting-started.html#installation",
+    
+    "relUrl": "/getting-started.html#installation"
+  },"51": {
+    "doc": "Getting Started",
+    "title": "Prerequisites",
+    "content": "rospec requires: . | Python 3.9 or higher | poetry | . ",
+    "url": "/getting-started.html#prerequisites",
+    
+    "relUrl": "/getting-started.html#prerequisites"
+  },"52": {
+    "doc": "Getting Started",
+    "title": "Basic Workflow",
+    "content": "The typical workflow with rospec involves: . | Define component specifications: Create specifications for each component in your system | Create system integration specifications: Define how components integrate together | Verify configurations: Use rospec to check for misconfigurations | . ",
+    "url": "/getting-started.html#basic-workflow",
+    
+    "relUrl": "/getting-started.html#basic-workflow"
+  },"53": {
+    "doc": "Getting Started",
+    "title": "Your First Component Specification",
+    "content": "Let’s create a simple specification for a ROS node: . node type camera_node_type { param frame_rate: double where {_ &gt; 0.0 &amp;&amp; _ &lt;= 30.0}; param resolution: string; publishes to camera/image_raw: sensor_msgs/Image; optional param camera_name: string = \"main_camera\"; } . This specification defines a camera node type with: . | A required frame_rate parameter that must be a positive number not exceeding 30 | A required resolution parameter of type string | A defined topic it publishes to with the message type | An optional parameter with a default value | . ",
+    "url": "/getting-started.html#your-first-component-specification",
+    
+    "relUrl": "/getting-started.html#your-first-component-specification"
+  },"54": {
+    "doc": "Getting Started",
+    "title": "System Integration",
+    "content": "Create a system integration file to specify how components connect: . system { node instance main_camera: camera_node_type { param frame_rate = -15.0; param resolution = \"640x480\"; } node instance image_processor: processor_type { param min_frame_rate = 10.0; } } . ",
+    "url": "/getting-started.html#system-integration",
+    
+    "relUrl": "/getting-started.html#system-integration"
+  },"55": {
+    "doc": "Getting Started",
+    "title": "Verifying Configurations",
+    "content": "Run rospec to verify your configurations: . rospec --specifications path/to/your/specifications.rospec . rospec will analyze your specifications and report any misconfigurations. ",
+    "url": "/getting-started.html#verifying-configurations",
+    
+    "relUrl": "/getting-started.html#verifying-configurations"
+  },"56": {
+    "doc": "Getting Started",
+    "title": "Next Steps",
+    "content": "Now that you’ve created your first component specification, you can: . | Learn about advanced type constraints | Understand parameter dependencies | Explore component connections | See real-world examples | . Happy specifying! . ",
+    "url": "/getting-started.html#next-steps",
+    
+    "relUrl": "/getting-started.html#next-steps"
+  },"57": {
+    "doc": "Home",
+    "title": "Focus on writing good documentation",
+    "content": "Just the Docs gives your documentation a jumpstart with a responsive Jekyll theme that is easily customizable and hosted on GitHub Pages. Get started now View it on GitHub . This website documents the features of the current main branch of the Just the Docs theme. See the CHANGELOG for a list of releases, new features, and bug fixes. Just the Docs is a theme for generating static websites with Jekyll. You can write source files for your web pages using Markdown, the Liquid templating language, and HTML.1 Jekyll builds your site by converting all files that have front matter to HTML. Your Jekyll configuration file determines which theme to use, and sets general parameters for your site, such as the URL of its home page. Jekyll builds this Just the Docs theme docs website using the theme itself. These web pages show how your web pages will look by default when you use this theme. But you can easily [customize] the theme to make them look completely different! . Browse the docs to learn more about how to use this theme. ",
+    "url": "/#focus-on-writing-good-documentation",
+    
+    "relUrl": "/#focus-on-writing-good-documentation"
+  },"58": {
+    "doc": "Home",
+    "title": "Getting started",
+    "content": "The Just the Docs Template provides the simplest, quickest, and easiest way to create a new website that uses the Just the Docs theme. To get started with creating a site, just click “use the template”! . To use the theme, you do not need to clone or fork the Just the Docs repo! You should do that only if you intend to browse the theme docs locally, contribute to the development of the theme, or develop a new theme based on Just the Docs. You can easily set the site created by the template to be published on GitHub Pages – the template README file explains how to do that, along with other details. If Jekyll is installed on your computer, you can also build and preview the created site locally. This lets you test changes before committing them, and avoids waiting for GitHub Pages.2 And you will be able to deploy your local build to a different platform than GitHub Pages. More specifically, the created site: . | uses a gem-based approach, i.e. uses a Gemfile and loads the just-the-docs gem | uses the GitHub Pages / Actions workflow to build and publish the site on GitHub Pages | . Other than that, you’re free to customize sites that you create with the template, however you like. You can easily change the versions of just-the-docs and Jekyll it uses, as well as adding further plugins. See the theme README for how to use the theme as a gem without creating a new site. ",
+    "url": "/#getting-started",
+    
+    "relUrl": "/#getting-started"
+  },"59": {
+    "doc": "Home",
+    "title": "About the project",
+    "content": "Just the Docs is © 2017-2025 by Patrick Marsceill. License . Just the Docs is distributed by an MIT license. Contributing . When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change. Read more about becoming a contributor in our GitHub repo. Thank you to the contributors of Just the Docs! . | . Code of Conduct . Just the Docs is committed to fostering a welcoming community. View our Code of Conduct on our GitHub repository. | The source file for this page uses all three markup languages. &#8617; . | It can take up to 10 minutes for changes to your site to publish after you push the changes to GitHub. &#8617; . | . ",
+    "url": "/#about-the-project",
+    
+    "relUrl": "/#about-the-project"
+  },"60": {
+    "doc": "Home",
+    "title": "Home",
+    "content": " ",
+    "url": "/",
+    
+    "relUrl": "/"
+  },"61": {
+    "doc": "Language",
+    "title": "Navigation",
+    "content": "The default page layout supports various navigation features: . | a main navigation panel, highlighting the currently selected page; | a list of auxiliary links, shown on all pages; | lists of breadcrumbs, shown on all except top level pages; | optional lists of links to child pages (so-called ‘tables of contents’); and | section heading links for in-page navigation, with an optional back-to-top link. | . See the following pages for how to specify these features, with illustrative examples. ",
+    "url": "/docs/language/#navigation",
+    
+    "relUrl": "/docs/language/#navigation"
+  },"62": {
+    "doc": "Language",
+    "title": "Language",
+    "content": " ",
+    "url": "/docs/language/",
+    
+    "relUrl": "/docs/language/"
+  },"63": {
+    "doc": "Integration Specifications",
+    "title": "Integration Specifications in rospec",
+    "content": "Integration specifications define how different components work together in a ROS-based system. This ensures that components are correctly configured and connected, preventing misconfigurations that could lead to unpredictable behavior. ",
+    "url": "/integration-spec.html#integration-specifications-in-rospec",
+    
+    "relUrl": "/integration-spec.html#integration-specifications-in-rospec"
+  },"64": {
+    "doc": "Integration Specifications",
+    "title": "System Definition",
+    "content": "The basic structure for defining a system in rospec: . system { // Node instances node instance &lt;node_name&gt;: &lt;node_type&gt; { // Parameter assignments param &lt;param_name&gt; = &lt;value&gt;; ... // Remapping remap &lt;original_topic&gt; to &lt;new_topic&gt;; } // Additional node instances ... } . ",
+    "url": "/integration-spec.html#system-definition",
+    
+    "relUrl": "/integration-spec.html#system-definition"
+  },"65": {
+    "doc": "Integration Specifications",
+    "title": "Node Instantiation",
+    "content": "Creating instances of previously defined node types: . system { node instance move_group: move_group_type { param elbow_joint/max_acceleration = 0.5; param elbow_joint/min_velocity = 0.1; param elbow_joint/max_velocity = 2.0; param elbow_joint/has_velocity_limits = true; } } . ",
+    "url": "/integration-spec.html#node-instantiation",
+    
+    "relUrl": "/integration-spec.html#node-instantiation"
+  },"66": {
+    "doc": "Integration Specifications",
+    "title": "Parameter Assignment",
+    "content": "Assigning values to parameters defined in the node type: . node instance laser_scan_matcher: laser_scan_matcher_type { param distance_to_obstacle_service = \"get_distance_to_obstacle\"; param use_sim_time = true; context is_simulation = true; } . ",
+    "url": "/integration-spec.html#parameter-assignment",
+    
+    "relUrl": "/integration-spec.html#parameter-assignment"
+  },"67": {
+    "doc": "Integration Specifications",
+    "title": "Topic Remapping",
+    "content": "Redirecting topics to different names: . node instance hector_map_server: hector_map_server_type { remap /hector_map_server/get_distance_to_obstacle to get_distance_to_obstacle; } . ",
+    "url": "/integration-spec.html#topic-remapping",
+    
+    "relUrl": "/integration-spec.html#topic-remapping"
+  },"68": {
+    "doc": "Integration Specifications",
+    "title": "Connection Verification",
+    "content": "When a system is defined, rospec verifies: . | Publisher-Subscriber Connections: Ensuring that for each subscriber, there is a matching publisher with a compatible message type | Service Provider-Consumer Connections: Checking that service consumers have corresponding service providers | QoS Compatibility: Validating that Quality of Service settings are compatible between publishers and subscribers | TF Frame Connectivity: Ensuring that the TF tree is properly connected | . ",
+    "url": "/integration-spec.html#connection-verification",
+    
+    "relUrl": "/integration-spec.html#connection-verification"
+  },"69": {
+    "doc": "Integration Specifications",
+    "title": "Plugin Integration",
+    "content": "Integrating plugins with nodes: . plugin instance right_arm: right_arm_type { param tip_name = \"right_gripper\"; param root_name = \"base_link\"; } node instance arm_kinematics: arm_kinematics_constraint_aware_type { param group = right_arm; // Assigns the plugin to the node } . ",
+    "url": "/integration-spec.html#plugin-integration",
+    
+    "relUrl": "/integration-spec.html#plugin-integration"
+  },"70": {
+    "doc": "Integration Specifications",
+    "title": "Context Validation",
+    "content": "Ensuring that components are deployed in the correct context: . node instance navigation_stack: navigation_stack_type { context is_simulation = true; param use_sim_time = true; // Must match the context } . ",
+    "url": "/integration-spec.html#context-validation",
+    
+    "relUrl": "/integration-spec.html#context-validation"
+  },"71": {
+    "doc": "Integration Specifications",
+    "title": "Integration Specifications",
+    "content": " ",
+    "url": "/integration-spec.html",
+    
+    "relUrl": "/integration-spec.html"
+  },"72": {
+    "doc": "Parameter Dependencies",
+    "title": "Parameter Dependencies in rospec",
+    "content": "One of the powerful features of rospec is the ability to express and verify dependencies between parameters. This allows component writers to document and enforce complex relationships that must be maintained for correct operation. ",
+    "url": "/parameter-dependencies.html#parameter-dependencies-in-rospec",
+    
+    "relUrl": "/parameter-dependencies.html#parameter-dependencies-in-rospec"
+  },"73": {
+    "doc": "Parameter Dependencies",
+    "title": "Basic Dependencies",
+    "content": "The most common form of dependency is a simple implication between parameters: . node type controller_type { optional param use_velocity_limits: bool = false; optional param max_velocity: double; optional param min_velocity: double; } where { use_velocity_limits -&gt; exists(max_velocity); use_velocity_limits -&gt; exists(min_velocity); } . This specifies that if use_velocity_limits is true, then both max_velocity and min_velocity must be defined. ",
+    "url": "/parameter-dependencies.html#basic-dependencies",
+    
+    "relUrl": "/parameter-dependencies.html#basic-dependencies"
+  },"74": {
+    "doc": "Parameter Dependencies",
+    "title": "Value Dependencies",
+    "content": "Dependencies can also involve specific parameter values: . node type amcl_type { optional param laser_model_type: LaserModelType = LikelihoodField; optional param z_hit: double = 0.5; optional param z_max: double = 0.05; optional param z_rand: double = 0.5; optional param z_short: double = 0.005; } where { laser_model_type == Beam -&gt; z_hit + z_max + z_rand + z_short == 1; laser_model_type == LikelihoodField -&gt; z_hit + z_rand == 1; } . This example from the AMCL node shows how the meaning and constraints on certain parameters depend on the value of the laser_model_type parameter. ",
+    "url": "/parameter-dependencies.html#value-dependencies",
+    
+    "relUrl": "/parameter-dependencies.html#value-dependencies"
+  },"75": {
+    "doc": "Parameter Dependencies",
+    "title": "Existence Dependencies",
+    "content": "You can use the exists() function to check if an optional parameter is defined: . node type navigation_stack_type { optional param global_planner: string; optional param global_planner_frequency: double; } where { exists(global_planner) -&gt; exists(global_planner_frequency); } . This ensures that if a global planner is specified, its frequency must also be defined. ",
+    "url": "/parameter-dependencies.html#existence-dependencies",
+    
+    "relUrl": "/parameter-dependencies.html#existence-dependencies"
+  },"76": {
+    "doc": "Parameter Dependencies",
+    "title": "Context Dependencies",
+    "content": "rospec allows expressing dependencies between context values and parameters: . node type laser_scan_matcher_type { context is_simulation: bool; optional param use_sim_time: bool = false; } where { is_simulation -&gt; use_sim_time; } . This ensures that if the component is deployed in a simulation context, the use_sim_time parameter must be true. ",
+    "url": "/parameter-dependencies.html#context-dependencies",
+    
+    "relUrl": "/parameter-dependencies.html#context-dependencies"
+  },"77": {
+    "doc": "Parameter Dependencies",
+    "title": "Numeric Relationships",
+    "content": "This example ensures that if min and max velocities are defined, min must be less than max, and if a default velocity is defined, it must fall within the allowed range. ",
+    "url": "/parameter-dependencies.html#numeric-relationships",
+    
+    "relUrl": "/parameter-dependencies.html#numeric-relationships"
+  },"78": {
+    "doc": "Parameter Dependencies",
+    "title": "Multiple Parameter Dependencies",
+    "content": "This enforces that the rolling_window and static_map parameters cannot both be true, and if rolling_window is true, size parameters must be defined, while if static_map is true, size parameters must not be defined. ",
+    "url": "/parameter-dependencies.html#multiple-parameter-dependencies",
+    
+    "relUrl": "/parameter-dependencies.html#multiple-parameter-dependencies"
+  },"79": {
+    "doc": "Parameter Dependencies",
+    "title": "Symbolic Dependencies",
+    "content": "rospec supports symbolic variables in dependencies: . ",
+    "url": "/parameter-dependencies.html#symbolic-dependencies",
+    
+    "relUrl": "/parameter-dependencies.html#symbolic-dependencies"
+  },"80": {
+    "doc": "Parameter Dependencies",
+    "title": "Parameter Dependencies",
+    "content": "(Coming soon) . ",
+    "url": "/parameter-dependencies.html",
+    
+    "relUrl": "/parameter-dependencies.html"
+  },"81": {
+    "doc": "Plugins in rospec",
+    "title": "Plugins in rospec",
+    "content": " ",
+    "url": "/plugins.html#plugins-in-rospec",
+    
+    "relUrl": "/plugins.html#plugins-in-rospec"
+  },"82": {
+    "doc": "Plugins in rospec",
+    "title": "Plugin Fundamentals",
+    "content": "In ROS, plugins: . | Are dynamically loaded libraries that extend component functionality | Allow for modular design and flexible configuration | Are widely used in navigation, perception, and control systems | Often have their own configuration parameters and requirements | Can introduce misconfigurations if not properly documented and verified | . ",
+    "url": "/plugins.html#plugin-fundamentals",
+    
+    "relUrl": "/plugins.html#plugin-fundamentals"
+  },"83": {
+    "doc": "Plugins in rospec",
+    "title": "Specifying Plugins in rospec",
+    "content": "rospec provides a specific syntax for defining plugin types: . plugin type right_arm_type { param tip_name: string; param root_name: string; optional param robot_description: string = \"robot_description\"; optional param tf_safety_timeout: Second = 0.0; } . Similar to node types, plugin types can include: . | Required and optional parameters with types and constraints | Connections to topics and services | TF frame broadcasts and listeners | Parameter dependencies | . ",
+    "url": "/plugins.html#specifying-plugins-in-rospec",
+    
+    "relUrl": "/plugins.html#specifying-plugins-in-rospec"
+  },"84": {
+    "doc": "Plugins in rospec",
+    "title": "Plugin Usage in Nodes",
+    "content": "Nodes can use plugins by declaring parameters of type Plugin: . node type arm_kinematics_constraint_aware_type { param group: Plugin; } . ",
+    "url": "/plugins.html#plugin-usage-in-nodes",
+    
+    "relUrl": "/plugins.html#plugin-usage-in-nodes"
+  },"85": {
+    "doc": "Plugins in rospec",
+    "title": "Instantiating Plugins",
+    "content": "When configuring a system, you create plugin instances and assign them to nodes: . system { plugin instance right_arm: right_arm_type { param tip_name = \"right_gripper\"; param root_name = \"base_link\"; } node instance arm_kinematics: arm_kinematics_constraint_aware_type { param group = right_arm; // Assigns the plugin to the node } } . ",
+    "url": "/plugins.html#instantiating-plugins",
+    
+    "relUrl": "/plugins.html#instantiating-plugins"
+  },"86": {
+    "doc": "Plugins in rospec",
+    "title": "Plugins in rospec",
+    "content": "(Coming soon) . ",
+    "url": "/plugins.html",
+    
+    "relUrl": "/plugins.html"
+  },"87": {
+    "doc": "TF Frames in rospec",
+    "title": "TF Frames in rospec",
+    "content": "Transform frames (TF) are a critical component of ROS-based robotic systems, providing a way to track spatial relationships between different parts of a robot and its environment. rospec provides dedicated syntax for specifying and verifying TF frame relationships. ",
+    "url": "/tf-frames.html#tf-frames-in-rospec",
+    
+    "relUrl": "/tf-frames.html#tf-frames-in-rospec"
+  },"88": {
+    "doc": "TF Frames in rospec",
+    "title": "TF Fundamentals",
+    "content": "In ROS, the TF system: . | Tracks relationships between coordinate frames over time | Allows transforming points, vectors, and poses between different frames | Organizes frames in a tree structure, with each frame having a single parent | Facilitates distributed computing by providing consistent frame data to all nodes | . Misconfigurations in TF are common and can lead to serious issues: . | Missing transforms causing navigation failures | Incorrect frame relationships leading to collisions | Outdated transforms resulting in incorrect planning | . ",
+    "url": "/tf-frames.html#tf-fundamentals",
+    
+    "relUrl": "/tf-frames.html#tf-fundamentals"
+  },"89": {
+    "doc": "TF Frames in rospec",
+    "title": "Specifying TF Frames in rospec",
+    "content": "rospec provides two primary ways to specify TF frame relationships: . 1. Broadcasts . When a node publishes transformations: . node type base_controller_type { broadcast odom to base_link; } . This indicates that the node broadcasts the transformation from the odom frame to the base_link frame. 2. Listeners . When a node requires transformations from other nodes: . node type laser_scan_matcher_type { listens base_link to laser; } . This indicates that the node needs to know the transformation from base_link to laser, which must be provided by another node. ",
+    "url": "/tf-frames.html#specifying-tf-frames-in-rospec",
+    
+    "relUrl": "/tf-frames.html#specifying-tf-frames-in-rospec"
+  },"90": {
+    "doc": "TF Frames in rospec",
+    "title": "TF Frames with Parameters",
+    "content": "Often, frame names are configurable parameters: . node type amcl_type { param global_frame: string = \"map\"; param odom_frame: string = \"odom\"; param base_frame: string = \"base_link\"; broadcast content(global_frame) to content(odom_frame); broadcast content(odom_frame) to content(base_frame); } . The content() function in rospec dynamically resolves parameter values for frame names. ",
+    "url": "/tf-frames.html#tf-frames-with-parameters",
+    
+    "relUrl": "/tf-frames.html#tf-frames-with-parameters"
+  },"91": {
+    "doc": "TF Frames in rospec",
+    "title": "TF Tree Verification",
+    "content": "rospec automatically verifies the TF tree by: . | Checking for missing transforms: Ensuring that for every frame a node listens to, there is a corresponding broadcaster | Validating tree structure: Ensuring each frame has exactly one parent | Checking for cycles: Ensuring there are no loops in the transform tree | . For example, given: . node instance amcl: amcl_type { broadcast map to odom; } node instance laser_scan_matcher: laser_scan_matcher_type { broadcast odom to base_link; listens base_link to laser; } node instance laser_driver: laser_driver_type { // Missing transform broadcast from base_link to laser } . rospec would detect: . Error: Missing transform broadcast in the TF tree. Node 'laser_scan_matcher' listens to transform from 'base_link' to 'laser', but no node broadcasts this transform. at system.spec:15:3 . ",
+    "url": "/tf-frames.html#tf-tree-verification",
+    
+    "relUrl": "/tf-frames.html#tf-tree-verification"
+  },"92": {
+    "doc": "TF Frames in rospec",
+    "title": "TF Frames in rospec",
+    "content": "(Coming soon) . ",
+    "url": "/tf-frames.html",
+    
+    "relUrl": "/tf-frames.html"
+  },"93": {
+    "doc": "rospec Type System",
+    "title": "rospec Type System",
+    "content": "rospec uses a rich type system built on liquid and dependent types to express constraints and relationships between configuration values. This enables precise specification and verification of component configurations. ",
+    "url": "/type-system.html#rospec-type-system",
+    
+    "relUrl": "/type-system.html#rospec-type-system"
+  },"94": {
+    "doc": "rospec Type System",
+    "title": "Basic Types",
+    "content": "rospec supports the following primitive types: . | Type | Description | Examples | . | bool | Boolean values | true, false | . | int | Integer values | -1, 0, 42 | . | int8, int16, int32, int64 | Sized integers | 127, -32768 | . | uint8, uint16, uint32, uint64 | Unsigned integers | 255, 65535 | . | float | Floating-point numbers | 3.14159, -0.5 | . | double | Double-precision floating point | 1.23456789, -2.71828 | . | string | Text values | \"robot_name\", \"base_link\" | . ",
+    "url": "/type-system.html#basic-types",
+    
+    "relUrl": "/type-system.html#basic-types"
+  },"95": {
+    "doc": "rospec Type System",
+    "title": "Refined Types (Liquid Types)",
+    "content": "rospec uses liquid types to express constraints on values: . param max_speed: double where {_ &gt;= 0.0 &amp;&amp; _ &lt;= 10.0}; param retry_count: int where {_ &gt; 0 &amp;&amp; _ &lt; 10}; . The underscore (_) represents the value being constrained. ",
+    "url": "/type-system.html#refined-types-liquid-types",
+    
+    "relUrl": "/type-system.html#refined-types-liquid-types"
+  },"96": {
+    "doc": "rospec Type System",
+    "title": "Type Aliases",
+    "content": "You can define aliases for types to improve code readability: . type alias LaserModelType: Enum[Beam, LikelihoodField, LikelihoodFieldProb]; type alias Meter: double; type alias Radian: double; type alias NodeName: string; . ",
+    "url": "/type-system.html#type-aliases",
+    
+    "relUrl": "/type-system.html#type-aliases"
+  },"97": {
+    "doc": "rospec Type System",
+    "title": "Enumerations",
+    "content": " ",
+    "url": "/type-system.html#enumerations",
+    
+    "relUrl": "/type-system.html#enumerations"
+  },"98": {
+    "doc": "rospec Type System",
+    "title": "Message Types",
+    "content": "rospec automatically understands standard ROS message types: . publishes to cmd_vel: geometry_msgs/Twist; subscribes to laser_scan: sensor_msgs/LaserScan; provides service get_map: nav_msgs/GetMap; . ",
+    "url": "/type-system.html#message-types",
+    
+    "relUrl": "/type-system.html#message-types"
+  },"99": {
+    "doc": "rospec Type System",
+    "title": "Message Alias and Field Specifications",
+    "content": "You can define message aliases with field-specific constraints: . message alias ImageWith16Encoding: sensor_msgs/Image { field header: Header; field encoding: ImageEncoding16; field data: Millimeter[]; } . This allows for more specific type checking when components exchange messages. ",
+    "url": "/type-system.html#message-alias-and-field-specifications",
+    
+    "relUrl": "/type-system.html#message-alias-and-field-specifications"
+  },"100": {
+    "doc": "rospec Type System",
+    "title": "Optional Types",
+    "content": "Parameters can be marked as optional with default values: . optional param timeout: double = 30.0; optional param retry_count: int = 3; optional param node_name: string = \"default_node\"; . ",
+    "url": "/type-system.html#optional-types",
+    
+    "relUrl": "/type-system.html#optional-types"
+  },"101": {
+    "doc": "rospec Type System",
+    "title": "Arrays and Collections",
+    "content": "rospec supports array types: . param gain_values: double[] where {length(_) == 3}; param joint_names: string[]; . ",
+    "url": "/type-system.html#arrays-and-collections",
+    
+    "relUrl": "/type-system.html#arrays-and-collections"
+  },"102": {
+    "doc": "rospec Type System",
+    "title": "Physical Units",
+    "content": "rospec encourages specifying physical units for clarity: . type alias Meter: double; type alias Millimeter: double; type alias Radian: double; type alias Degree: double; param wheel_radius: Meter = 0.1; param joint_limit: Radian where {_ &gt;= 0.0 &amp;&amp; _ &lt;= 3.14159}; . ",
+    "url": "/type-system.html#physical-units",
+    
+    "relUrl": "/type-system.html#physical-units"
+  },"103": {
+    "doc": "rospec Type System",
+    "title": "Type Checking",
+    "content": "rospec performs static type checking to ensure: . | Parameter values match their declared types | Constraints on parameter values are satisfied | Dependent constraints between parameters are respected | Message types in publisher-subscriber connections are compatible | Service types in provider-consumer connections match | QoS settings are compatible | . ",
+    "url": "/type-system.html#type-checking",
+    
+    "relUrl": "/type-system.html#type-checking"
+  },"104": {
+    "doc": "rospec Type System",
+    "title": "rospec Type System",
+    "content": "(Coming soon) . ",
+    "url": "/type-system.html",
+    
+    "relUrl": "/type-system.html"
+  }
+}
