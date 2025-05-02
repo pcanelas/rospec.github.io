@@ -165,10 +165,16 @@ plugins:
   - jekyll-include-cache
   - jekyll-sitemap
 
+#kramdown:
+#  syntax_highlighter_opts:
+#    block:
+#      line_numbers: false
+
+markdown: kramdown
+highlighter: rouge
 kramdown:
-  syntax_highlighter_opts:
-    block:
-      line_numbers: false
+  input: GFM
+  syntax_highlighter: rouge
 
 compress_html:
   clippings: all

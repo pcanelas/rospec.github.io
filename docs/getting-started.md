@@ -62,7 +62,7 @@ The typical workflow when using rospec involves the following steps:
 
 Let's create a very simple specification with a single parameter and its refinement for a ROS node:
 
-```
+```rospec
 node type camera_node_type {
     param frame_rate: double where {_ > 0.0 && _ <= 30.0};  
     publishes to camera/image_raw: sensor_msgs/Image;
@@ -77,7 +77,7 @@ This specification defines a camera node type with:
 
 Create a system integration file to specify how components connect:
 
-```
+```rospec
 system {
   node instance main_camera: camera_node_type {
     param frame_rate = -15.0;

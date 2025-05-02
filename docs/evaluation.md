@@ -35,13 +35,13 @@ Here we have the evaluation of our paper...
       <td>
         <details>
           <summary>Show Writer</summary>
-          <pre><code>{{ row.writer | escape }}</code></pre>
+          <pre><code class="rospec-code">{{ row.writer | escape }}</code></pre>
         </details>
       </td>
       <td>
         <details>
           <summary>Show Integrator</summary>
-          <pre><code>{{ row.integrator | escape }}</code></pre>
+          <pre><code class="rospec-code">{{ row.integrator | escape }}</code></pre>
         </details>
       </td>
     </tr>

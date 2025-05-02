@@ -1,0 +1,116 @@
+// Reset all highlight styling first
+.highlight, .highlight pre, .highlight code, .highlight span {
+    background-color: transparent !important;
+    color: #333 !important; // Default text color
+  }
+  
+  // Basic code block styling
+  pre.highlight {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace, Consolas, 'Courier New', monospace;
+    line-height: 1.5;
+    text-align: left;
+    padding: 10px;
+    width: 100%;
+    overflow-x: auto;
+    background-color: #f8f8f8;
+  }
+  
+  // Force all punctuation and operators to be black
+  .highlight .o, 
+  .highlight .p, 
+  .highlight span.o, 
+  .highlight span.p,
+  .language-rospec .o,
+  .language-rospec .p {
+    color: #000000 !important;
+    background-color: transparent !important;
+  }
+  
+  // Apply specific syntax highlighting
+  .language-rospec {
+    // Keywords
+    .k, .kd, span.k, span.kd {
+      color: #000000 !important;
+      font-weight: bold !important;
+    }
+    
+    // Special keywords
+    .kp, span.kp {
+      color: darkorange !important;
+      font-weight: bold !important;
+    }
+    
+    // Connection keywords
+    .kd, span.kd {
+      color: #87004b !important;
+      font-weight: bold !important;
+    }
+    
+    // Types
+    .nc, .kt, span.nc, span.kt {
+      color: #083088 !important;
+    }
+    
+    // Variables
+    .nv, span.nv {
+      color: #830000 !important;
+    }
+    
+    // Numbers
+    .mi, .mf, span.mi, span.mf {
+      color: #008cff !important;
+    }
+    
+    // Comments
+    .c, .c1, .cm, span.c, span.c1, span.cm {
+      color: #9e9e9e !important;
+      font-style: italic !important;
+    }
+    
+    // Strings
+    .s, .s1, .s2, span.s, span.s1, span.s2 {
+      color: rgb(17, 107, 40) !important;
+    }
+  }
+  
+  // Custom styles for manually applied classes
+  .cm-rospec-keyword { color: #000000 !important; font-weight: bold !important; }
+  .cm-special-keyword { color: darkorange !important; font-weight: bold !important; }
+  .cm-connection-keyword { color: #87004b !important; font-weight: bold !important; }
+  .cm-ttype { color: #083088 !important; }
+  .cm-variable { color: #830000 !important; }
+  .cm-operator { color: #000000 !important; }
+  .cm-number { color: #008cff !important; }
+  .cm-rospec-comment { color: #9e9e9e !important; font-style: italic !important; }
+  .cm-string { color: rgb(17, 107, 40) !important; }
+  
+  // Target specific symbols that might be problematic
+  .highlight {
+    // Target individual symbols
+    span[class="o"], span[class="p"] {
+      color: #000 !important;
+    }
+    
+    // Target the actual symbols
+    span:contains("{"), span:contains("}"), 
+    span:contains(":"), span:contains(";"),
+    span:contains("="), span:contains("<"),
+    span:contains(">"), span:contains("["),
+    span:contains("]") {
+      color: #000 !important;
+    }
+  }
+  
+  // Brute force approach for symbols
+  .highlight pre code {
+    // Direct styling for specific characters
+    .symbol-brace-open, .symbol-brace-close,
+    .symbol-bracket-open, .symbol-bracket-close,
+    .symbol-colon, .symbol-semicolon,
+    .symbol-equals {
+      color: #000 !important;
+    }
+  }
