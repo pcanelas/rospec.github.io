@@ -12,3 +12,7 @@ gem "jekyll-sitemap", group: :jekyll_plugins
 gem "html-proofer", "~> 5.0", :group => :development
 
 gem "faraday-retry"
+
+gem "jekyll", "~> 4.3.2"
+
+gem "webrick", "~> 1.8"
