@@ -1,116 +1,179 @@
 // Reset all highlight styling first
-.highlight, .highlight pre, .highlight code, .highlight span {
-    background-color: transparent !important;
-    color: #333 !important; // Default text color
-  }
-  
-  // Basic code block styling
-  pre.highlight {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    font-family: 'JetBrains Mono', monospace, Consolas, 'Courier New', monospace;
-    line-height: 1.5;
-    text-align: left;
-    padding: 10px;
-    width: 100%;
-    overflow-x: auto;
-    background-color: #f8f8f8;
-  }
-  
-  // Force all punctuation and operators to be black
-  .highlight .o, 
-  .highlight .p, 
-  .highlight span.o, 
-  .highlight span.p,
-  .language-rospec .o,
-  .language-rospec .p {
+.language-rospec.highlight, 
+.language-rospec .highlight pre, 
+.language-rospec .highlight code, 
+.language-rospec .highlight span,
+.rospec-code.highlight,
+.rospec-code .highlight pre,
+.rospec-code .highlight code,
+.rospec-code .highlight span {
+  background-color: transparent !important;
+  color: #333 !important; // Default text color
+}
+
+// Basic code block styling for rospec
+pre.highlight code.language-rospec,
+pre.highlight code.rospec-code {
+  display: block;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: 'JetBrains Mono', monospace, Consolas, 'Courier New', monospace;
+  line-height: 1.5;
+  text-align: left;
+  padding: 10px;
+  width: 100%;
+  overflow-x: auto;
+  background-color: #f8f8f8 !important;
+}
+
+// Force all punctuation and operators to be black
+.language-rospec .highlight .o, 
+.language-rospec .highlight .p, 
+.language-rospec .highlight span.o, 
+.language-rospec .highlight span.p,
+.language-rospec .o,
+.language-rospec .p,
+.rospec-code .highlight .o,
+.rospec-code .highlight .p,
+.rospec-code .highlight span.o,
+.rospec-code .highlight span.p,
+.rospec-code .o,
+.rospec-code .p {
+  color: #000000 !important;
+  background-color: transparent !important;
+}
+
+// Apply specific syntax highlighting for rospec
+.language-rospec,
+.rospec-code {
+  // Keywords
+  .k, .kd, span.k, span.kd, .highlight .k, .highlight .kd {
     color: #000000 !important;
-    background-color: transparent !important;
+    font-weight: bold !important;
   }
   
-  // Apply specific syntax highlighting
-  .language-rospec {
-    // Keywords
-    .k, .kd, span.k, span.kd {
-      color: #000000 !important;
-      font-weight: bold !important;
-    }
-    
-    // Special keywords
-    .kp, span.kp {
-      color: darkorange !important;
-      font-weight: bold !important;
-    }
-    
-    // Connection keywords
-    .kd, span.kd {
-      color: #87004b !important;
-      font-weight: bold !important;
-    }
-    
-    // Types
-    .nc, .kt, span.nc, span.kt {
-      color: #083088 !important;
-    }
-    
-    // Variables
-    .nv, span.nv {
-      color: #830000 !important;
-    }
-    
-    // Numbers
-    .mi, .mf, span.mi, span.mf {
-      color: #008cff !important;
-    }
-    
-    // Comments
-    .c, .c1, .cm, span.c, span.c1, span.cm {
-      color: #9e9e9e !important;
-      font-style: italic !important;
-    }
-    
-    // Strings
-    .s, .s1, .s2, span.s, span.s1, span.s2 {
-      color: rgb(17, 107, 40) !important;
-    }
+  // Special keywords
+  .kp, span.kp, .highlight .kp {
+    color: darkorange !important;
+    font-weight: bold !important;
   }
   
-  // Custom styles for manually applied classes
-  .cm-rospec-keyword { color: #000000 !important; font-weight: bold !important; }
-  .cm-special-keyword { color: darkorange !important; font-weight: bold !important; }
-  .cm-connection-keyword { color: #87004b !important; font-weight: bold !important; }
-  .cm-ttype { color: #083088 !important; }
-  .cm-variable { color: #830000 !important; }
-  .cm-operator { color: #000000 !important; }
-  .cm-number { color: #008cff !important; }
-  .cm-rospec-comment { color: #9e9e9e !important; font-style: italic !important; }
-  .cm-string { color: rgb(17, 107, 40) !important; }
-  
-  // Target specific symbols that might be problematic
-  .highlight {
-    // Target individual symbols
-    span[class="o"], span[class="p"] {
-      color: #000 !important;
-    }
-    
-    // Target the actual symbols
-    span:contains("{"), span:contains("}"), 
-    span:contains(":"), span:contains(";"),
-    span:contains("="), span:contains("<"),
-    span:contains(">"), span:contains("["),
-    span:contains("]") {
-      color: #000 !important;
-    }
+  // Connection keywords
+  .kd, span.kd, .highlight .kd {
+    color: #87004b !important;
+    font-weight: bold !important;
   }
   
-  // Brute force approach for symbols
-  .highlight pre code {
-    // Direct styling for specific characters
-    .symbol-brace-open, .symbol-brace-close,
-    .symbol-bracket-open, .symbol-bracket-close,
-    .symbol-colon, .symbol-semicolon,
-    .symbol-equals {
-      color: #000 !important;
-    }
+  // Types
+  .nc, .kt, span.nc, span.kt, .highlight .nc, .highlight .kt {
+    color: #083088 !important;
   }
+  
+  // Variables
+  .nv, span.nv, .highlight .nv {
+    color: #830000 !important;
+  }
+  
+  // Numbers
+  .mi, .mf, span.mi, span.mf, .highlight .mi, .highlight .mf {
+    color: #008cff !important;
+  }
+  
+  // Comments
+  .c, .c1, .cm, span.c, span.c1, span.cm, .highlight .c, .highlight .c1, .highlight .cm {
+    color: #9e9e9e !important;
+    font-style: italic !important;
+  }
+  
+  // Strings
+  .s, .s1, .s2, span.s, span.s1, span.s2, .highlight .s, .highlight .s1, .highlight .s2 {
+    color: rgb(17, 107, 40) !important;
+  }
+  
+  // Context keyword - should be orange
+  .context, span.context {
+    color: darkorange !important;
+    font-weight: bold !important;
+  }
+  
+  // @ decorator - should be orange
+  span[class^="at-"], [class^="decorator-"] {
+    color: darkorange !important;
+    font-weight: bold !important;
+  }
+  
+  // Variable names especially after param
+  .param + .name, .param + span:not([class]) {
+    color: #830000 !important;
+  }
+}
+
+// Target specific symbols that might be problematic
+.highlight {
+  // Target individual symbols
+  span[class="o"], span[class="p"] {
+    color: #000 !important;
+  }
+}
+
+// Special handling for variable names
+code span.variable, 
+code span.nv,
+code span.nx,
+code span.hljs-variable {
+  color: #830000 !important;
+}
+
+// Special handling for context keyword
+code span.context,
+code .hljs-meta:contains("context"),
+code:contains("context") {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+// Specific handling for @ decorator
+code span[class*="qos"],
+code span:contains("@"),
+[class*="decorator"] {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+// Handle param keyword but make sure variable names after are highlighted
+.param + * {
+  color: #830000 !important;
+}
+
+// These classes will be applied by our custom JS
+.cm-rospec-keyword { color: #000000 !important; font-weight: bold !important; }
+.cm-special-keyword { color: darkorange !important; font-weight: bold !important; }
+.cm-connection-keyword { color: #87004b !important; font-weight: bold !important; }
+.cm-ttype { color: #083088 !important; }
+.cm-variable { color: #830000 !important; }
+.cm-operator { color: #000000 !important; }
+.cm-number { color: #008cff !important; }
+.cm-rospec-comment { color: #9e9e9e !important; font-style: italic !important; }
+.cm-string { color: rgb(17, 107, 40) !important; }
+
+// Special handling for code in details tags (for your examples page)
+details pre code.rospec-code,
+details pre code.language-rospec {
+  background-color: #f8f8f8 !important;
+  border: 1px solid #ddd !important;
+}
+
+// Make sure @ is colored correctly
+code[class*="language-rospec"] span:contains("@"),
+code.rospec-code span:contains("@") {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+// Make sure "context" is colored correctly
+code[class*="language-rospec"] span:contains("context"),
+code.rospec-code span:contains("context") {
+  color: darkorange !important;
+  font-weight: bold !important;
+}

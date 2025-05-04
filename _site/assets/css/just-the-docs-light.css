@@ -7696,12 +7696,21 @@ blockquote.warning-title > p:last-child {
   margin-bottom: 0;
 }
 
-.highlight, .highlight pre, .highlight code, .highlight span {
+.language-rospec.highlight,
+.language-rospec .highlight pre,
+.language-rospec .highlight code,
+.language-rospec .highlight span,
+.rospec-code.highlight,
+.rospec-code .highlight pre,
+.rospec-code .highlight code,
+.rospec-code .highlight span {
   background-color: transparent !important;
   color: #333 !important;
 }
 
-pre.highlight {
+pre.highlight code.language-rospec,
+pre.highlight code.rospec-code {
+  display: block;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 14px;
@@ -7711,46 +7720,143 @@ pre.highlight {
   padding: 10px;
   width: 100%;
   overflow-x: auto;
-  background-color: #f8f8f8;
+  background-color: #f8f8f8 !important;
 }
 
-.highlight .o,
-.highlight .p,
-.highlight span.o,
-.highlight span.p,
+.language-rospec .highlight .o,
+.language-rospec .highlight .p,
+.language-rospec .highlight span.o,
+.language-rospec .highlight span.p,
 .language-rospec .o,
-.language-rospec .p {
+.language-rospec .p,
+.rospec-code .highlight .o,
+.rospec-code .highlight .p,
+.rospec-code .highlight span.o,
+.rospec-code .highlight span.p,
+.rospec-code .o,
+.rospec-code .p {
   color: #000000 !important;
   background-color: transparent !important;
 }
 
-.language-rospec .k, .language-rospec .kd, .language-rospec span.k, .language-rospec span.kd {
+.language-rospec .k, .language-rospec .kd, .language-rospec span.k, .language-rospec span.kd, .language-rospec .highlight .k, .language-rospec .highlight .kd,
+.rospec-code .k,
+.rospec-code .kd,
+.rospec-code span.k,
+.rospec-code span.kd,
+.rospec-code .highlight .k,
+.rospec-code .highlight .kd {
   color: #000000 !important;
   font-weight: bold !important;
 }
-.language-rospec .kp, .language-rospec span.kp {
+.language-rospec .kp, .language-rospec span.kp, .language-rospec .highlight .kp,
+.rospec-code .kp,
+.rospec-code span.kp,
+.rospec-code .highlight .kp {
   color: darkorange !important;
   font-weight: bold !important;
 }
-.language-rospec .kd, .language-rospec span.kd {
+.language-rospec .kd, .language-rospec span.kd, .language-rospec .highlight .kd,
+.rospec-code .kd,
+.rospec-code span.kd,
+.rospec-code .highlight .kd {
   color: #87004b !important;
   font-weight: bold !important;
 }
-.language-rospec .nc, .language-rospec .kt, .language-rospec span.nc, .language-rospec span.kt {
+.language-rospec .nc, .language-rospec .kt, .language-rospec span.nc, .language-rospec span.kt, .language-rospec .highlight .nc, .language-rospec .highlight .kt,
+.rospec-code .nc,
+.rospec-code .kt,
+.rospec-code span.nc,
+.rospec-code span.kt,
+.rospec-code .highlight .nc,
+.rospec-code .highlight .kt {
   color: #083088 !important;
 }
-.language-rospec .nv, .language-rospec span.nv {
+.language-rospec .nv, .language-rospec span.nv, .language-rospec .highlight .nv,
+.rospec-code .nv,
+.rospec-code span.nv,
+.rospec-code .highlight .nv {
   color: #830000 !important;
 }
-.language-rospec .mi, .language-rospec .mf, .language-rospec span.mi, .language-rospec span.mf {
+.language-rospec .mi, .language-rospec .mf, .language-rospec span.mi, .language-rospec span.mf, .language-rospec .highlight .mi, .language-rospec .highlight .mf,
+.rospec-code .mi,
+.rospec-code .mf,
+.rospec-code span.mi,
+.rospec-code span.mf,
+.rospec-code .highlight .mi,
+.rospec-code .highlight .mf {
   color: #008cff !important;
 }
-.language-rospec .c, .language-rospec .c1, .language-rospec .cm, .language-rospec span.c, .language-rospec span.c1, .language-rospec span.cm {
+.language-rospec .c, .language-rospec .c1, .language-rospec .cm, .language-rospec span.c, .language-rospec span.c1, .language-rospec span.cm, .language-rospec .highlight .c, .language-rospec .highlight .c1, .language-rospec .highlight .cm,
+.rospec-code .c,
+.rospec-code .c1,
+.rospec-code .cm,
+.rospec-code span.c,
+.rospec-code span.c1,
+.rospec-code span.cm,
+.rospec-code .highlight .c,
+.rospec-code .highlight .c1,
+.rospec-code .highlight .cm {
   color: #9e9e9e !important;
   font-style: italic !important;
 }
-.language-rospec .s, .language-rospec .s1, .language-rospec .s2, .language-rospec span.s, .language-rospec span.s1, .language-rospec span.s2 {
+.language-rospec .s, .language-rospec .s1, .language-rospec .s2, .language-rospec span.s, .language-rospec span.s1, .language-rospec span.s2, .language-rospec .highlight .s, .language-rospec .highlight .s1, .language-rospec .highlight .s2,
+.rospec-code .s,
+.rospec-code .s1,
+.rospec-code .s2,
+.rospec-code span.s,
+.rospec-code span.s1,
+.rospec-code span.s2,
+.rospec-code .highlight .s,
+.rospec-code .highlight .s1,
+.rospec-code .highlight .s2 {
   color: rgb(17, 107, 40) !important;
+}
+.language-rospec .context, .language-rospec span.context,
+.rospec-code .context,
+.rospec-code span.context {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+.language-rospec span[class^=at-], .language-rospec [class^=decorator-],
+.rospec-code span[class^=at-],
+.rospec-code [class^=decorator-] {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+.language-rospec .param + .name, .language-rospec .param + span:not([class]),
+.rospec-code .param + .name,
+.rospec-code .param + span:not([class]) {
+  color: #830000 !important;
+}
+
+.highlight span[class=o], .highlight span[class=p] {
+  color: #000 !important;
+}
+
+code span.variable,
+code span.nv,
+code span.nx,
+code span.hljs-variable {
+  color: #830000 !important;
+}
+
+code span.context,
+code .hljs-meta:contains("context"),
+code:contains("context") {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+code span[class*=qos],
+code span:contains("@"),
+[class*=decorator] {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+.param + * {
+  color: #830000 !important;
 }
 
 .cm-rospec-keyword {
@@ -7793,22 +7899,22 @@ pre.highlight {
   color: rgb(17, 107, 40) !important;
 }
 
-.highlight span[class=o], .highlight span[class=p] {
-  color: #000 !important;
-}
-.highlight span:contains("{"), .highlight span:contains("}"),
-.highlight span:contains(":"), .highlight span:contains(";"),
-.highlight span:contains("="), .highlight span:contains("<"),
-.highlight span:contains(">"), .highlight span:contains("["),
-.highlight span:contains("]") {
-  color: #000 !important;
+details pre code.rospec-code,
+details pre code.language-rospec {
+  background-color: #f8f8f8 !important;
+  border: 1px solid #ddd !important;
 }
 
-.highlight pre code .symbol-brace-open, .highlight pre code .symbol-brace-close,
-.highlight pre code .symbol-bracket-open, .highlight pre code .symbol-bracket-close,
-.highlight pre code .symbol-colon, .highlight pre code .symbol-semicolon,
-.highlight pre code .symbol-equals {
-  color: #000 !important;
+code[class*=language-rospec] span:contains("@"),
+code.rospec-code span:contains("@") {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+code[class*=language-rospec] span:contains("context"),
+code.rospec-code span:contains("context") {
+  color: darkorange !important;
+  font-weight: bold !important;
 }
 
 /*# sourceMappingURL=just-the-docs-light.css.map */

@@ -5,7 +5,8 @@
 <!-- Custom rospec styling -->
 <style>
 /* Basic code block styling */
-pre code.language-rospec {
+pre code.language-rospec,
+pre code.rospec-code {
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 14px;
@@ -19,52 +20,260 @@ pre code.language-rospec {
 }
 
 /* Force all punctuation and operators to be black */
-.hljs-punctuation, .hljs-operator {
+.hljs-punctuation, 
+.hljs-operator,
+.language-rospec .operator,
+.rospec-code .operator {
   color: #000000 !important;
   background-color: transparent !important;
 }
 
 /* Keywords */
-.hljs-keyword {
+.hljs-keyword,
+.language-rospec .keyword,
+.rospec-code .keyword {
   color: #000000 !important;
   font-weight: bold !important;
 }
 
 /* Special keywords */
-.hljs-meta {
+.hljs-meta,
+.language-rospec .meta,
+.rospec-code .meta {
   color: darkorange !important;
   font-weight: bold !important;
 }
 
 /* Connection keywords */
-.hljs-built_in {
+.hljs-built_in,
+.language-rospec .built_in,
+.rospec-code .built_in {
   color: #87004b !important;
   font-weight: bold !important;
 }
 
 /* Types */
-.hljs-type, .hljs-class {
+.hljs-type, 
+.hljs-class,
+.language-rospec .type,
+.language-rospec .class,
+.rospec-code .type,
+.rospec-code .class {
   color: #083088 !important;
 }
 
 /* Variables */
-.hljs-variable, .hljs-attr {
+.hljs-variable, 
+.hljs-attr,
+.hljs-params,
+.language-rospec .variable,
+.language-rospec .attr,
+.rospec-code .variable,
+.rospec-code .attr {
   color: #830000 !important;
 }
 
-/* Numbers */
-.hljs-number {
+/* Numbers and true/false */
+.hljs-number,
+.language-rospec .number,
+.rospec-code .number,
+.hljs-literal,  /* For true/false */
+.language-rospec .literal,
+.rospec-code .literal {
   color: #008cff !important;
 }
 
 /* Comments */
-.hljs-comment {
+.hljs-comment,
+.language-rospec .comment,
+.rospec-code .comment {
   color: #9e9e9e !important;
   font-style: italic !important;
 }
 
 /* Strings */
-.hljs-string {
+.hljs-string,
+.language-rospec .string,
+.rospec-code .string {
   color: rgb(17, 107, 40) !important;
+}
+
+/* "content", "count", "publishers" functions */
+code span.hljs-meta:contains("content"),
+code span.hljs-meta:contains("count"),
+code span.hljs-meta:contains("publishers"),
+code span.hljs-meta:contains("default") {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+/* "context" is orange and bold */
+code span.hljs-meta:contains("context"),
+.language-rospec span.hljs-meta:contains("context"),
+.rospec-code span.hljs-meta:contains("context") {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+/* Make sure the @ in QoS decorators is properly colored - ONLY the @name part */
+code span.hljs-meta[class*="at-"],
+code span.hljs-meta:contains("@") {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+/* Variable names with namespaces */<!-- Load highlight.js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<!-- Custom rospec styling -->
+<style>
+/* Basic code block styling */
+pre code.language-rospec,
+pre code.rospec-code {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: 'JetBrains Mono', monospace, Consolas, 'Courier New', monospace;
+  line-height: 1.5;
+  text-align: left;
+  padding: 10px;
+  width: 100%;
+  overflow-x: auto;
+  background-color: #f8f8f8;
+}
+
+/* Force all punctuation and operators to be black */
+.hljs-punctuation, 
+.hljs-operator,
+.language-rospec .operator,
+.rospec-code .operator {
+  color: #000000 !important;
+  background-color: transparent !important;
+}
+
+/* Keywords */
+.hljs-keyword,
+.language-rospec .keyword,
+.rospec-code .keyword {
+  color: #000000 !important;
+  font-weight: bold !important;
+}
+
+/* Special keywords */
+.hljs-meta,
+.language-rospec .meta,
+.rospec-code .meta {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+/* Connection keywords */
+.hljs-built_in,
+.language-rospec .built_in,
+.rospec-code .built_in {
+  color: #87004b !important;
+  font-weight: bold !important;
+}
+
+/* Types */
+.hljs-type, 
+.hljs-class,
+.language-rospec .type,
+.language-rospec .class,
+.rospec-code .type,
+.rospec-code .class {
+  color: #083088 !important;
+}
+
+/* Variables */
+.hljs-variable, 
+.hljs-attr,
+.hljs-params,
+.language-rospec .variable,
+.language-rospec .attr,
+.rospec-code .variable,
+.rospec-code .attr {
+  color: #830000 !important;
+}
+
+/* Numbers and true/false */
+.hljs-number,
+.language-rospec .number,
+.rospec-code .number,
+.hljs-literal,  /* For true/false */
+.language-rospec .literal,
+.rospec-code .literal {
+  color: #008cff !important;
+}
+
+/* Comments */
+.hljs-comment,
+.language-rospec .comment,
+.rospec-code .comment {
+  color: #9e9e9e !important;
+  font-style: italic !important;
+}
+
+/* Strings */
+.hljs-string,
+.language-rospec .string,
+.rospec-code .string {
+  color: rgb(17, 107, 40) !important;
+}
+
+/* "content", "count", "publishers" functions */
+code span.hljs-meta:contains("content"),
+code span.hljs-meta:contains("count"),
+code span.hljs-meta:contains("publishers"),
+code span.hljs-meta:contains("default") {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+/* Make sure the @ in QoS decorators is properly colored - ONLY the @name part, not the {content} */
+code span.hljs-meta[class*="at-"],
+code span.hljs-meta:contains("@") {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+/* Override for context keyword */
+code .context,
+code span:contains("context") {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+/* Make sure "type" is bold black like other keywords, not orange */
+.language-rospec span:contains("type"),
+.rospec-code span:contains("type"),
+code span.hljs-keyword:contains("type") {
+  color: #000000 !important;
+  font-weight: bold !important;
+}
+
+/* Ensure alias is orange like context */
+.language-rospec span:contains("alias"),
+.rospec-code span:contains("alias"),
+code span:contains("alias") {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+/* Make true/false the same color as numbers */
+code span.hljs-literal,
+.language-rospec span.hljs-literal,
+.rospec-code span.hljs-literal,
+code:contains("true"), 
+code:contains("false") {
+  color: #008cff !important;
+}
+
+/* Fix variables after : to be colored like types */
+code span:not([class]) + span.hljs-type,
+.language-rospec span:not([class]) + span.hljs-type,
+.rospec-code span:not([class]) + span.hljs-type {
+  color: #083088 !important;
 }
 </style>
