@@ -42,7 +42,7 @@ This page shows the evaluation of misconfigurations that rospec can currently de
         </td>
         <td>
           {% if row.writer != blank and row.writer != "-" %}
-            <button class="spec-toggle" data-spec-id="{{ row.question }}">Show Specification</button>
+            <button class="spec-toggle" data-spec-id="{{ row.question }}"><span>Show Specification</span></button>
           {% else %}
             <div style="display: flex; justify-content: center; width: 100%;">-</div>
           {% endif %}

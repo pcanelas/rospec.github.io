@@ -7,70 +7,29 @@
     - 'CONTEXTUAL: Application-Environment'
     - 'CONTEXTUAL: HARDWARE: Compute'
   status: Documentation
-  writer: "plugin type arm_kinematics_constraint_aware_type {\n    optional param\
-    \ group: Plugin = default(right_arm_type);\n}\n\nplugin type right_arm_type {\n\
-    \    optional param tip_name: string = \"\";\n    optional param root_name: string\
-    \ = \"\";\n    param kinematics_solver: Plugin;\n\n    param max_solver_iterations:\
-    \ int;\n    param max_search_iterations: int;\n\n    optional param robot_description:\
-    \ string = \"robot_description\";\n    optional param allow_valid_collisions:\
-    \ bool = false;\n    optional param joint_states_safety_timeout: double = 0.0;\n\
-    \    optional param global_frame: string = \"\";\n    optional param tf_safety_timeout:\
-    \ Second = 0.0;\n    optional param use_collision_map: bool = true;\n}\n\nplugin\
-    \ type kdlkinematicsplugin {\n    optional param kinematics_solver_search_resolution:\
-    \ double = 0.005;\n    optional param kinematics_solver_timeout: Second = 0.05;\n\
-    \    optional param kinematics_solver_attemps: Natural = 3;\n    optional param\
-    \ namespace: string = \"kdl_kinematics_plugin\";\n\n}"
-  integrator: "plugin instance arm_kinematics_constraint_aware: arm_kinematics_constraint_aware_type\
-    \ {\n    param group = right_arm;\n}\n\nplugin instance right_arm: right_arm_type\
-    \ {\n    param tip_name = \"right_wrist_link\";\n    param root_name = \"lower_torso_link\"\
-    ;\n    param kinematics_solver = KDLKinematicsPlugin;\n\n    param max_solver_iterations\
-    \ = 1000;\n    param max_search_iterations = 10;\n}\n\nplugin instance KDLKinematicsPlugin:\
-    \ kdlkinematicsplugin { }"
+  writer: "plugin type arm_kinematics_constraint_aware_type {\n    optional param group: Plugin = default(right_arm_type);\n}\n\nplugin type right_arm_type {\n    optional param tip_name: string = \"\";\n    optional param root_name: string = \"\";\n    param kinematics_solver: Plugin;\n\n    param max_solver_iterations: int;\n    param max_search_iterations: int;\n\n    optional param robot_description: string = \"robot_description\";\n    optional param allow_valid_collisions: bool = false;\n    optional param joint_states_safety_timeout: double = 0.0;\n    optional param global_frame: string = \"\";\n    optional param tf_safety_timeout: Second = 0.0;\n    optional param use_collision_map: bool = true;\n}\n\nplugin type kdlkinematicsplugin {\n    optional param kinematics_solver_search_resolution: double = 0.005;\n    optional param kinematics_solver_timeout: Second = 0.05;\n    optional param kinematics_solver_attemps: Natural = 3;\n    optional param namespace: string = \"kdl_kinematics_plugin\";\n\n}"
+  integrator: "    plugin instance arm_kinematics_constraint_aware: arm_kinematics_constraint_aware_type {\n        param group = right_arm;\n    }\n\n    plugin instance right_arm: right_arm_type {\n        param tip_name = \"right_wrist_link\";\n        param root_name = \"lower_torso_link\";\n        param kinematics_solver = KDLKinematicsPlugin;\n\n        param max_solver_iterations = 1000;\n        param max_search_iterations = 10;\n    }\n\n    plugin instance KDLKinematicsPlugin: kdlkinematicsplugin { }"
 - question: 11547
   misconfiguration:
     - 'MESSAGE: Conflicting-Publishers'
     - 'NAME: Remapping'
   status: Detectable
-  writer: "type alias Modes: Enum[SXGA15Hz, VGA30Hz, VGA25Hz, QVGA25Hz, QVGA30Hz,\
-    \ QVGA60Hz, QQVGA25Hz, QQVGA30Hz, QQVGA60Hz];\n\nnode type openni_node_type {\n\
-    \    optional param depth_frame_id: string = \"/openni_depth_optical_frame\";\n\
-    \    optional param rgb_frame_id: string = \"/openni_rgb_optical_frame\";\n  \
-    \  optional param image_mode: Modes = VGA30Hz;\n    optional param depth_mode:\
-    \ Modes = VGA30Hz;\n    optional param use_indices: bool = false;\n    optional\
-    \ param depth_registration: bool = false;\n    optional param depth_time_offset:\
-    \ Second where {_ >= -1 and _ <= 1} = 0.0;\n    optional param image_time_offset:\
-    \ Second where {_ >= -1 and _ <= 1} = 0.0;\n\n    publishes to camera/depth/points:\
-    \ sensor_msgs/PointCloud2 where {count(publishers(_)) == 1} # assuming {depth_registration};\n\
-    }"
-  integrator: "node instance openni_node1: openni_node_type {\n    param depth_registration\
-    \ = true;    \n}\n\nnode instance openni_node2: openni_node_type {\n    param\
-    \ depth_registration = true;\n    param rgb_frame_id = \"/openni_rgb_optical_frame_2\"\
-    ;\n    param depth_frame_id = \"/openni_depth_optical_frame_2\";\n}"
+  writer: "type alias Modes: Enum[SXGA15Hz, VGA30Hz, VGA25Hz, QVGA25Hz, QVGA30Hz, QVGA60Hz, QQVGA25Hz, QQVGA30Hz, QQVGA60Hz];\n\nnode type openni_node_type {\n    optional param depth_frame_id: string = \"/openni_depth_optical_frame\";\n    optional param rgb_frame_id: string = \"/openni_rgb_optical_frame\";\n    optional param image_mode: Modes = VGA30Hz;\n    optional param depth_mode: Modes = VGA30Hz;\n    optional param use_indices: bool = false;\n    optional param depth_registration: bool = false;\n    optional param depth_time_offset: Second where {_ >= -1 and _ <= 1} = 0.0;\n    optional param image_time_offset: Second where {_ >= -1 and _ <= 1} = 0.0;\n\n    publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1} # assuming {depth_registration};\n}"
+  integrator: "    node instance openni_node1: openni_node_type {\n        param depth_registration = true;    \n    }\n\n    node instance openni_node2: openni_node_type {\n        param depth_registration = true;\n        param rgb_frame_id = \"/openni_rgb_optical_frame_2\";\n        param depth_frame_id = \"/openni_depth_optical_frame_2\";\n    }"
 - question: 173503
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'MESSAGE: Periodic'
     - 'TIME: Frequency'
   status: Documentation
-  writer: "type alias Distro: OrderedEnum[Ardent, Bouncy, Crystal, Dashing, Eloquent,\
-    \ Foxy, Galactic, Humble, Iron, Jazzy, Kilted];\n\ntype alias Hertz: double;\n\
-    \nnode type joy_node_type {\n    context distribution: Distro;\n\n    optional\
-    \ param autorepeat_rate: Hertz = 0.0;\n    optional param deadzone: double where\
-    \ {-1.0 <= _ and _ <= 1.0} = 0.05;\n}"
+  writer: "type alias Distro: OrderedEnum[Ardent, Bouncy, Crystal, Dashing, Eloquent, Foxy, Galactic, Humble, Iron, Jazzy, Kilted];\n\ntype alias Hertz: double;\n\nnode type joy_node_type {\n    context distribution: Distro;\n\n    optional param autorepeat_rate: Hertz = 0.0;\n    optional param deadzone: double where {-1.0 <= _ and _ <= 1.0} = 0.05;\n}"
   integrator: '-'
 - question: 190483
   misconfiguration:
     - 'PARAMETER: Incorrect'
   status: Detectable
-  writer: "node type openni_node_type {\n    optional param depth_registration: bool\
-    \ = false;\n\n    publishes to camera/depth/points: sensor_msgs/PointCloud2 where\
-    \ {count(publishers(_)) == 1}; # assuming {depth_registration};\n}\n\nnode type\
-    \ amcl_type {\n    optional param depth_registration: bool = false;\n\n    publishes\
-    \ to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_))\
-    \ == 1}; # assuming {depth_registration};\n}"
-  integrator: "node instance openni_node1: openni_node_type {\n    param depth_registration\
-    \ = true;    \n}\n\nnode instance amcl: amcl_type {\n    param depth_registration\
-    \ = true;\n}"
+  writer: "node type openni_node_type {\n    optional param depth_registration: bool = false;\n\n    publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1}; # assuming {depth_registration};\n}\n\nnode type amcl_type {\n    optional param depth_registration: bool = false;\n\n    publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1}; # assuming {depth_registration};\n}"
+  integrator: "    node instance openni_node1: openni_node_type {\n        param depth_registration = true;    \n    }\n\n    node instance amcl: amcl_type {\n        param depth_registration = true;\n    }"
 - question: 201031
   misconfiguration:
     - 'PARAMETER: Incorrect'
@@ -78,36 +37,22 @@
     - 'TYPES: Transformations'
     - 'NODE: Missing'
   status: Documentation
-  writer: "message alias RGBImage: sensor_msgs/Image {\n    field height: int where\
-    \ {_ >= 0};\n    field width: int where {_ >= 0};\n}\n\ntype alias Natural: int\
-    \ where {_ >= 0};\n\nnode type svo_node_type {\n    optional param cam_topic:\
-    \ string = \"svo/camera/image_raw\";\n    optional param grid_size: double = 30;\n\
-    \    optional param max_n_kfs: Natural = 10;\n    optional param loba_num_iter:\
-    \ Natural = 0;\n\n    subscribes to content(cam_topic): RGBImage;\n}"
-  integrator: "node instance svo: svo_node_type {\n    param cam_topic = \"svo/ardrone/front/image_raw\"\
-    ;\n}"
+  writer: "message alias RGBImage: sensor_msgs/Image {\n    field height: int where {_ >= 0};\n    field width: int where {_ >= 0};\n}\n\ntype alias Natural: int where {_ >= 0};\n\nnode type svo_node_type {\n    optional param cam_topic: string = \"svo/camera/image_raw\";\n    optional param grid_size: double = 30;\n    optional param max_n_kfs: Natural = 10;\n    optional param loba_num_iter: Natural = 0;\n\n    subscribes to content(cam_topic): RGBImage;\n}"
+  integrator: "    node instance svo: svo_node_type {\n        param cam_topic = \"svo/ardrone/front/image_raw\";\n    }"
 - question: 210414
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'DSL: Navigation-Stack'
     - 'NAME: Namespaces'
   status: Documentation
-  writer: "type alias Distro: OrderedEnum[DiamondBlack, Electrict, Fuerte, Groovy,\
-    \ Hydro, Indigo, Jade, Kinetic, Lunar, Melodic, Noetic];\n\nnode type move_base_type\
-    \ {\n    context distribution: Distro = Hydro;\n\n    optional param GlobalPlanner/use_dijkstra:\
-    \ bool = false;\n}"
+  writer: "type alias Distro: OrderedEnum[DiamondBlack, Electrict, Fuerte, Groovy, Hydro, Indigo, Jade, Kinetic, Lunar, Melodic, Noetic];\n\nnode type move_base_type {\n    context distribution: Distro = Hydro;\n\n    optional param GlobalPlanner/use_dijkstra: bool = false;\n}"
   integrator: '-'
 - question: 217551
   misconfiguration:
     - 'MESSAGE: Conflicting-Publishers'
   status: Detectable
-  writer: "policy instance depth10qos: qos {\n    setting history = KeepLast;\n  \
-    \  setting depth = 10;\n}\n\nnode type worker_type {\n    @qos{depth10qos}\n \
-    \   publishes to /mico_arm_driver/in/cartesian_velocity: geometry_msgs/TwistStamped\
-    \ where {count(publishers(_)) == 1};\n}"
-  integrator: 'node instance worker1: worker_type {}
-
-    node instance worker2: worker_type {}'
+  writer: "policy instance depth10qos: qos {\n    setting history = KeepLast;\n    setting depth = 10;\n}\n\nnode type worker_type {\n    @qos{depth10qos}\n    publishes to /mico_arm_driver/in/cartesian_velocity: geometry_msgs/TwistStamped where {count(publishers(_)) == 1};\n}"
+  integrator: "    node instance worker1: worker_type {}\n    node instance worker2: worker_type {}"
 - question: 232853
   misconfiguration:
     - 'PARAMETER: Dependency'
@@ -115,40 +60,28 @@
     - 'DSL: Navigation-Stack'
     - 'CONTEXTUAL: HARDWARE: Mechanical'
   status: Detectable
-  writer: "node type move_base_type {\n    param cost_scaling_factor: double;\n  \
-    \  param inflation_radius: double;\n    param robot_radius: double;\n} where {\n\
-    \    exists(inflation_radius) == exists(cost_scaling_factor);\n    robot_radius\
-    \ <= inflation_radius;\n}"
-  integrator: 'node instance move_base:  move_base_type { }'
+  writer: "node type move_base_type {\n    param cost_scaling_factor: double;\n    param inflation_radius: double;\n    param robot_radius: double;\n} where {\n    exists(inflation_radius) == exists(cost_scaling_factor);\n    robot_radius <= inflation_radius;\n}"
+  integrator: "    node instance move_base:  move_base_type { }"
 - question: 235375
   misconfiguration:
     - 'MESSAGE: Conflicting-Publishers'
   status: Detectable
-  writer: "node type joint_state_publisher_type {\n    publishes to joint_states:\
-    \ sensor_msgs/JointState where {count(publishers(_)) == 1};\n}\n\nnode type custom_node_type\
-    \ {\n    publishes to joint_states: sensor_msgs/JointState where {count(publishers(_))\
-    \ == 1};\n}"
-  integrator: 'node instance joint_state_publisher: joint_state_publisher_type {}
-
-    node instance custom_node: custom_node_type {}'
+  writer: "node type joint_state_publisher_type {\n    publishes to joint_states: sensor_msgs/JointState where {count(publishers(_)) == 1};\n}\n\nnode type custom_node_type {\n    publishes to joint_states: sensor_msgs/JointState where {count(publishers(_)) == 1};\n}"
+  integrator: "    node instance joint_state_publisher: joint_state_publisher_type {}\n    node instance custom_node: custom_node_type {}"
 - question: 30235
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'CALIBRATION: Camera'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Documentation
-  writer: "node type uv_cam_node_type {\n    optional param format_mode: Enum[RGB,\
-    \ YUYV, MJPG] = RGB;\n\n    optional param contrast: float;\n    optional param\
-    \ exposure: float;\n    optional param gain: float;\n    optional param saturation:\
-    \ float;\n}"
-  integrator: 'node instance uv_camera_node: uv_camera_node_type {}'
+  writer: "node type uv_cam_node_type {\n    optional param format_mode: Enum[RGB, YUYV, MJPG] = RGB;\n\n    optional param contrast: float;\n    optional param exposure: float;\n    optional param gain: float;\n    optional param saturation: float;\n}"
+  integrator: "    node instance uv_camera_node: uv_camera_node_type {}"
 - question: 316168
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'DSL: Robot-Localization'
   status: Documentation
-  writer: "node type ekf_localization_node_type {\n    # Parameter that provides an\
-    \ initial state\n    param initial_state: int[][];\n}"
+  writer: "node type ekf_localization_node_type {\n    # Parameter that provides an initial state\n    param initial_state: int[][];\n}"
   integrator: '-'
 - question: 364801
   misconfiguration:
@@ -158,74 +91,54 @@
     - 'CONTEXTUAL: HARDWARE: Actuators'
     - 'CONTEXTUAL: HARDWARE: Mechanical'
   status: Detectable
-  writer: "node type move_group_type {\n    param elbow_joint/max_acceleration: double\
-    \ where {_ >= 0};\n    param elbow_joint/min_velocity: double;\n    param elbow_joint/max_velocity:\
-    \ double;\n    param angle_wraparound: bool;\n\n    optional param elbow_joint/has_velocity_limits:\
-    \ bool = false;\n    optional param elbow_joint/has_acceleration_limits: bool\
-    \ = false;\n} where {\n     exists(elbow_joint/max_acceleration) -> elbow_joint/has_acceleration_limits;\n\
-    }"
-  integrator: "node instance move_group: move_group_type {\n    param elbow_joint/max_acceleration\
-    \ = 0;\n    param elbow_joint/max_velocity = 3.14;\n    param elbow_joint/has_acceleration_limits\
-    \ = false;\n    param elbow_joint/has_velocity_limits = false;\n}"
+  writer: "node type move_group_type {\n    param elbow_joint/max_acceleration: double where {_ >= 0};\n    param elbow_joint/min_velocity: double;\n    param elbow_joint/max_velocity: double;\n    param angle_wraparound: bool;\n\n    optional param elbow_joint/has_velocity_limits: bool = false;\n    optional param elbow_joint/has_acceleration_limits: bool = false;\n} where {\n     exists(elbow_joint/max_acceleration) -> elbow_joint/has_acceleration_limits;\n}"
+  integrator: "    node instance move_group: move_group_type {\n        param elbow_joint/max_acceleration = 0;\n        param elbow_joint/max_velocity = 3.14;\n        param elbow_joint/has_acceleration_limits = false;\n        param elbow_joint/has_velocity_limits = false;\n    }"
 - question: 42037
   misconfiguration:
     - 'PARAMETER: Missing'
   status: Missing Context
   writer: "node type robot_pose_ekf_type {\n    param output_frame: string;\n}"
-  integrator: "node instance robot_pose_ekf: robot_pose_ekf_type {\n    output_frame\
-    \ = \"odom\";\n}"
+  integrator: "    node instance robot_pose_ekf: robot_pose_ekf_type {\n        output_frame = \"odom\";\n    }"
 - question: 9108
   misconfiguration:
     - 'PARAMETER: Incorrect'
     - 'TIME: Queues'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 10768
   misconfiguration:
     - 'TF: Missing-Transform'
     - 'DSL: Robot-Localization'
   status: Missing Context
-  writer: "node type multi_robot_state_publisher {\n    param tf_prefix: string;\n\
-    \n    // ...\n}"
-  integrator: "node instance robot_state_publisher1: multi_robot_state_publisher {\n\
-    \    param tf_prefix: string = \"r1\";\n    // ...\n}\n\nnode instance robot_state_publisher2:\
-    \ multi_robot_state_publisher {\n    param tf_prefix: string = \"r2\";\n    //\
-    \ ...\n}"
+  writer: "node type multi_robot_state_publisher {\n    param tf_prefix: string;\n\n    // ...\n}"
+  integrator: "    node instance robot_state_publisher1: multi_robot_state_publisher {\n        param tf_prefix: string = \"r1\";\n        // ...\n    }\n\n    node instance robot_state_publisher2: multi_robot_state_publisher {\n        param tf_prefix: string = \"r2\";\n        // ...\n    }"
 - question: 108291
   misconfiguration:
     - 'NAME: Namespaces'
     - 'NODE: Missing'
   status: Detectable
   writer: "node type stereo_image_proc_type {\n    argument manager: string;\n}"
-  integrator: 'node instance stereo_image_proc: stereo_image_proc_type { }'
+  integrator: "    node instance stereo_image_proc: stereo_image_proc_type { }"
 - question: 10880
   misconfiguration:
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 11095
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'CONTEXTUAL: Simulation-vs-Real'
   status: Detectable
-  writer: "node type laser_scan_matcher_node {\n    context is_simulation: bool;\n\
-    \    optional param use_sim_time: bool = false;\n\n    broadcast world to base_link;\n\
-    \    listen base_link to laser;\n} where {\n    is_simulation -> use_sim_time;\n\
-    }"
-  integrator: "node instance laser_scan_matcher: laser_scan_matcher_node {\n    context\
-    \ is_simulation = true;\n    param use_sim_time = false;\n}"
+  writer: "node type laser_scan_matcher_node {\n    context is_simulation: bool;\n    optional param use_sim_time: bool = false;\n\n    broadcast world to base_link;\n    listen base_link to laser;\n} where {\n    is_simulation -> use_sim_time;\n}"
+  integrator: "    node instance laser_scan_matcher: laser_scan_matcher_node {\n        context is_simulation = true;\n        param use_sim_time = false;\n    }"
 - question: 12516
   misconfiguration:
     - 'MESSAGE: Periodic'
   status: Documentation
-  writer: "# turtlesim/Velocity was replaced with geometry_msgs/Twist\nmessage alias\
-    \ AnnotatedVector3: geometry_msgs/Vector3 {\n    field x: RadSeconds;\n    field\
-    \ y: RadSeconds;\n    field z: RadSeconds;\n}\n\nmessage alias UnitsVelocity:\
-    \ turtlesim/Velocity {\n    field linear: AnnotatedVector3;\n    field angular:\
-    \ AnnotatedVector3;\n}"
+  writer: "# turtlesim/Velocity was replaced with geometry_msgs/Twist\nmessage alias AnnotatedVector3: geometry_msgs/Vector3 {\n    field x: RadSeconds;\n    field y: RadSeconds;\n    field z: RadSeconds;\n}\n\nmessage alias UnitsVelocity: turtlesim/Velocity {\n    field linear: AnnotatedVector3;\n    field angular: AnnotatedVector3;\n}"
   integrator: '-'
 - question: 138591
   misconfiguration:
@@ -233,109 +146,80 @@
     - 'CONTEXTUAL: Simulation-vs-Real'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Not Supported
-  writer: "node type slam_gmapping {\n    param maxURange: float = 80.0;\n    subscribes\
-    \ to topic tf: tf/tfMessage;\n    subscribes to topic scan: sensor_msgs/LaserScan;\n\
-    } where {\n    maxURange == scan.range_max;\n}"
+  writer: "node type slam_gmapping {\n    param maxURange: float = 80.0;\n    subscribes to topic tf: tf/tfMessage;\n    subscribes to topic scan: sensor_msgs/LaserScan;\n} where {\n    maxURange == scan.range_max;\n}"
   integrator: '-'
 - question: 142456
   misconfiguration:
     - 'TYPES: Color-Format'
   status: Detectable
-  writer: "policy instance depth5qos: qos {\n    setting history = KeepLast;\n   \
-    \ setting depth = 5;\n}\n\npolicy instance depth5qos: qos {\n    setting history\
-    \ = KeepLast;\n    setting depth = 1;\n}\n\nnode type openni_camera_driver_depth_type\
-    \ {\n    optional param depth_registration: bool = true;\n\n    @qos{depth1qos}\n\
-    \    publishes to /camera/rgb/image_raw: Grayscale;\n}\n\nnode type custom_node_type\
-    \ {\n    @qos{depth5qos}\n    subscribes to /camera/rgb/image_raw: RGB8;\n}"
-  integrator: 'node instance custom_node: custom_node_type { }
-
-    node instance openni_camera_driver: openni_camera_driver_depth_type { }'
+  writer: "policy instance depth5qos: qos {\n    setting history = KeepLast;\n    setting depth = 5;\n}\n\npolicy instance depth5qos: qos {\n    setting history = KeepLast;\n    setting depth = 1;\n}\n\nnode type openni_camera_driver_depth_type {\n    optional param depth_registration: bool = true;\n\n    @qos{depth1qos}\n    publishes to /camera/rgb/image_raw: Grayscale;\n}\n\nnode type custom_node_type {\n    @qos{depth5qos}\n    subscribes to /camera/rgb/image_raw: RGB8;\n}"
+  integrator: "    node instance custom_node: custom_node_type { }\n    node instance openni_camera_driver: openni_camera_driver_depth_type { }"
 - question: 164526
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'NAME: Remapping'
     - 'NAME: Namespaces'
   status: Detectable
-  writer: "node type hector_object_tracker_type {\n    optional param distance_to_obstacle_service:\
-    \ string = \"get_distance_to_obstacle\";\n\n    publishes to visualization_marker:\
-    \ visualization_msgs/Marker;\n    consumes service content(distance_to_obstacle_service):\
-    \ hector_nav_msgs/GetDistanceToObstacle;\n}\n\nnode type hector_map_server_type\
-    \ {\n     provides service /hector_map_server/get_distance_to_obstacle: hector_nav_msgs/GetDistanceToObstacle;\n\
-    }"
-  integrator: 'node instance hector_object_tracker: hector_object_tracker_type { }
-
-
-    node instance hector_map_server: hector_map_server_type { }'
+  writer: "node type hector_object_tracker_type {\n    optional param distance_to_obstacle_service: string = \"get_distance_to_obstacle\";\n\n    publishes to visualization_marker: visualization_msgs/Marker;\n    consumes service content(distance_to_obstacle_service): hector_nav_msgs/GetDistanceToObstacle;\n}\n\nnode type hector_map_server_type {\n     provides service /hector_map_server/get_distance_to_obstacle: hector_nav_msgs/GetDistanceToObstacle;\n}"
+  integrator: "    node instance hector_object_tracker: hector_object_tracker_type { }\n\n    node instance hector_map_server: hector_map_server_type { }"
 - question: 165661
   misconfiguration:
     - 'MESSAGE: Conflicting-Publishers'
     - 'DSL: Robot-Localization'
     - 'CALIBRATION: Odometry'
   status: Detectable
-  writer: "node type robot_localization_type {\n     param imu0_config: bool[4][3];\n\
-    \     param imu0_differential: bool[2][3];\n} where {\n    imu0_config[1][2] ==\
-    \ imu0_differential[1][2];\n}"
-  integrator: "node instance robot_localization: robot_localization_type {\n     param\
-    \ imu0_config = [[false, false, false],\n                          [false, false,\
-    \ true],\n                          [false, false, false],\n                 \
-    \         [false, false, false]];\n     param imu0_differential = [[false, false,\
-    \ false], [false, false, false]];\n}"
+  writer: "node type robot_localization_type {\n     param imu0_config: bool[4][3];\n     param imu0_differential: bool[2][3];\n} where {\n    imu0_config[1][2] == imu0_differential[1][2];\n}"
+  integrator: "    node instance robot_localization: robot_localization_type {\n         param imu0_config = [[false, false, false],\n                              [false, false, true],\n                              [false, false, false],\n                              [false, false, false]];\n         param imu0_differential = [[false, false, false], [false, false, false]];\n    }"
 - question: 185909
   misconfiguration:
     - 'DSL: Navigation-Stack'
     - 'CONTEXTUAL: Application-Environment'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Detectable
-  writer: "node type hokuyo_node_type {\n    context environment: Enum[ObstacleLayout,\
-    \ EmptyLayout] where {_ == ObstacleLayout};\n}"
-  integrator: "node instance hokuyo_node: hokuyo_node_type {\n    context environment\
-    \ = EmptyLayout;\n}"
+  writer: "node type hokuyo_node_type {\n    context environment: Enum[ObstacleLayout, EmptyLayout] where {_ == ObstacleLayout};\n}"
+  integrator: "    node instance hokuyo_node: hokuyo_node_type {\n        context environment = EmptyLayout;\n    }"
 - question: 188919
   misconfiguration:
     - 'PARAMETER: Incorrect'
     - 'CONTEXTUAL: Simulation-vs-Real'
   status: Detectable
-  writer: "node type laser_scan_matcher_node_type {\n    optional context is_simulation:\
-    \ bool = false;\n    optional param use_sim_time: bool = false;\n} where {\n \
-    \   is_simulation -> use_sim_time;\n}"
-  integrator: "node instance laser_scan_matcher_node: laser_scan_matcher_node_type\
-    \ {\n    context is_simulation = false;\n    param use_sim_time = true;\n}"
+  writer: "node type laser_scan_matcher_node_type {\n    optional context is_simulation: bool = false;\n    optional param use_sim_time: bool = false;\n} where {\n    is_simulation -> use_sim_time;\n}"
+  integrator: "    node instance laser_scan_matcher_node: laser_scan_matcher_node_type {\n        context is_simulation = false;\n        param use_sim_time = true;\n    }"
 - question: 190126
   misconfiguration:
     - 'NAME: Remapping'
   status: Detectable
-  writer: "node type camera_calibration_type {\n    consumes service /camera/set_camera_info:\
-    \ sensor_msgs/SetCameraInfo;\n}"
-  integrator: 'node instance camera_calibration: camera_calibration_type { }'
+  writer: "node type camera_calibration_type {\n    consumes service /camera/set_camera_info: sensor_msgs/SetCameraInfo;\n}"
+  integrator: "    node instance camera_calibration: camera_calibration_type { }"
 - question: 11074
   misconfiguration:
     - 'BUG: Component'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 12324
   misconfiguration:
     - 'BUG: Infrastructure'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 12630
   misconfiguration:
     - 'BUG: Component'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 12855
   misconfiguration:
     - 'OTHER: Documentation'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 173032
   misconfiguration:
     - 'LAUNCH: Race-Condition'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 10975
   misconfiguration:
@@ -344,7 +228,7 @@
     - 'CONTEXTUAL: HARDWARE: Compute'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 11259
   misconfiguration:
@@ -352,7 +236,7 @@
     - 'TIME: Frequency'
     - 'CALIBRATION: Camera'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 12066
   misconfiguration:
@@ -363,39 +247,35 @@
     - 'CONTEXTUAL: HARDWARE: Compute'
     - 'CONTEXTUAL: HARDWARE: Mechanical'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 12977
   misconfiguration:
     - 'PARAMETER: Incorrect'
     - 'DSL: Navigation-Stack'
   status: Detectable
-  writer: "node type move_base_type {\n    param local_costmap/min_obstacle_height:\
-    \ Meter; \n    param local_costmap/footprint: double[4][2]; \n} where {\n    local_costmap/footprint[0][1]\
-    \ >= local_costmap/min_obstacle_height;\n}"
-  integrator: "node instance move_base: move_base_type {\n    param local_costmap/min_obstacle_height\
-    \ = 0.10;\n    param local_costmap/footprint = [[-0.4, -0.4], [-0.4, 0.4], [0.4,\
-    \ 0.4], [0.4, 0.4]];\n}"
+  writer: "node type move_base_type {\n    param local_costmap/min_obstacle_height: Meter; \n    param local_costmap/footprint: double[4][2]; \n} where {\n    local_costmap/footprint[0][1] >= local_costmap/min_obstacle_height;\n}"
+  integrator: "    node instance move_base: move_base_type {\n        param local_costmap/min_obstacle_height = 0.10;\n        param local_costmap/footprint = [[-0.4, -0.4], [-0.4, 0.4], [0.4, 0.4], [0.4, 0.4]];\n    }"
 - question: 152376
   misconfiguration:
     - 'PARAMETER: Incorrect'
     - 'DSL: Navigation-Stack'
     - 'CONTEXTUAL: HARDWARE: Compute'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 160101
   misconfiguration:
     - 'TIME: Synchronization'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 195186
   misconfiguration:
     - 'TIME: Stale-Data'
     - 'CONTEXTUAL: HARDWARE: Compute'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 195289
   misconfiguration:
@@ -403,12 +283,8 @@
     - 'DSL: Navigation-Stack'
     - 'NAME: Remapping'
   status: Detectable
-  writer: "node type amcl_type {\n    consumes service static_map: nav_msgs/GetMap;\n\
-    }\n\nnode type map_server_type {\n    optional param topic_name: string = \"map\"\
-    ;\n    \n    provides service content(topic_name): nav_msgs/LoadMap;\n}"
-  integrator: "node instance amcl: amcl_type {\n    # Requires a remap to 30lx\n}\n\
-    node instance map_server: map_server_type {\n    param topic_name = \"30lx\";\n\
-    }"
+  writer: "node type amcl_type {\n    consumes service static_map: nav_msgs/GetMap;\n}\n\nnode type map_server_type {\n    optional param topic_name: string = \"map\";\n    \n    provides service content(topic_name): nav_msgs/LoadMap;\n}"
+  integrator: "    node instance amcl: amcl_type {\n        # Requires a remap to 30lx\n    }\n    node instance map_server: map_server_type {\n        param topic_name = \"30lx\";\n    }"
 - question: 197194
   misconfiguration:
     - 'PARAMETER: Missing'
@@ -416,7 +292,7 @@
     - 'NODE: Missing'
     - 'CALIBRATION: Camera'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 198196
   misconfiguration:
@@ -427,7 +303,7 @@
     - 'NAME: Mismatches'
     - 'NODE: Incorrect'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 198451
   misconfiguration:
@@ -438,13 +314,13 @@
     - 'NAME: Remapping'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 199031
   misconfiguration:
     - 'NAME: Remapping'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 200387
   misconfiguration:
@@ -453,12 +329,8 @@
     - 'NODE: Missing'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Detectable
-  writer: "node type obstacle_layer_t {\n    optional param z_voxels: int = 0;\n \
-    \   optional param observation_sources: Plugin[] = [];\n} where {\n    z_voxels\
-    \ == len(observation_sources);\n}"
-  integrator: "node instance obstacle_layer: obstacle_layer_t {\n    param z_voxels\
-    \ = 2;\n    param observation_sources = [scan, bump, irring_scan];\n}\n# ... information\
-    \ about each plugin"
+  writer: "node type obstacle_layer_t {\n    optional param z_voxels: int = 0;\n    optional param observation_sources: Plugin[] = [];\n} where {\n    z_voxels == len(observation_sources);\n}"
+  integrator: "    node instance obstacle_layer: obstacle_layer_t {\n        param z_voxels = 2;\n        param observation_sources = [scan, bump, irring_scan];\n    }\n    # ... information about each plugin"
 - question: 202117
   misconfiguration:
     - 'PARAMETER: Missing'
@@ -470,7 +342,7 @@
     - 'CONTEXTUAL: HARDWARE: Sensors'
     - 'OTHER: Documentation'
   status: Not Supported
-  writer: ''
+  writer: ""
   integrator: ''
 - question: 204073
   misconfiguration:
@@ -479,10 +351,7 @@
     - 'TF: Incorrect-Transform'
     - 'DSL: Robot-Localization'
   status: Documentation
-  writer: "message alias AnnotatedMessage: nav_msgs/Odometry {\n    # ...\n    field\
-    \ pose: geometry_msgs/PoseWithCovariance;\n    field twist: geometry_msgs/Quaternions;\n\
-    }\n\nnode type ekf_localization_node_type {\n    broadcast world_frame to base_link;\n\
-    }"
+  writer: "message alias AnnotatedMessage: nav_msgs/Odometry {\n    # ...\n    field pose: geometry_msgs/PoseWithCovariance;\n    field twist: geometry_msgs/Quaternions;\n}\n\nnode type ekf_localization_node_type {\n    broadcast world_frame to base_link;\n}"
   integrator: ''
 - question: 204321
   misconfiguration:
@@ -491,72 +360,53 @@
     - 'NAME: Namespaces'
     - 'LAUNCH: Includes'
   status: Detectable
-  writer: "node type move_base_t {\n    publishes to cmd_vel: geometry_msgs/Twist;\n\
-    }\n\nnode type rosaria_node_t {\n    subscribes to /RosAria/cmd_vel: geometry_msgs/Twist;\n\
-    }"
-  integrator: "node instance move_base: move_base_t {\n    remaps cmd_vel to ~cmd_vel;\n\
-    }\nnode instance rosaria_node: rosaria_node_t { }"
+  writer: "node type move_base_t {\n    publishes to cmd_vel: geometry_msgs/Twist;\n}\n\nnode type rosaria_node_t {\n    subscribes to /RosAria/cmd_vel: geometry_msgs/Twist;\n}"
+  integrator: "    node instance move_base: move_base_t {\n        remaps cmd_vel to ~cmd_vel;\n    }\n    node instance rosaria_node: rosaria_node_t { }"
 - question: 205102
   misconfiguration:
     - 'PARAMETER: Incorrect'
     - 'DSL: Navigation-Stack'
     - 'NODE: Incorrect'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 206449
   misconfiguration:
     - 'OTHER: Documentation'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 206849
   misconfiguration:
     - 'PARAMETER: Missing'
   status: Documentation
-  writer: "node type ardrone_autonomy_type {\n    optional param enable_navdata_pressure_raw:\
-    \ bool = false;\n    publishes to enable_navdata_pressure_raw: ardrone_autonomy/navdata_pressure_raw;\
-    \ # assuming {enable_navdata_pressure_raw};\n}"
+  writer: "node type ardrone_autonomy_type {\n    optional param enable_navdata_pressure_raw: bool = false;\n    publishes to enable_navdata_pressure_raw: ardrone_autonomy/navdata_pressure_raw; # assuming {enable_navdata_pressure_raw};\n}"
   integrator: '-'
 - question: 207352
   misconfiguration:
     - 'MESSAGE: Format'
     - 'OTHER: Documentation'
   status: Documentation
-  writer: "node type gmapping_type {\n    # since no publishes are provided, this\
-    \ acts as documentation\n    broadcast map to odom;\n}"
+  writer: "node type gmapping_type {\n    # since no publishes are provided, this acts as documentation\n    broadcast map to odom;\n}"
   integrator: '-'
 - question: 209404
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'DSL: Navigation-Stack'
   status: Documentation
-  writer: "node type move_base_t {\n    optional param base_local_planner: Plugin\
-    \ = default(TrajectoryPlannerROS);\n}"
+  writer: "node type move_base_t {\n    optional param base_local_planner: Plugin = default(TrajectoryPlannerROS);\n}"
   integrator: '-'
 - question: 209450
   misconfiguration:
     - 'TYPES: Physical-Units'
   status: Documentation
-  writer: "type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16,\n\
-    \                                16UC1, 16UC2, 16UC3, 16UC4, 16SC1, 16SC2, 16SC3,\
-    \ 16SC4,\n                                BAYER_RGGB16, BAYER_BGGR16, BAYER_GBRG16,\
-    \ BAYER_GRBG16\n];\n\ntype alias ImageEncoding32: Enum[32SC1, 32SC2, 32SC3, 32SC4,\
-    \ 32FC1, 32FC2, 32FC3, 32FC4];\n\ntype alias Meter: uint8;\ntype alias Millimeter:\
-    \ uint8;\n\nmessage alias ImageWith16Encoding: sensor_msgs/Image {\n    field\
-    \ header: std_msgs/Header;\n    field encoding: ImageEncoding16;\n    field data:\
-    \ Millimeter[];\n\n    field height: uint32;\n    field width: uint32;\n    field\
-    \ is_bigendian: uint8;\n    field step: uint32;\n}\n\n\nmessage alias ImageWith32Encoding:\
-    \ sensor_msgs/Image {\n    field header: std_msgs/Header;\n    field encoding:\
-    \ ImageEncoding32;\n    field data: Meter[];\n\n    field height: uint32;\n  \
-    \  field width: uint32;\n    field is_bigendian: uint8;\n    field step: uint32;\n\
-    }"
+  writer: "type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16,\n                                16UC1, 16UC2, 16UC3, 16UC4, 16SC1, 16SC2, 16SC3, 16SC4,\n                                BAYER_RGGB16, BAYER_BGGR16, BAYER_GBRG16, BAYER_GRBG16\n];\n\ntype alias ImageEncoding32: Enum[32SC1, 32SC2, 32SC3, 32SC4, 32FC1, 32FC2, 32FC3, 32FC4];\n\ntype alias Meter: uint8;\ntype alias Millimeter: uint8;\n\nmessage alias ImageWith16Encoding: sensor_msgs/Image {\n    field header: std_msgs/Header;\n    field encoding: ImageEncoding16;\n    field data: Millimeter[];\n\n    field height: uint32;\n    field width: uint32;\n    field is_bigendian: uint8;\n    field step: uint32;\n}\n\n\nmessage alias ImageWith32Encoding: sensor_msgs/Image {\n    field header: std_msgs/Header;\n    field encoding: ImageEncoding32;\n    field data: Meter[];\n\n    field height: uint32;\n    field width: uint32;\n    field is_bigendian: uint8;\n    field step: uint32;\n}"
   integrator: '-'
 - question: 210322
   misconfiguration:
     - 'NAME: Namespaces'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 210583
   misconfiguration:
@@ -564,15 +414,13 @@
     - 'NODE: Incorrect'
     - 'CONTEXTUAL: Simulation-vs-Real'
   status: Detectable
-  writer: "node type fake_localization_type {\n    context is_simulation: bool where\
-    \ {_ == true};\n}"
-  integrator: "node instance fake_localization: fake_localization_type {\n    context\
-    \ is_simulation = false;\n}"
+  writer: "node type fake_localization_type {\n    context is_simulation: bool where {_ == true};\n}"
+  integrator: "    node instance fake_localization: fake_localization_type {\n        context is_simulation = false;\n    }"
 - question: 214509
   misconfiguration:
     - 'BUG: Component'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 214816
   misconfiguration:
@@ -580,31 +428,22 @@
     - 'TF: Missing-Transform'
     - 'DSL: Robot-Localization'
   status: Detectable
-  writer: "node type ekf_localization {\n    optional param twist0: string = \"\"\
-    ;\n    optional param twist0_config: string[] = [false, false, false,\n      \
-    \                  false, false, false,\n                        true,  true,\
-    \  true,\n                        false, false, false,\n                     \
-    \   false, false, false];\n} where {\n    exists(twist0_config) -> exists(twist0);\n\
-    }"
-  integrator: "node instance ekf_localization_node: ekf_localization {\n    param\
-    \ twist0_config = [false, false, false,\n                           false, false,\
-    \ false,\n                           true, true, false,\n                    \
-    \       false, false, true,\n                           false, false, false];\n\
-    }"
+  writer: "node type ekf_localization {\n    optional param twist0: string = \"\";\n    optional param twist0_config: string[] = [false, false, false,\n                        false, false, false,\n                        true,  true,  true,\n                        false, false, false,\n                        false, false, false];\n} where {\n    exists(twist0_config) -> exists(twist0);\n}"
+  integrator: "    node instance ekf_localization_node: ekf_localization {\n        param twist0_config = [false, false, false,\n                               false, false, false,\n                               true, true, false,\n                               false, false, true,\n                               false, false, false];\n    }"
 - question: 216367
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'TF: Incorrect-Transform'
     - 'DSL: Robot-Localization'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 216750
   misconfiguration:
     - 'TF: Missing-Transform'
     - 'DSL: Robot-Localization'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 218573
   misconfiguration:
@@ -612,28 +451,22 @@
     - 'MESSAGE: Conflicting-Publishers'
     - 'NAME: Remapping'
   status: Detectable
-  writer: "node type usb_cam_node {\n    publishes to image: sensor_msgs/Image where\
-    \ {count(publishers(_)) == 1};\n}"
-  integrator: 'node instance usb_cam1: usb_cam_node { }
-
-    node instance usb_cam2: usb_cam_node { }'
+  writer: "node type usb_cam_node {\n    publishes to image: sensor_msgs/Image where {count(publishers(_)) == 1};\n}"
+  integrator: "    node instance usb_cam1: usb_cam_node { }\n    node instance usb_cam2: usb_cam_node { }"
 - question: 219802
   misconfiguration:
     - 'TF: Missing-Transform'
     - 'NAME: Remapping'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 221925
   misconfiguration:
     - 'DSL: Navigation-Stack'
   status: Detectable
-  writer: "type alias MeterSecond : float;\n\nnode type dwa_local_planner_type {\n\
-    \    optional param max_vel_x: MeterSecond = 0.55;\n    optional param min_vel_x:\
-    \ MeterSecond = 0.0;\n}"
-  integrator: "node instance dwa_local_planner: dwa_local_planner_type {\n    param\
-    \ penalize_negative_x = true;\n}"
+  writer: "type alias MeterSecond : float;\n\nnode type dwa_local_planner_type {\n    optional param max_vel_x: MeterSecond = 0.55;\n    optional param min_vel_x: MeterSecond = 0.0;\n}"
+  integrator: "    node instance dwa_local_planner: dwa_local_planner_type {\n        param penalize_negative_x = true;\n    }"
 - question: 222970
   misconfiguration:
     - 'TIME: Queues'
@@ -643,92 +476,48 @@
     - 'NODE: Missing'
     - 'LAUNCH: Includes'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 223521
   misconfiguration:
     - 'TF: Incorrect-Transform'
   status: Detectable
-  writer: "node type kinect2_bridge_type {\n    publishes to /kinect2/sd/image_depth_rect:\
-    \ sensor_msgs/Image;\n    publishes to /kinect2/sd/camera_info: sensor_msgs/CameraInfo;\n\
-    \n    broadcast kinect2_ir_optical_frame to kinect2_link;\n}\n\nnode type depth_to_pointcloud_type\
-    \ {\n    subscribes to /kinect2/sd/image_depth_rect: sensor_msgs/Image;\n    subscribes\
-    \ to /kinect2/sd/camera_info: sensor_msgs/CameraInfo;\n    publishes to /kinect2/pointcloud:\
-    \ sensor_msgs/PointCloud2;\n}\n\nnode type kinect2_filtering_type {\n    subscribes\
-    \ to /kinect2/pointcloud: sensor_msgs/PointCloud2;\n    publishes to /kinect2/pointcloud_filtered:\
-    \ sensor_msgs/PointCloud2;\n}\n\nnode type pointcloud_to_laserscan_type {\n  \
-    \  subscribes to /kinect2/pointcloud_filtered: sensor_msgs/PointCloud2;\n\n  \
-    \  publishes to /scan2: sensor_msgs/LaserScan;\n\n    listen target_frame from\
-    \ kinect2_link;\n}"
-  integrator: 'node instance kinect2_bridge : kinect2_bridge_type { }
-
-
-    node instance  depth_to_pointcloud: depth_to_pointcloud_type { }
-
-
-    node instance  pointcloud_to_laserscan: pointcloud_to_laserscan_type { }'
+  writer: "node type kinect2_bridge_type {\n    publishes to /kinect2/sd/image_depth_rect: sensor_msgs/Image;\n    publishes to /kinect2/sd/camera_info: sensor_msgs/CameraInfo;\n\n    broadcast kinect2_ir_optical_frame to kinect2_link;\n}\n\nnode type depth_to_pointcloud_type {\n    subscribes to /kinect2/sd/image_depth_rect: sensor_msgs/Image;\n    subscribes to /kinect2/sd/camera_info: sensor_msgs/CameraInfo;\n    publishes to /kinect2/pointcloud: sensor_msgs/PointCloud2;\n}\n\nnode type kinect2_filtering_type {\n    subscribes to /kinect2/pointcloud: sensor_msgs/PointCloud2;\n    publishes to /kinect2/pointcloud_filtered: sensor_msgs/PointCloud2;\n}\n\nnode type pointcloud_to_laserscan_type {\n    subscribes to /kinect2/pointcloud_filtered: sensor_msgs/PointCloud2;\n\n    publishes to /scan2: sensor_msgs/LaserScan;\n\n    listen target_frame from kinect2_link;\n}"
+  integrator: "    node instance kinect2_bridge : kinect2_bridge_type { }\n\n    node instance  depth_to_pointcloud: depth_to_pointcloud_type { }\n\n    node instance  pointcloud_to_laserscan: pointcloud_to_laserscan_type { }"
 - question: 225375
   misconfiguration:
     - 'MESSAGE: No-Publisher'
   status: Detectable
-  writer: "node type ekf_localization_node_type {\n    subscribes to /set_pose: geometry_msgs/Pose;\n\
-    }"
-  integrator: 'node instance ekf_localization_node: ekf_localization_node_type { }'
+  writer: "node type ekf_localization_node_type {\n    subscribes to /set_pose: geometry_msgs/Pose;\n}"
+  integrator: "    node instance ekf_localization_node: ekf_localization_node_type { }"
 - question: 225694
   misconfiguration:
     - 'DSL: Robot-Localization'
     - 'NODE: Missing'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Detectable
-  writer: "node type rtabmap {\n     optional param publish_tf: bool = false\n\n \
-    \    broadcast map to odom; # assuming {publish_tf};\n}\n\nnode type robot_localization_type\
-    \ {\n    param map_frame: string;\n    param odom_frame: string;\n\n    broadcast\
-    \ content(map_frame) to content(odom_frame);\n}"
-  integrator: "node instance rtab: rtabmap { }\n\nnode instance  robot_localization:\
-    \ robot_localization_type {\n    param map_frame = \"map\";\n    param odom_frame\
-    \ = \"odom\";\n}"
+  writer: "node type rtabmap {\n     optional param publish_tf: bool = false\n\n     broadcast map to odom; # assuming {publish_tf};\n}\n\nnode type robot_localization_type {\n    param map_frame: string;\n    param odom_frame: string;\n\n    broadcast content(map_frame) to content(odom_frame);\n}"
+  integrator: "    node instance rtab: rtabmap { }\n\n    node instance  robot_localization: robot_localization_type {\n        param map_frame = \"map\";\n        param odom_frame = \"odom\";\n    }"
 - question: 226175
   misconfiguration:
     - 'DSL: URDF'
     - 'LAUNCH: Duplication'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 227092
   misconfiguration:
     - 'TF: Missing-Transform'
   status: Detectable
-  writer: "node type custom_node {\n    subscribes to /tilt_controller/command: std_msgs/Float64;\n\
-    \    broadcast /tilt_laser to laser;\n}\n\nnode type rviz_type {\n    listen base_link\
-    \ to map;\n}"
-  integrator: 'node instance node: custom_node { }
-
-    node instance rviz: rviz_type { }'
+  writer: "node type custom_node {\n    subscribes to /tilt_controller/command: std_msgs/Float64;\n    broadcast /tilt_laser to laser;\n}\n\nnode type rviz_type {\n    listen base_link to map;\n}"
+  integrator: "    node instance node: custom_node { }\n    node instance rviz: rviz_type { }"
 - question: 227128
   misconfiguration:
     - 'TF: Missing-Transform'
     - 'NAME: Mismatches'
   status: Detectable
-  writer: "node type node0_type {\n    publishes to /car/odometry: nav_msgs/Odometry;\n\
-    \n    broadcast odom to base_footprint;\n}\n\nnode type node1_type {\n    publishes\
-    \ to /car/odometro: nav_msgs/Odometry;\n\n    broadcast odo to base_footprint;\n\
-    }\n\nnode type gps_node_type {\n    publishes to /car/gps: sensor_msgs/NavSatFix;\
-    \ # Assumed the message type\n\n    broadcast gps to base_footprint;\n}\n\nnode\
-    \ type robot_localization_ekf_type {\n    subscribes to /car/odometry: nav_msgs/Odometry;\n\
-    \    subscribes to /car/odometro: nav_msgs/Odometry;\n    subscribes to /car/gps:\
-    \ sensor_msgs/NavSatFix;\n\n    listen odom to base_footprint;\n}"
-  integrator: 'node instance node0: node0_type { }
-
-    node instance node1: node1_type { }
-
-
-    node instance gps_node: gps_node_type { }
-
-    node instance robot_localization_ekf: robot_localization_ekf_type { }
-
-
-    # The arguments and parameters are not define to provide a minimal example of
-    the misconfiguration'
+  writer: "node type node0_type {\n    publishes to /car/odometry: nav_msgs/Odometry;\n\n    broadcast odom to base_footprint;\n}\n\nnode type node1_type {\n    publishes to /car/odometro: nav_msgs/Odometry;\n\n    broadcast odo to base_footprint;\n}\n\nnode type gps_node_type {\n    publishes to /car/gps: sensor_msgs/NavSatFix; # Assumed the message type\n\n    broadcast gps to base_footprint;\n}\n\nnode type robot_localization_ekf_type {\n    subscribes to /car/odometry: nav_msgs/Odometry;\n    subscribes to /car/odometro: nav_msgs/Odometry;\n    subscribes to /car/gps: sensor_msgs/NavSatFix;\n\n    listen odom to base_footprint;\n}"
+  integrator: "    node instance node0: node0_type { }\n    node instance node1: node1_type { }\n\n    node instance gps_node: gps_node_type { }\n    node instance robot_localization_ekf: robot_localization_ekf_type { }\n\n    # The arguments and parameters are not define to provide a minimal example of the misconfiguration"
 - question: 227137
   misconfiguration:
     - 'PARAMETER: Defaults'
@@ -739,38 +528,21 @@
     - 'CONTEXTUAL: HARDWARE: Sensors'
     - 'CONTEXTUAL: HARDWARE: Mechanical'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 229722
   misconfiguration:
     - 'NAME: Remapping'
   status: Detectable
-  writer: "node type gazebo_type {\n    argument paused: bool;\n    argument use_sim_time:\
-    \ bool;\n    argument gui: bool;\n\n    publishes to /odom: nav2_msgs/Odometry;\n\
-    \    publishes to tf: tf2_msgs/TFMessage;\n\n    broadcast odom to base_footprint;\n\
-    }\n\nnode type robot_pose_ek_type {\n     publishes to tf: tf2_msgs/TFMessage;\n\
-    }\n\nnode type gmapping_type {\n     subscribes to tf: tf2_msgs/TFMessage where\
-    \ {count(publishers(_)) == 1};\n}"
-  integrator: "node instance gazebo: gazebo_type {\n    argument paused = false;\n\
-    \    argument use_sim_time = true;\n    argument gui = true; \n}\n\nnode instance\
-    \ robot_pose_ekf: robot_pose_ekf_type { }\n\nnode instance gmapping: gmapping_type\
-    \ { }"
+  writer: "node type gazebo_type {\n    argument paused: bool;\n    argument use_sim_time: bool;\n    argument gui: bool;\n\n    publishes to /odom: nav2_msgs/Odometry;\n    publishes to tf: tf2_msgs/TFMessage;\n\n    broadcast odom to base_footprint;\n}\n\nnode type robot_pose_ek_type {\n     publishes to tf: tf2_msgs/TFMessage;\n}\n\nnode type gmapping_type {\n     subscribes to tf: tf2_msgs/TFMessage where {count(publishers(_)) == 1};\n}"
+  integrator: "    node instance gazebo: gazebo_type {\n        argument paused = false;\n        argument use_sim_time = true;\n        argument gui = true; \n    }\n\n    node instance robot_pose_ekf: robot_pose_ekf_type { }\n\n    node instance gmapping: gmapping_type { }"
 - question: 231458
   misconfiguration:
     - 'PARAMETER: Incorrect'
     - 'CONTEXTUAL: HARDWARE: Compute'
   status: Detectable
-  writer: "node type rgbdslam_type {\n    optional param topic_image_mono: string\
-    \ = \"/camera/rgb/image_color\";\n    optional param camera_info_topic: string\
-    \ = \"/camera/rgb/camera_info\";\n    optional param topic_image_depth: string\
-    \ = \"/camera/depth_registered/sw_registered/image_rect_raw\";\n    optional param\
-    \ topic_points: string = \"\";\n    optional param base_frame_name: string = \"\
-    /openni_rgb_optical_frame\";\n} where {\n    exists(topic_image_depth) -> topic_points\
-    \ == \"\";\n}"
-  integrator: "node instance rgbdslam: rgbdslam_type {\n    param topic_image_mono\
-    \ = \"/camera/color/image_raw\";\n    param camera_info_topic = \"/camera/depth/image_raw\"\
-    ;\n    param topic_image_depth = \"/camera/depth/points\";\n    param topic_points\
-    \ = \"/camera_link\";\n    param base_frame_name = \"/camera_link\"; \n}"
+  writer: "node type rgbdslam_type {\n    optional param topic_image_mono: string = \"/camera/rgb/image_color\";\n    optional param camera_info_topic: string = \"/camera/rgb/camera_info\";\n    optional param topic_image_depth: string = \"/camera/depth_registered/sw_registered/image_rect_raw\";\n    optional param topic_points: string = \"\";\n    optional param base_frame_name: string = \"/openni_rgb_optical_frame\";\n} where {\n    exists(topic_image_depth) -> topic_points == \"\";\n}"
+  integrator: "    node instance rgbdslam: rgbdslam_type {\n        param topic_image_mono = \"/camera/color/image_raw\";\n        param camera_info_topic = \"/camera/depth/image_raw\";\n        param topic_image_depth = \"/camera/depth/points\";\n        param topic_points = \"/camera_link\";\n        param base_frame_name = \"/camera_link\"; \n    }"
 - question: 233143
   misconfiguration:
     - 'PARAMETER: Incorrect'
@@ -778,7 +550,7 @@
     - 'DSL: URDF'
     - 'NODE: Missing'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 234036
   misconfiguration:
@@ -787,21 +559,19 @@
     - 'CONTEXTUAL: Application-Environment'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 239888
   misconfiguration:
     - 'NAME: Namespaces'
   status: Documentation
-  writer: "node type amcl_type {\n    context number_of_robots: int;\n    optional\
-    \ param tf_prefix: string = \"\";\n} where {\n    number_of_robots > 1 == exists(tf_prefix);\n\
-    }"
+  writer: "node type amcl_type {\n    context number_of_robots: int;\n    optional param tf_prefix: string = \"\";\n} where {\n    number_of_robots > 1 == exists(tf_prefix);\n}"
   integrator: ''
 - question: 246256
   misconfiguration:
     - 'TF: Missing-Transform'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 247230
   misconfiguration:
@@ -809,14 +579,14 @@
     - 'DSL: MoveIt'
     - 'CONTEXTUAL: Application-Environment'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 247821
   misconfiguration:
     - 'TIME: Queues'
     - 'TIME: Frequency'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 248656
   misconfiguration:
@@ -824,7 +594,7 @@
     - 'TIME: Frequency'
     - 'CONTEXTUAL: HARDWARE: Compute'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 248677
   misconfiguration:
@@ -832,13 +602,13 @@
     - 'TIME: Synchronization'
     - 'DSL: Navigation-Stack'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 249481
   misconfiguration:
     - 'OTHER: Documentation'
   status: Out of scope
-  writer: ''
+  writer: ""
   integrator: ''
 - question: 250138
   misconfiguration:
@@ -848,31 +618,27 @@
     - 'CONTEXTUAL: Application-Environment'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Detectable
-  writer: "plugin type teb_local_planner_t {\n    optional param orientation_mode:\
-    \ int = 1;\n    optional param global_plan_overwrite_orientation: bool = false;\n\
-    } where {\n    exists(orientation_mode) -> global_plan_overwrite_orientation;\n\
-    }"
-  integrator: "plugin instance teb_local_planner: teb_local_planner_t {\n    param\
-    \ orientation_mode = 2;\n}"
+  writer: "plugin type teb_local_planner_t {\n    optional param orientation_mode: int = 1;\n    optional param global_plan_overwrite_orientation: bool = false;\n} where {\n    exists(orientation_mode) -> global_plan_overwrite_orientation;\n}"
+  integrator: "    plugin instance teb_local_planner: teb_local_planner_t {\n        param orientation_mode = 2;\n    }"
 - question: 250612
   misconfiguration:
     - 'LAUNCH: Race-Condition'
     - 'CONTEXTUAL: HARDWARE: Compute'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 250657
   misconfiguration:
     - 'NAME: Namespaces'
     - 'CONTEXTUAL: Application-Environment'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 252139
   misconfiguration:
     - 'LAUNCH: Includes'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 253505
   misconfiguration:
@@ -881,92 +647,59 @@
     - 'TF: Missing-Transform'
     - 'DSL: URDF'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 253726
   misconfiguration:
     - 'LAUNCH: Duplication'
   status: Detectable
   writer: "node type ratslam_ros_type {\n    # ...\n}"
-  integrator: 'node instance ratslam_ros: ratslam_ros_type { }
-
-    node instance ratslam_ros: ratslam_ros_type { }'
+  integrator: "    node instance ratslam_ros: ratslam_ros_type { }\n    node instance ratslam_ros: ratslam_ros_type { }"
 - question: 255713
   misconfiguration:
     - 'PARAMETER: Incorrect'
   status: Detectable
-  writer: "node type amcl_type {\n    optional param tf_broadcast: bool = false;\n\
-    \    broadcast map to odom; #assuming {tf_broadcast};\n}\n\nnode type ekf_node_type\
-    \ {\n    broadcast map to odom;\n}"
-  integrator: 'node instance amcl: amcl_type { }
-
-
-    node instance ekf_node: ekf_node_type { }'
+  writer: "node type amcl_type {\n    optional param tf_broadcast: bool = false;\n    broadcast map to odom; #assuming {tf_broadcast};\n}\n\nnode type ekf_node_type {\n    broadcast map to odom;\n}"
+  integrator: "    node instance amcl: amcl_type { }\n\n    node instance ekf_node: ekf_node_type { }"
 - question: 255893
   misconfiguration:
     - 'TF: Incorrect-Transform'
     - 'NAME: Mismatches'
     - 'NAME: Namespaces'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 257637
   misconfiguration:
     - 'PARAMETER: Incorrect'
     - 'NAME: Mismatches'
   status: Detectable
-  writer: "node type custom_node_type {\n    publishes to odom: nav_msgs/Odometry;\n\
-    \    broadcast odom to base_link;\n}\n\nnode type hector_mapping_type {\n    optional\
-    \ param base_frame: string = \"base_link\";\n    optional param odom_frame: string\
-    \ = \"odom\";\n    listen content(base_frame) to content(odom_frame);\n    broadcast\
-    \ map to odom;\n}"
-  integrator: "node instance custom_node: custom_node_type { }\n\nnode instance hector_mapping:\
-    \ hector_mapping_type {\n    param odom_frame = \"base_link\";\n}"
+  writer: "node type custom_node_type {\n    publishes to odom: nav_msgs/Odometry;\n    broadcast odom to base_link;\n}\n\nnode type hector_mapping_type {\n    optional param base_frame: string = \"base_link\";\n    optional param odom_frame: string = \"odom\";\n    listen content(base_frame) to content(odom_frame);\n    broadcast map to odom;\n}"
+  integrator: "    node instance custom_node: custom_node_type { }\n\n    node instance hector_mapping: hector_mapping_type {\n        param odom_frame = \"base_link\";\n    }"
 - question: 257935
   misconfiguration:
     - 'NAME: Mismatches'
   status: Detectable
-  writer: "node type custom_node_type {\n    subscribes to imu_data: sensor_msgs/Imu;\
-    \ \n}\n\nnode type gazebo_ros_imu_type {\n    publishes to imu/data: sensor_msgs/Imu;\n\
-    }"
-  integrator: 'node type custom_node_type { }
-
-
-    node type gazebo_ros_imu_type { }'
+  writer: "node type custom_node_type {\n    subscribes to imu_data: sensor_msgs/Imu; \n}\n\nnode type gazebo_ros_imu_type {\n    publishes to imu/data: sensor_msgs/Imu;\n}"
+  integrator: "    node type custom_node_type { }\n\n    node type gazebo_ros_imu_type { }"
 - question: 259561
   misconfiguration:
     - 'NAME: Mismatches'
   status: Detectable
-  writer: "node type custom_node_1 {\n    publishes to falconPose: geometry_msgs/Pose;\n\
-    }\n\nnode type custom_node_2 {\n    subscribes to position: geometry_msgs/Pose;\n\
-    }"
-  integrator: 'node instance custom_node1: custom_node_1 { }
-
-    node instance custom_node2: custom_node_2 { }'
+  writer: "node type custom_node_1 {\n    publishes to falconPose: geometry_msgs/Pose;\n}\n\nnode type custom_node_2 {\n    subscribes to position: geometry_msgs/Pose;\n}"
+  integrator: "    node instance custom_node1: custom_node_1 { }\n    node instance custom_node2: custom_node_2 { }"
 - question: 260640
   misconfiguration:
     - 'TYPES: Color-Format'
   status: Documentation
-  writer: "type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16,\n\
-    \                                16UC1, 16UC2, 16UC3, 16UC4, 16SC1, 16SC2, 16SC3,\
-    \ 16SC4,\n                                BAYER_RGGB16, BAYER_BGGR16, BAYER_GBRG16,\
-    \ BAYER_GRBG16\n];\n\ntype alias ImageEncoding32: Enum[32SC1, 32SC2, 32SC3, 32SC4,\
-    \ 32FC1, 32FC2, 32FC3, 32FC4];\n\ntype alias Meter: uint8;\ntype alias Millimeter:\
-    \ uint8;\n\nmessage alias ImageWith16Encoding: sensor_msgs/Image {\n    field\
-    \ header: std_msgs/Header;\n    field encoding: ImageEncoding16;\n    field data:\
-    \ Millimeter[];\n\n    field height: uint32;\n    field width: uint32;\n    field\
-    \ is_bigendian: uint8;\n    field step: uint32;\n}\n\n\nmessage alias ImageWith32Encoding:\
-    \ sensor_msgs/Image {\n    field header: std_msgs/Header;\n    field encoding:\
-    \ ImageEncoding32;\n    field data: Meter[];\n\n    field height: uint32;\n  \
-    \  field width: uint32;\n    field is_bigendian: uint8;\n    field step: uint32;\n\
-    }"
+  writer: "type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16,\n                                16UC1, 16UC2, 16UC3, 16UC4, 16SC1, 16SC2, 16SC3, 16SC4,\n                                BAYER_RGGB16, BAYER_BGGR16, BAYER_GBRG16, BAYER_GRBG16\n];\n\ntype alias ImageEncoding32: Enum[32SC1, 32SC2, 32SC3, 32SC4, 32FC1, 32FC2, 32FC3, 32FC4];\n\ntype alias Meter: uint8;\ntype alias Millimeter: uint8;\n\nmessage alias ImageWith16Encoding: sensor_msgs/Image {\n    field header: std_msgs/Header;\n    field encoding: ImageEncoding16;\n    field data: Millimeter[];\n\n    field height: uint32;\n    field width: uint32;\n    field is_bigendian: uint8;\n    field step: uint32;\n}\n\n\nmessage alias ImageWith32Encoding: sensor_msgs/Image {\n    field header: std_msgs/Header;\n    field encoding: ImageEncoding32;\n    field data: Meter[];\n\n    field height: uint32;\n    field width: uint32;\n    field is_bigendian: uint8;\n    field step: uint32;\n}"
   integrator: '-'
 - question: 261580
   misconfiguration:
     - 'TF: Incorrect-Transform'
     - 'NAME: Namespaces'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 264595
   misconfiguration:
@@ -974,23 +707,20 @@
     - 'TIME: Frequency'
     - 'BUG: Component'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: ''
 - question: 266708
   misconfiguration:
     - 'NAME: Namespaces'
   status: Documentation
-  writer: "node type image_proc_type {\n    optional param queue_size: int = 5;\n\n\
-    \    subscribes to image_raw: sensor_msgs/Image;\n    subscribes to camera_info:\
-    \ sensor_msgs/CameraInfo;\n\n    publishes to image_mono: sensor_msgs/Image;\n\
-    \    publishes to image_rect: sensor_msgs/Image;\n    # ...\n}"
+  writer: "node type image_proc_type {\n    optional param queue_size: int = 5;\n\n    subscribes to image_raw: sensor_msgs/Image;\n    subscribes to camera_info: sensor_msgs/CameraInfo;\n\n    publishes to image_mono: sensor_msgs/Image;\n    publishes to image_rect: sensor_msgs/Image;\n    # ...\n}"
   integrator: '-'
 - question: 266947
   misconfiguration:
     - 'PARAMETER: Dead-Write'
     - 'TF: Missing-Transform'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: ''
 - question: 267413
   misconfiguration:
@@ -998,7 +728,7 @@
     - 'CONTEXTUAL: HARDWARE: Compute'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 269074
   misconfiguration:
@@ -1007,34 +737,34 @@
     - 'LAUNCH: Includes'
     - 'LAUNCH: Arguments'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 269431
   misconfiguration:
     - 'TF: Missing-Transform'
     - 'NAME: Remapping'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 272722
   misconfiguration:
     - 'TIME: Frequency'
     - 'LAUNCH: Environment-Variable'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 275924
   misconfiguration:
     - 'LAUNCH: Race-Condition'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 279742
   misconfiguration:
     - 'TF: Missing-Transform'
     - 'CALIBRATION: Camera'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 27979
   misconfiguration:
@@ -1042,51 +772,28 @@
     - 'CONTEXTUAL: HARDWARE: Sensors'
     - 'OTHER: Documentation'
   status: Documentation
-  writer: "node type sicklms {\n    context device_resolution: double;\n\n    optional\
-    \ param use_rep_117: bool = true;\n    optional param port: string = \"dev/lms200\"\
-    ;\n    optional param baud: Rate = 38400;\n    optional param inverted: bool =\
-    \ false;\n    optional param frame_id: string = \"laser\";\n    optional param\
-    \ angle: int = 0;\n    optional param resolution: double = 0.0;\n    optional\
-    \ param connect_delay: double = 0.0;\n\n    publishes to scan: sensor_msgs/Laserscan;\n\
-    }"
+  writer: "node type sicklms {\n    context device_resolution: double;\n\n    optional param use_rep_117: bool = true;\n    optional param port: string = \"dev/lms200\";\n    optional param baud: Rate = 38400;\n    optional param inverted: bool = false;\n    optional param frame_id: string = \"laser\";\n    optional param angle: int = 0;\n    optional param resolution: double = 0.0;\n    optional param connect_delay: double = 0.0;\n\n    publishes to scan: sensor_msgs/Laserscan;\n}"
   integrator: '-'
 - question: 280412
   misconfiguration:
     - 'NODE: Missing'
   status: Detectable
-  writer: "node type turtlesim_node {\n    subscribes to turtle2/cmd_vel: geometry_msgs/Twist;\n\
-    \    publishes to turtle2/pose: geometry_msgs/Pose;\n}\n\nnode type turtle_tf_broadcast\
-    \ {\n    param turtle: string;\n    subscribes to content(turtle)/pose: geometry_msgs/Pose;\n\
-    \    broadcast content(turtle) to world;\n}\n\nnode type turtle_tf_listener {\n\
-    \    publishes to turtle2/cmd_vel: geometry_msgs/Twist;\n    listen turtle2 to\
-    \ turtle1;\n}"
-  integrator: "node instance turtlesim_node: turtlesim_node { }\nnode instance turtle1_tf_broadcast:\
-    \ turtle_tf_broadcast {\n    param turtle = \"turtle1\";\n}"
+  writer: "node type turtlesim_node {\n    subscribes to turtle2/cmd_vel: geometry_msgs/Twist;\n    publishes to turtle2/pose: geometry_msgs/Pose;\n}\n\nnode type turtle_tf_broadcast {\n    param turtle: string;\n    subscribes to content(turtle)/pose: geometry_msgs/Pose;\n    broadcast content(turtle) to world;\n}\n\nnode type turtle_tf_listener {\n    publishes to turtle2/cmd_vel: geometry_msgs/Twist;\n    listen turtle2 to turtle1;\n}"
+  integrator: "    node instance turtlesim_node: turtlesim_node { }\n    node instance turtle1_tf_broadcast: turtle_tf_broadcast {\n        param turtle = \"turtle1\";\n    }"
 - question: 28163
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'LAUNCH: Includes'
     - 'CONTEXTUAL: Simulation-vs-Real'
   status: Detectable
-  writer: "node type planning_scene_warehouse_viewer_t {\n    context is_simulation:\
-    \ bool;\n\n    optional argument use_monitor: bool = false;\n    optional argument\
-    \ use_collision_map: bool = false;\n    optional param use_robot_data: bool =\
-    \ false;\n\n    subscribes to /joint_states: sensor_msgs/JointState; # assuming\
-    \ {use_monitor};\n} where {\n    is_simulation -> use_monitor;\n    is_simulation\
-    \ -> !use_robot_data;\n}"
-  integrator: "node instance planning_scene_warehouse_viewer: planning_scene_warehouse_viewer_t\
-    \ {\n    context is_simulation = true;\n}"
+  writer: "node type planning_scene_warehouse_viewer_t {\n    context is_simulation: bool;\n\n    optional argument use_monitor: bool = false;\n    optional argument use_collision_map: bool = false;\n    optional param use_robot_data: bool = false;\n\n    subscribes to /joint_states: sensor_msgs/JointState; # assuming {use_monitor};\n} where {\n    is_simulation -> use_monitor;\n    is_simulation -> !use_robot_data;\n}"
+  integrator: "    node instance planning_scene_warehouse_viewer: planning_scene_warehouse_viewer_t {\n        context is_simulation = true;\n    }"
 - question: 283932
   misconfiguration:
     - 'TF: Missing-Transform'
   status: Detectable
-  writer: "node type custom_node_type {\n    broadcast camera_rgb_frame to camera_link;\n\
-    }\n\nnode type freenect_node_type {\n    optional param publish_tf: bool = true;\n\
-    \n    broadcast camera_link to camera_rgb_frame; # assuming {publish_tf};\n}"
-  integrator: 'node instance custom_node: custom_node_type { }
-
-
-    node instance freenect_node: freenect_node_type { }'
+  writer: "node type custom_node_type {\n    broadcast camera_rgb_frame to camera_link;\n}\n\nnode type freenect_node_type {\n    optional param publish_tf: bool = true;\n\n    broadcast camera_link to camera_rgb_frame; # assuming {publish_tf};\n}"
+  integrator: "    node instance custom_node: custom_node_type { }\n\n    node instance freenect_node: freenect_node_type { }"
 - question: 284325
   misconfiguration:
     - 'PARAMETER: Incorrect'
@@ -1095,7 +802,7 @@
     - 'TF: Missing-Transform'
     - 'NAME: Namespaces'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 285062
   misconfiguration:
@@ -1103,24 +810,15 @@
     - 'DSL: Navigation-Stack'
     - 'NAME: Namespaces'
   status: Detectable
-  writer: "node type map_server_type {\n    optional param frame_id: string = \"map\"\
-    ;\n    optional param use_map_topic: bool = false;\n} where {\n    exists(frame_id)\
-    \ -> use_map_topic;\n}"
-  integrator: "node instance map_server: map_server_type {\n    param frame_id = \"\
-    /map\";\n    param use_map_topic = false;\n}"
+  writer: "node type map_server_type {\n    optional param frame_id: string = \"map\";\n    optional param use_map_topic: bool = false;\n} where {\n    exists(frame_id) -> use_map_topic;\n}"
+  integrator: "    node instance map_server: map_server_type {\n        param frame_id = \"/map\";\n        param use_map_topic = false;\n    }"
 - question: 285266
   misconfiguration:
     - 'TYPES: Physical-Units'
     - 'CONTEXTUAL: Simulation-vs-Real'
     - 'OTHER: Documentation'
   status: Documentation
-  writer: "type alias MeterPerSecond: float;\ntype alias RadianPerSecond: float;\n\
-    \nmessage alias LinearVector3: geometry_msgs/Vector3 {\n    field x: MeterPerSecond;\n\
-    \    field y: MeterPerSecond;\n    field z: MeterPerSecond;\n}\n\nmessage alias\
-    \ AngularVector3: geometry_msgs/Vector3 {\n    field x: RadianPerSecond;\n   \
-    \ field y: RadianPerSecond;\n    field z: RadianPerSecond;\n}\n\nmessage alias\
-    \ AnnotatedTwist: geometry_msgs/Twist {\n    field linear: LinearVector3;\n  \
-    \  field angular: AngularVector3;\n}"
+  writer: "type alias MeterPerSecond: float;\ntype alias RadianPerSecond: float;\n\nmessage alias LinearVector3: geometry_msgs/Vector3 {\n    field x: MeterPerSecond;\n    field y: MeterPerSecond;\n    field z: MeterPerSecond;\n}\n\nmessage alias AngularVector3: geometry_msgs/Vector3 {\n    field x: RadianPerSecond;\n    field y: RadianPerSecond;\n    field z: RadianPerSecond;\n}\n\nmessage alias AnnotatedTwist: geometry_msgs/Twist {\n    field linear: LinearVector3;\n    field angular: AngularVector3;\n}"
   integrator: '-'
 - question: 287686
   misconfiguration:
@@ -1129,37 +827,26 @@
     - 'CONTEXTUAL: Application-Environment'
     - 'CONTEXTUAL: HARDWARE: Mechanical'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 28935
   misconfiguration:
     - 'NAME: Remapping'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 296720
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'OTHER: Simulation'
   status: Detectable
-  writer: "node type joint_controller_type {\n    context is_simulation: bool;\n \
-    \   optional param use_sim_time: bool = false;\n} where {\n    is_simulation ->\
-    \ use_sim_time;\n}"
-  integrator: "node instance joint_controller: joint_controller_type {\n    context\
-    \ is_simulation = true;\n}"
+  writer: "node type joint_controller_type {\n    context is_simulation: bool;\n    optional param use_sim_time: bool = false;\n} where {\n    is_simulation -> use_sim_time;\n}"
+  integrator: "    node instance joint_controller: joint_controller_type {\n        context is_simulation = true;\n    }"
 - question: 29953
   misconfiguration:
     - 'TYPES: Constraints'
   status: Documentation
-  writer: "message alias RestrictedPointCloud2: sensor_msgs/PointCloud2 {\n    field\
-    \ data: unint8[];\n} where {\n    data[0] < data[len(data) - 1];\n}\n\nnode type\
-    \ laser_scan_matcher_type {\n    optional param use_cloud_input: bool = false;\n\
-    \    optional param cloud_range_min: double = 0.1;\n    optional param cloud_range_max:\
-    \ double = 50.0;\n\n    subscribes to scan: sensor_msgs/LaserScan;\n    subscribes\
-    \ to cloud: RestrictedPointCloud2;\n    subscribes to imu_data: sensor_msgs/Imu;\n\
-    \    subscribes to odom: nav_msgs/Odometry;\n\n    listen base_link to laser;\n\
-    \    broadcast world to base_link;\n} where {\n    !use_cloud_input -> !exists(cloud_range_min);\n\
-    \    !use_cloud_input -> !exists(cloud_range_max);\n}"
+  writer: "message alias RestrictedPointCloud2: sensor_msgs/PointCloud2 {\n    field data: unint8[];\n} where {\n    data[0] < data[len(data) - 1];\n}\n\nnode type laser_scan_matcher_type {\n    optional param use_cloud_input: bool = false;\n    optional param cloud_range_min: double = 0.1;\n    optional param cloud_range_max: double = 50.0;\n\n    subscribes to scan: sensor_msgs/LaserScan;\n    subscribes to cloud: RestrictedPointCloud2;\n    subscribes to imu_data: sensor_msgs/Imu;\n    subscribes to odom: nav_msgs/Odometry;\n\n    listen base_link to laser;\n    broadcast world to base_link;\n} where {\n    !use_cloud_input -> !exists(cloud_range_min);\n    !use_cloud_input -> !exists(cloud_range_max);\n}"
   integrator: '-'
 - question: 310223
   misconfiguration:
@@ -1167,15 +854,14 @@
     - 'DSL: Navigation-Stack'
     - 'NAME: Namespaces'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 31036
   misconfiguration:
     - 'TYPES: Transformations'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Documentation
-  writer: "node type gmapping_type {\n    context positioning: Enum[Vertical, Horizontal,\
-    \ Tilted] where {_ != Tilted};\n}"
+  writer: "node type gmapping_type {\n    context positioning: Enum[Vertical, Horizontal, Tilted] where {_ != Tilted};\n}"
   integrator: '-'
 - question: 314169
   misconfiguration:
@@ -1185,27 +871,21 @@
     - 'CONTEXTUAL: HARDWARE: Sensors'
     - 'OTHER: Documentation'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 316037
   misconfiguration:
     - 'TF: Incorrect-Transform'
     - 'NAME: Mismatches'
   status: Detectable
-  writer: "node type amcl_type {\n    # I believe these are actually in params, that\
-    \ then we provide and amcl does the broadcast, but I abstracted that here\n  \
-    \  broadcast map to odom;\n}\n\nnode type static_transform_publisher {\n    broadcast\
-    \ map to odom;\n}"
-  integrator: 'node instance amcl: amcl_type { }
-
-
-    node instance map_to_odom: static_transform_publisher { }'
+  writer: "node type amcl_type {\n    # I believe these are actually in params, that then we provide and amcl does the broadcast, but I abstracted that here\n    broadcast map to odom;\n}\n\nnode type static_transform_publisher {\n    broadcast map to odom;\n}"
+  integrator: "    node instance amcl: amcl_type { }\n\n    node instance map_to_odom: static_transform_publisher { }"
 - question: 318331
   misconfiguration:
     - 'DSL: Navigation-Stack'
     - 'OTHER: Documentation'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 318821
   misconfiguration:
@@ -1213,31 +893,22 @@
     - 'NAME: Namespaces'
     - 'BUG: Component'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 319065
   misconfiguration:
     - 'PARAMETER: Incorrect'
     - 'DSL: Navigation-Stack'
   status: Detectable
-  writer: "node type amcl_type {\n    param odom_model_type: Enum[DiffCorrected, OmniCorrected];\n\
-    \    optional param lazer_z_hit: double = 0.95;\n    optional param odom_alpha1:\
-    \ double = 0.2;\n    optional param odom_alpha2: double = 0.2;\n    optional param\
-    \ odom_alpha3: double = 0.2;\n    optional param odom_alpha4: double = 0.2;\n\
-    \    optional param odom_alpha5: double = 0.2;\n} where {\n    odom_model_type\
-    \ == OmniCorrected -> exists(odom_alpha5);\n    odom_model_type == DiffCorrected\
-    \ -> odom_alpha1 <= 0.01 and odom_alpha2 <= 0.01 and\n                       \
-    \                 odom_alpha3 <= 0.01  and odom_alpha4 <= 0.01;\n}"
-  integrator: "node instance amcl: amcl_type {\n    param odom_model_type = DiffCorrected;\n\
-    \    param odom_alpha1 = 4.0;\n    param odom_alpha2 = 0.9;\n    param odom_alpha3\
-    \ = 0.2;\n    param odom_alpha4 = 0.2;   \n}"
+  writer: "node type amcl_type {\n    param odom_model_type: Enum[DiffCorrected, OmniCorrected];\n    optional param lazer_z_hit: double = 0.95;\n    optional param odom_alpha1: double = 0.2;\n    optional param odom_alpha2: double = 0.2;\n    optional param odom_alpha3: double = 0.2;\n    optional param odom_alpha4: double = 0.2;\n    optional param odom_alpha5: double = 0.2;\n} where {\n    odom_model_type == OmniCorrected -> exists(odom_alpha5);\n    odom_model_type == DiffCorrected -> odom_alpha1 <= 0.01 and odom_alpha2 <= 0.01 and\n                                        odom_alpha3 <= 0.01  and odom_alpha4 <= 0.01;\n}"
+  integrator: "    node instance amcl: amcl_type {\n        param odom_model_type = DiffCorrected;\n        param odom_alpha1 = 4.0;\n        param odom_alpha2 = 0.9;\n        param odom_alpha3 = 0.2;\n        param odom_alpha4 = 0.2;   \n    }"
 - question: 319313
   misconfiguration:
     - 'PARAMETER: Incorrect'
     - 'TF: Missing-Transform'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 319646
   misconfiguration:
@@ -1245,8 +916,7 @@
     - 'DSL: Navigation-Stack'
     - 'CONTEXTUAL: HARDWARE: Mechanical'
   status: Not Supported
-  writer: "node type move_base_type {\n    optional param costmap_common/inflation_radius:\
-    \ Meter = 0.55;\n}"
+  writer: "node type move_base_type {\n    optional param costmap_common/inflation_radius: Meter = 0.55;\n}"
   integrator: '-'
 - question: 320014
   misconfiguration:
@@ -1254,7 +924,7 @@
     - 'NAME: Remapping'
     - 'LAUNCH: Race-Condition'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 320389
   misconfiguration:
@@ -1262,101 +932,61 @@
     - 'TF: Incorrect-Transform'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Detectable
-  writer: "node type rgbd_sync_type {\n    publishes to /rgbd_image: sensor_images/Image;\n\
-    }\n\nnode type zed_wrapper_node_type {\n    publishes to /rgbd_image: sensor_images/Image;\n\
-    }\n\nnode type rtabmap_type {\n    subscribes to rgbd_image: sensor_images/Image\
-    \ where {count(publishers(_)) == 1};\n}"
-  integrator: "node instance rgbd_sync: rgbd_sync_type { }\nnode instance zed_wrapper_node:\
-    \ zed_wrapper_node_type { }\nnode instance rtabmap: rtabmap_type {\n    remaps\
-    \ rgbd_image to /rgbd_image;\n}"
+  writer: "node type rgbd_sync_type {\n    publishes to /rgbd_image: sensor_images/Image;\n}\n\nnode type zed_wrapper_node_type {\n    publishes to /rgbd_image: sensor_images/Image;\n}\n\nnode type rtabmap_type {\n    subscribes to rgbd_image: sensor_images/Image where {count(publishers(_)) == 1};\n}"
+  integrator: "    node instance rgbd_sync: rgbd_sync_type { }\n    node instance zed_wrapper_node: zed_wrapper_node_type { }\n    node instance rtabmap: rtabmap_type {\n        remaps rgbd_image to /rgbd_image;\n    }"
 - question: 325712
   misconfiguration:
     - 'PARAMETER: Incorrect'
     - 'TF: Incorrect-Transform'
   status: Detectable
-  writer: "node type ekf_localization_node_type {\n    broadcast map to odom;\n  \
-    \  broadcast odom to base_link; # Abstracted, these are set in parameters, but\
-    \ in this case the configuration is this one\n}\n\nnode type static_transform_publisher\
-    \ {\n    broadcast gps_enu to odom;\n}"
-  integrator: 'node instance ekf_localization_node: ekf_localization_node_type { }
-
-
-    node instance static_transform: static_transform_publisher { }'
+  writer: "node type ekf_localization_node_type {\n    broadcast map to odom;\n    broadcast odom to base_link; # Abstracted, these are set in parameters, but in this case the configuration is this one\n}\n\nnode type static_transform_publisher {\n    broadcast gps_enu to odom;\n}"
+  integrator: "    node instance ekf_localization_node: ekf_localization_node_type { }\n\n    node instance static_transform: static_transform_publisher { }"
 - question: 32961
   misconfiguration:
     - 'CALIBRATION: Odometry'
     - 'CONTEXTUAL: HARDWARE: Mechanical'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 33175
   misconfiguration:
     - 'CONTEXTUAL: HARDWARE: Compute'
   status: Detectable
-  writer: "node type rgbdslam_type {\n    param fixed_frame_name: string;\n    param\
-    \ ground_truth_frame_name: string;\n    param base_frame_name: string;\n    param\
-    \ fixed_camera: bool;\n} where {\n    base_frame_name == \"odom\" -> !exists(fixed_camera);\n\
-    }"
-  integrator: "tance rgbdslam: rgbdslam_type {\n    param fixed_frame_name = \"/map\"\
-    ;\n    param ground_truth_frame_name = \"\";\n    param base_frame_name = \"/odom\"\
-    ;\n    param fixed_camera = true;\n}"
+  writer: "node type rgbdslam_type {\n    param fixed_frame_name: string;\n    param ground_truth_frame_name: string;\n    param base_frame_name: string;\n    param fixed_camera: bool;\n} where {\n    base_frame_name == \"odom\" -> !exists(fixed_camera);\n}"
+  integrator: "    tance rgbdslam: rgbdslam_type {\n        param fixed_frame_name = \"/map\";\n        param ground_truth_frame_name = \"\";\n        param base_frame_name = \"/odom\";\n        param fixed_camera = true;\n    }"
 - question: 336055
   misconfiguration:
     - 'OTHER: Documentation'
   status: Documentation
-  writer: "type alias Radian: float;\n\nnode type imu_compass_driver_type {\n    optional\
-    \ param /imu/declination: Radian = 0.0;\n}"
+  writer: "type alias Radian: float;\n\nnode type imu_compass_driver_type {\n    optional param /imu/declination: Radian = 0.0;\n}"
   integrator: '-'
 - question: 336221
   misconfiguration:
     - 'NAME: Remapping'
   status: Detectable
-  writer: "node type move_base_type {\n    publishes to initialpose: geometry_msgs/PoseWithCovarianceStamped;\n\
-    }\n\nnode type new_amcl_type {\n    # argument model: Enum[Burger, Waffle, WafflePi];\n\
-    \    # argument move_forward_only: bool = false;\n\n    subscribes to initialpose_dqn:\
-    \ geometry_msgs/PoseWithCovarianceStamped;\n}"
-  integrator: 'node instance move_base: move_base_type { }
-
-    node instance amcl: new_amcl_type { }'
+  writer: "node type move_base_type {\n    publishes to initialpose: geometry_msgs/PoseWithCovarianceStamped;\n}\n\nnode type new_amcl_type {\n    # argument model: Enum[Burger, Waffle, WafflePi];\n    # argument move_forward_only: bool = false;\n\n    subscribes to initialpose_dqn: geometry_msgs/PoseWithCovarianceStamped;\n}"
+  integrator: "    node instance move_base: move_base_type { }\n    node instance amcl: new_amcl_type { }"
 - question: 338484
   misconfiguration:
     - 'DSL: ROS-Control'
     - 'NODE: Missing'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 340683
   misconfiguration:
     - 'MESSAGE: Conflicting-Publishers'
     - 'TF: Duplication'
   status: Detectable
-  writer: "node type local_costmap_t {\n    param global_frame: string;\n    param\
-    \ robot_base_frame: string;\n\n    broadcast content(global_frame) to content(robot_base_frame);\n\
-    }\n\nnode type global_costmap_t {\n    param global_frame: string;\n    param\
-    \ robot_base_frame: string;\n\n    broadcast content(global_frame) to content(robot_base_frame);\n\
-    }\n\nnode type amcl_type {\n    param base_frame_id: string;\n    param global_frame_id:\
-    \ string;\n}"
-  integrator: "node instance local_costmap: local_costmap_t {\n    param global_frame\
-    \ = \"odom\";\n    param robot_base_frame = \"base_link\";\n}\n\nnode instance\
-    \ global_costmap: global_costmap_t {\n    param global_frame = \"/map\";\n   \
-    \ param robot_base_frame = \"base_link\";\n}\n\nnode instance amcl: amcl_type\
-    \ {\n    param base_frame_id = \"base_link\";\n    param global_frame_id = \"\
-    /map\";\n}"
+  writer: "node type local_costmap_t {\n    param global_frame: string;\n    param robot_base_frame: string;\n\n    broadcast content(global_frame) to content(robot_base_frame);\n}\n\nnode type global_costmap_t {\n    param global_frame: string;\n    param robot_base_frame: string;\n\n    broadcast content(global_frame) to content(robot_base_frame);\n}\n\nnode type amcl_type {\n    param base_frame_id: string;\n    param global_frame_id: string;\n}"
+  integrator: "    node instance local_costmap: local_costmap_t {\n        param global_frame = \"odom\";\n        param robot_base_frame = \"base_link\";\n    }\n\n    node instance global_costmap: global_costmap_t {\n        param global_frame = \"/map\";\n        param robot_base_frame = \"base_link\";\n    }\n\n    node instance amcl: amcl_type {\n        param base_frame_id = \"base_link\";\n        param global_frame_id = \"/map\";\n    }"
 - question: 350740
   misconfiguration:
     - 'PARAMETER: Incorrect'
     - 'DSL: Robot-Localization'
   status: Detectable
-  writer: "node type navsat_transform_node_type {\n    context version: OrderedEnum[V2,\
-    \ V221, V223];\n    context yaw_orientation: Enum[North, East, West, South];\n\
-    \n    param yaw_offset: double;\n} where {\n    (version >= V221) -> (yaw_orientation\
-    \ == East -> yaw_offset == 0);\n    (version >= V221) -> (yaw_orientation != East\
-    \ -> yaw_offset != 0);\n    (version <= V221) -> (yaw_orientation == North ->\
-    \ yaw_offset == 0);\n    (version <= V221) -> (yaw_orientation != North -> yaw_offset\
-    \ != 0);\n}"
-  integrator: "node instance navsat_transform_node: navsat_transform_node_type {\n\
-    \    context version = V221;\n    context yaw_orientation = East;\n    param yaw_offset\
-    \ = 3.14159265359;\n}"
+  writer: "node type navsat_transform_node_type {\n    context version: OrderedEnum[V2, V221, V223];\n    context yaw_orientation: Enum[North, East, West, South];\n\n    param yaw_offset: double;\n} where {\n    (version >= V221) -> (yaw_orientation == East -> yaw_offset == 0);\n    (version >= V221) -> (yaw_orientation != East -> yaw_offset != 0);\n    (version <= V221) -> (yaw_orientation == North -> yaw_offset == 0);\n    (version <= V221) -> (yaw_orientation != North -> yaw_offset != 0);\n}"
+  integrator: "    node instance navsat_transform_node: navsat_transform_node_type {\n        context version = V221;\n        context yaw_orientation = East;\n        param yaw_offset = 3.14159265359;\n    }"
 - question: 351512
   misconfiguration:
     - 'PARAMETER: Incorrect'
@@ -1364,20 +994,20 @@
     - 'CONTEXTUAL: HARDWARE: Actuators'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 354516
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'MESSAGE: Format'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 355227
   misconfiguration:
     - 'NAME: Remapping'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 355541
   misconfiguration:
@@ -1386,40 +1016,25 @@
     - 'NODE: Missing'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 360477
   misconfiguration:
     - 'NAME: Mismatches'
   status: Detectable
-  writer: "node type laserscan_multi_merger_type {\n\n    publishes to laserscan_multi_merger/parameter_descriptions:\
-    \ dynamic_reconfigure/ConfigDescription;\n    publishes to laserscan_multi_merger/parameter_updates:\
-    \ dynamic_reconfigure/Config;\n    publishes to merged_cloud: sensor_msgs/PointCloud2;\n\
-    \    publishes to rosout: rosgraph_msgs/Log;\n    publishes to scan_multi: sensor_msgs/MultiEchoLaserScan;\n\
-    }\n\nnode type ira_laser_tools_type {\n    optional param destination_frame: string\
-    \ = \"cart_frame\";\n    optional param cloud_destination_topic: string = \"/merged_cloud\"\
-    ;\n    optional param scan_destination_topic: string = \"scan_multi\";\n    optional\
-    \ param laserscan_topics: string[] = [\"/scansx\", \"/scandx\"];\n    optional\
-    \ param angle_min: double = -2.0;\n    optional param angle_max: double = 2.0;\n\
-    \    optional param angle_increment: double = 0.0058;\n    optional param scan_time:\
-    \ double = 0.033333;\n    optional param range_min: double = 0.30;\n    optional\
-    \ param range_max: double = 50.0;\n\n    subscribes to content(laserscan_topics[0]):\
-    \ sensor_msgs/LaserScan;\n    subscribes to content(laserscan_topics[1]): sensor_msgs/LaserScan;\n\
-    } where {\n    angle_min < angle_max;\n    range_min < range_max;\n}"
-  integrator: "node instance laserscan_multi_merger:  laserscan_multi_merger_type\
-    \ { }\nnode instance ira_laser_tools: ira_laser_tools_type {\n    param laserscan_topics\
-    \ = [\"/sensor_1/points\", \"/sensor_2/points\"];\n}"
+  writer: "node type laserscan_multi_merger_type {\n\n    publishes to laserscan_multi_merger/parameter_descriptions: dynamic_reconfigure/ConfigDescription;\n    publishes to laserscan_multi_merger/parameter_updates: dynamic_reconfigure/Config;\n    publishes to merged_cloud: sensor_msgs/PointCloud2;\n    publishes to rosout: rosgraph_msgs/Log;\n    publishes to scan_multi: sensor_msgs/MultiEchoLaserScan;\n}\n\nnode type ira_laser_tools_type {\n    optional param destination_frame: string = \"cart_frame\";\n    optional param cloud_destination_topic: string = \"/merged_cloud\";\n    optional param scan_destination_topic: string = \"scan_multi\";\n    optional param laserscan_topics: string[] = [\"/scansx\", \"/scandx\"];\n    optional param angle_min: double = -2.0;\n    optional param angle_max: double = 2.0;\n    optional param angle_increment: double = 0.0058;\n    optional param scan_time: double = 0.033333;\n    optional param range_min: double = 0.30;\n    optional param range_max: double = 50.0;\n\n    subscribes to content(laserscan_topics[0]): sensor_msgs/LaserScan;\n    subscribes to content(laserscan_topics[1]): sensor_msgs/LaserScan;\n} where {\n    angle_min < angle_max;\n    range_min < range_max;\n}"
+  integrator: "    node instance laserscan_multi_merger:  laserscan_multi_merger_type { }\n    node instance ira_laser_tools: ira_laser_tools_type {\n        param laserscan_topics = [\"/sensor_1/points\", \"/sensor_2/points\"];\n    }"
 - question: 366961
   misconfiguration:
     - 'TIME: Frequency'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 36782
   misconfiguration:
     - 'TF: Incorrect-Transform'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 372545
   misconfiguration:
@@ -1428,21 +1043,20 @@
     - 'CONTEXTUAL: Application-Environment'
     - 'CONTEXTUAL: HARDWARE: Compute'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 37324
   misconfiguration:
     - 'TF: Incorrect-Transform'
     - 'NODE: Missing'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 374209
   misconfiguration:
     - 'LAUNCH: Arguments'
   status: Documentation
-  writer: "node type component_manager_type {\n    optional argument use_intra_process_comms:\
-    \ bool = false;\n}"
+  writer: "node type component_manager_type {\n    optional argument use_intra_process_comms: bool = false;\n}"
   integrator: '-'
 - question: 378462
   misconfiguration:
@@ -1451,40 +1065,35 @@
     - 'NAME: Mismatches'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Detectable
-  writer: "node type ekf_filter_node_type {\n    optional param world_frame: string\
-    \ = \"odom\";\n}"
-  integrator: "node instance ekf_filter_node:  ekf_filter_node_type {\n    param worl_frame\
-    \ = \"map\";\n}"
+  writer: "node type ekf_filter_node_type {\n    optional param world_frame: string = \"odom\";\n}"
+  integrator: "    node instance ekf_filter_node:  ekf_filter_node_type {\n        param worl_frame = \"map\";\n    }"
 - question: 37874
   misconfiguration:
     - 'BUG: Component'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 379101
   misconfiguration:
     - 'TF: Missing-Transform'
     - 'NAME: Remapping'
   status: Detectable
-  writer: "node type robot_state_publisher {\n    context number_of_robots: int;\n\
-    \    optional param tf_prefix: string = \"\";\n} where {\n    number_of_robots\
-    \ > 1 -> exists(tf_prefix);\n}"
-  integrator: "node instance robot_state_publisher: robot_state_publisher_type {\n\
-    \    context number_of_robots = 2;\n}"
+  writer: "node type robot_state_publisher {\n    context number_of_robots: int;\n    optional param tf_prefix: string = \"\";\n} where {\n    number_of_robots > 1 -> exists(tf_prefix);\n}"
+  integrator: "    node instance robot_state_publisher: robot_state_publisher_type {\n        context number_of_robots = 2;\n    }"
 - question: 379580
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'DSL: MoveIt'
     - 'DSL: ROS-Control'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 382088
   misconfiguration:
     - 'CALIBRATION: PID'
     - 'BUG: Component'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 384131
   misconfiguration:
@@ -1493,42 +1102,35 @@
     - 'DSL: Navigation-Stack'
     - 'CONTEXTUAL: Application-Environment'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 387763
   misconfiguration:
     - 'DSL: ROS-Control'
     - 'NAME: Mismatches'
   status: Missing Context
-  writer: "plugin type pilz_industrial_motion_planner_type {\n    consumes action\
-    \ dof_fit_follow_joint_trajectory: joint_trajectory_controller/JointTrajectoryController;\n\
-    }"
+  writer: "plugin type pilz_industrial_motion_planner_type {\n    consumes action dof_fit_follow_joint_trajectory: joint_trajectory_controller/JointTrajectoryController;\n}"
   integrator: ''
 - question: 388342
   misconfiguration:
     - 'DSL: Navigation-Stack'
     - 'OTHER: Documentation'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 388471
   misconfiguration:
     - 'TYPES: Constraints'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 390380
   misconfiguration:
     - 'PARAMETER: Incorrect'
   status: Detectable
-  writer: "node type op_motion_simulator_type {\n    context object_avoidance: bool;\n\
-    \n    optional param simObjNumber: int = 5;\n    optional param GuassianErrorFactor:\
-    \ int = 0;\n    optional param pointCloudPointsNumber: int = 75;\n    optional\
-    \ param useNavGoalToSetStaticObstacle: bool = true;\n} where {\n    object_avoidance\
-    \ -> !useNavGoalToSetStaticObstacle;\n}"
-  integrator: "node instance op_motion_simulation: op_motion_simulator_type {\n  \
-    \  context object_avoidance = true;\n}"
+  writer: "node type op_motion_simulator_type {\n    context object_avoidance: bool;\n\n    optional param simObjNumber: int = 5;\n    optional param GuassianErrorFactor: int = 0;\n    optional param pointCloudPointsNumber: int = 75;\n    optional param useNavGoalToSetStaticObstacle: bool = true;\n} where {\n    object_avoidance -> !useNavGoalToSetStaticObstacle;\n}"
+  integrator: "    node instance op_motion_simulation: op_motion_simulator_type {\n        context object_avoidance = true;\n    }"
 - question: 393902
   misconfiguration:
     - 'PARAMETER: Incorrect'
@@ -1536,63 +1138,36 @@
     - 'CALIBRATION: Odometry'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Detectable
-  writer: "node type ekf_filter_node_type {\n    param odom0_config: bool[];\n   \
-    \ optional param two_d_mode: bool = false;\n} where {\n    two_d_mode -> odom0_config[6]\
-    \ and odom0_config[7];\n}"
-  integrator: "node instance ekf_filter_node: ekf_filter_node_type {\n    param odom0_config\
-    \ = \n               [false,  false,  false,\n                false, false, false,\n\
-    \                false, false, false,\n                false, false, true,\n \
-    \               false, false, false];\n    param two_d_mode = true;\n}"
+  writer: "node type ekf_filter_node_type {\n    param odom0_config: bool[];\n    optional param two_d_mode: bool = false;\n} where {\n    two_d_mode -> odom0_config[6] and odom0_config[7];\n}"
+  integrator: "    node instance ekf_filter_node: ekf_filter_node_type {\n        param odom0_config = \n                   [false,  false,  false,\n                    false, false, false,\n                    false, false, false,\n                    false, false, true,\n                    false, false, false];\n        param two_d_mode = true;\n    }"
 - question: 401185
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'PARAMETER: Defaults'
     - 'DSL: Navigation-Stack'
   status: Detectable
-  writer: "node type amcl_type {\n    optional param set_initial_pose: bool = false;\n\
-    \    optional param always_reset_initial_pose: bool = false;\n\n    optional param\
-    \ initial_pose: geometry_msgs/Pose = geometry_msgs/Pose {\n        position =\
-    \ geometry_msgs/Point {\n            x = 0.0,\n            y = 0.0,\n        \
-    \    theta = 0.0,\n        },\n        orientation = geometry_msgs/Quaternion\
-    \ {\n            x = 0.0,\n            y = 0.0,\n            z = 0.0,\n      \
-    \      w = 0.0,\n        },\n    };\n\n    subscribes to initialpose: geometry_msgs/PoseWithCovarianceStamped;\n\
-    } where {\n    exists(initial_pose) -> set_initial_pose;\n    exists(initial_pose)\
-    \ and set_initial_pose -> always_reset_initial_pose;\n}"
-  integrator: "node instance amcl: amcl_type {\n    param set_initial_pose = false;\n\
-    \    param always_reset_initial_pose = false;\n    # Placeholder parameters here,\
-    \ no longer available on Github\n    param initial_pose = geometry_msgs/Pose {\n\
-    \        position = geometry_msgs/Point {\n            x = 1.0,\n            y\
-    \ = 1.0,\n            z = 1.0,\n        },\n        orientation = geometry_msgs/Quaternion\
-    \ {\n            x = 1.0,\n            y = 1.0,\n            z = 1.0,\n      \
-    \      w = 1.0,\n        },\n    };\n}"
+  writer: "node type amcl_type {\n    optional param set_initial_pose: bool = false;\n    optional param always_reset_initial_pose: bool = false;\n\n    optional param initial_pose: geometry_msgs/Pose = geometry_msgs/Pose {\n        position = geometry_msgs/Point {\n            x = 0.0,\n            y = 0.0,\n            theta = 0.0,\n        },\n        orientation = geometry_msgs/Quaternion {\n            x = 0.0,\n            y = 0.0,\n            z = 0.0,\n            w = 0.0,\n        },\n    };\n\n    subscribes to initialpose: geometry_msgs/PoseWithCovarianceStamped;\n} where {\n    exists(initial_pose) -> set_initial_pose;\n    exists(initial_pose) and set_initial_pose -> always_reset_initial_pose;\n}"
+  integrator: "    node instance amcl: amcl_type {\n        param set_initial_pose = false;\n        param always_reset_initial_pose = false;\n        # Placeholder parameters here, no longer available on Github\n        param initial_pose = geometry_msgs/Pose {\n            position = geometry_msgs/Point {\n                x = 1.0,\n                y = 1.0,\n                z = 1.0,\n            },\n            orientation = geometry_msgs/Quaternion {\n                x = 1.0,\n                y = 1.0,\n                z = 1.0,\n                w = 1.0,\n            },\n        };\n    }"
 - question: 405765
   misconfiguration:
     - 'DSL: Navigation-Stack'
     - 'NAME: Remapping'
     - 'OTHER: Documentation'
   status: Detectable
-  writer: "node type custom_node_type {\n    subscribes to /robo/cmd_vel: geometry_msgs/Twist;\n\
-    }\n\n# We are not sure what the controller is, but independently of the controller\
-    \ it publishes to cmd_vel, according to the question\nnode type nav2_controller_type\
-    \ {\n    publishes to /cmd_vel: geometry_msgs/Twist;\n}"
-  integrator: "node instance custom_node: custom_node_type { }\nnode instance nav2_controller:\
-    \ nav2_controller_type {\n    # missing: remaps /cmd_vel to /robo/cmd_vel;\n}"
+  writer: "node type custom_node_type {\n    subscribes to /robo/cmd_vel: geometry_msgs/Twist;\n}\n\n# We are not sure what the controller is, but independently of the controller it publishes to cmd_vel, according to the question\nnode type nav2_controller_type {\n    publishes to /cmd_vel: geometry_msgs/Twist;\n}"
+  integrator: "    node instance custom_node: custom_node_type { }\n    node instance nav2_controller: nav2_controller_type {\n        # missing: remaps /cmd_vel to /robo/cmd_vel;\n    }"
 - question: 41000
   misconfiguration:
     - 'TF: Incorrect-Transform'
   status: Detectable
-  writer: "node type amcl_type {\n    optional param odom: string = \"odom\";\n  \
-    \  optional param map: string = \"map\";\n\n    broadcast content(odom) to base_link;\n\
-    \    broadcast content(map) to content(odom);\n}\n\nnode type custom_node_type\
-    \ {\n    broadcast odom to odom_error;\n}"
-  integrator: "node instance amcl: amcl_type {\n    param odom = \"odom_error\";\n\
-    }\n\nnode instance custom_node: custom_node_type { }"
+  writer: "node type amcl_type {\n    optional param odom: string = \"odom\";\n    optional param map: string = \"map\";\n\n    broadcast content(odom) to base_link;\n    broadcast content(map) to content(odom);\n}\n\nnode type custom_node_type {\n    broadcast odom to odom_error;\n}"
+  integrator: "    node instance amcl: amcl_type {\n        param odom = \"odom_error\";\n    }\n\n    node instance custom_node: custom_node_type { }"
 - question: 43001
   misconfiguration:
     - 'PARAMETER: Dead-Write'
     - 'NAME: Namespaces'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 44183
   misconfiguration:
@@ -1600,67 +1175,52 @@
     - 'DSL: URDF'
     - 'OTHER: Documentation'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 45556
   misconfiguration:
     - 'DSL: Navigation-Stack'
     - 'NAME: Mismatches'
   status: Detectable
-  writer: "node type action_server_type {\n    provides service move_base: MoveBaseAction;\n\
-    }\n\nnode type simple_move_type {\n    consumes service SimpleActionClient: MoveBaseAction;\n\
-    }"
-  integrator: 'node instance action_server: action_server_type { }
-
-
-    node instance simple_move: simple_move_type { }'
+  writer: "node type action_server_type {\n    provides service move_base: MoveBaseAction;\n}\n\nnode type simple_move_type {\n    consumes service SimpleActionClient: MoveBaseAction;\n}"
+  integrator: "    node instance action_server: action_server_type { }\n\n    node instance simple_move: simple_move_type { }"
 - question: 50712
   misconfiguration:
     - 'LAUNCH: Race-Condition'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 53228
   misconfiguration:
     - 'PARAMETER: Incorrect'
   status: Detectable
-  writer: "node type rgbdslam_type {\n    optional param individual_cloud_out_topic:\
-    \ string = \"topic_points\";\n    optional param store_pointclouds: bool = true;\n\
-    \n    publishes to content(individual_cloud_out_topic): sensor_msgs/PointCloud2;\
-    \ # assuming {store_pointclouds};\n}\n\nnode type custom_node_type {\n    # This\
-    \ is used to mimic the attempt to access the information from this topic\n   \
-    \ subscribes to /rgbdslam/batch_clouds: sensor_msgs/PointCloud2;\n}"
-  integrator: "node instance rgbdslam: rgbdslam_type {\n    param individual_cloud_out_topic\
-    \ = \"/rgbdslam/batch_clouds\";\n    param store_pointclouds = false;\n}\nnode\
-    \ instance custom_node custom_node_type { }"
+  writer: "node type rgbdslam_type {\n    optional param individual_cloud_out_topic: string = \"topic_points\";\n    optional param store_pointclouds: bool = true;\n\n    publishes to content(individual_cloud_out_topic): sensor_msgs/PointCloud2; # assuming {store_pointclouds};\n}\n\nnode type custom_node_type {\n    # This is used to mimic the attempt to access the information from this topic\n    subscribes to /rgbdslam/batch_clouds: sensor_msgs/PointCloud2;\n}"
+  integrator: "    node instance rgbdslam: rgbdslam_type {\n        param individual_cloud_out_topic = \"/rgbdslam/batch_clouds\";\n        param store_pointclouds = false;\n    }\n    node instance custom_node custom_node_type { }"
 - question: 54279
   misconfiguration:
     - 'NAME: Remapping'
     - 'BUG: Component'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 58515
   misconfiguration:
     - 'PARAMETER: Incorrect'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 59087
   misconfiguration:
     - 'PARAMETER: Incorrect'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Documentation
-  writer: "node type hokuyo_node_type {\n    context sensor_max_angle_fov: double;\n\
-    \    context sensor_min_angle_fov: double;\n\n    param min_ang_limit: double;\n\
-    \    param max_ang_limit: double;\n} where {\n    min_ang_limit <= sensor_min_angle_fov;\n\
-    \    max_ang_limit <= sensor_max_angle_fov;\n}"
+  writer: "node type hokuyo_node_type {\n    context sensor_max_angle_fov: double;\n    context sensor_min_angle_fov: double;\n\n    param min_ang_limit: double;\n    param max_ang_limit: double;\n} where {\n    min_ang_limit <= sensor_min_angle_fov;\n    max_ang_limit <= sensor_max_angle_fov;\n}"
   integrator: '-'
 - question: 62106
   misconfiguration:
     - 'TF: Missing-Transform'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 63179
   misconfiguration:
@@ -1668,49 +1228,46 @@
     - 'NAME: Namespaces'
     - 'OTHER: Simulation'
   status: Detectable
-  writer: "node type rviz_type {\n    context number_of_systems: int;\n    optional\
-    \ param tf_prefix: string = \"\";\n} where {\n    number_of_systems > 1 -> exists(tf_prefix);\n\
-    }"
-  integrator: "node instance rviz: rviz_type {\n    context number_of_systems = 2;\n\
-    }"
+  writer: "node type rviz_type {\n    context number_of_systems: int;\n    optional param tf_prefix: string = \"\";\n} where {\n    number_of_systems > 1 -> exists(tf_prefix);\n}"
+  integrator: "    node instance rviz: rviz_type {\n        context number_of_systems = 2;\n    }"
 - question: 64278
   misconfiguration:
     - 'TYPES: Physical-Units'
     - 'BUG: Component'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 64290
   misconfiguration:
     - 'CALIBRATION: Camera'
     - 'CONTEXTUAL: Application-Environment'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 64368
   misconfiguration:
     - 'LAUNCH: Environment-Variable'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 64416
   misconfiguration:
     - 'PARAMETER: Missing'
     - 'CALIBRATION: Odometry'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 65774
   misconfiguration:
     - 'LAUNCH: Race-Condition'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 65783
   misconfiguration:
     - 'TF: Incorrect-Transform'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 66176
   misconfiguration:
@@ -1718,22 +1275,19 @@
     - 'LAUNCH: Arguments'
     - 'OTHER: Simulation'
   status: Detectable
-  writer: "node type hector_mapping_type {\n    context is_simulation: bool;\n   \
-    \ optional param use_sim_time: bool = false;\n} where {\n    is_simulation ->\
-    \ use_sim_time;\n}"
-  integrator: "node instance hector_mapping: hector_mapping_type {\n    context is_simulation\
-    \ = true;\n}"
+  writer: "node type hector_mapping_type {\n    context is_simulation: bool;\n    optional param use_sim_time: bool = false;\n} where {\n    is_simulation -> use_sim_time;\n}"
+  integrator: "    node instance hector_mapping: hector_mapping_type {\n        context is_simulation = true;\n    }"
 - question: 910
   misconfiguration:
     - 'CONTEXTUAL: HARDWARE: Compute'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 91088
   misconfiguration:
     - 'TIME: Synchronization'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 9371
   misconfiguration:
@@ -1741,21 +1295,19 @@
     - 'PARAMETER: Incorrect'
     - 'TF: Missing-Transform'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 9613
   misconfiguration:
     - 'DSL: URDF'
   status: Not Supported
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 9711
   misconfiguration:
     - 'TYPES: Constraints'
   status: Documentation
-  writer: "message alias RestrictedQuaternion: geometry_msgs/Quaternion {\n    field\
-    \ x: float64;\n    field y: float64;\n    field z: float64;\n    field w: float64;\n\
-    } where {\n    (x + y + z + w) != 0;\n}"
+  writer: "message alias RestrictedQuaternion: geometry_msgs/Quaternion {\n    field x: float64;\n    field y: float64;\n    field z: float64;\n    field w: float64;\n} where {\n    (x + y + z + w) != 0;\n}"
   integrator: '-'
 - question: 9744
   misconfiguration:
@@ -1763,7 +1315,7 @@
     - 'DSL: Navigation-Stack'
     - 'OTHER: Documentation'
   status: Out of scope
-  writer: '-'
+  writer: "-"
   integrator: '-'
 - question: 98736
   misconfiguration:
@@ -1772,18 +1324,12 @@
     - 'TF: Incorrect-Transform'
     - 'NODE: Missing'
   status: Detectable
-  writer: "node type amcl_type {\n    broadcast map to odom;\n    broadcast odom to\
-    \ base_link; # Abstracted, these come from parameters and are not hardcoded\n\
-    }\n\nnode type static_transform_publisher_type {\n    broadcast map to odom;\n\
-    }"
-  integrator: 'node instance amcl: amcl_type { }
-
-
-    node instance map_to_odom: static_transform_publisher_type { }'
+  writer: "node type amcl_type {\n    broadcast map to odom;\n    broadcast odom to base_link; # Abstracted, these come from parameters and are not hardcoded\n}\n\nnode type static_transform_publisher_type {\n    broadcast map to odom;\n}"
+  integrator: "    node instance amcl: amcl_type { }\n\n    node instance map_to_odom: static_transform_publisher_type { }"
 - question: 207352
   misconfiguration:
     - 'MESSAGE: Format'
     - 'OTHER: Documentation'
   status: Missing Context
-  writer: '-'
+  writer: "-"
   integrator: '-'

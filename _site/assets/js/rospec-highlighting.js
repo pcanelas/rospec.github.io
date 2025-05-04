@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Other capitalized types
             {
               className: 'class',
-              begin: /\b([A-Z][a-zA-Z0-9_]+)\b/
+              begin: /\b([A-Z0-9][a-zA-Z0-9_]+)\b/
             },
             // Operator
             {

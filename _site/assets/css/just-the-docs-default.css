@@ -7938,14 +7938,14 @@ code.rospec-code span:contains("context") {
 }
 
 .label-misconfiguration {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease;
   padding: 0.2em 0.4em;
   font-size: 0.7rem;
   margin: 1px 0;
 }
 .label-misconfiguration:hover {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
 }
 
 .evaluation-table {
@@ -7957,20 +7957,20 @@ code.rospec-code span:contains("context") {
   padding: 0.5rem;
 }
 .evaluation-table th:nth-child(1), .evaluation-table td:nth-child(1) {
-  width: 8%;
+  width: 5%;
   vertical-align: middle;
 }
 .evaluation-table th:nth-child(2), .evaluation-table td:nth-child(2) {
-  width: 42%;
-  vertical-align: top;
+  width: 35%;
+  vertical-align: middle;
 }
 .evaluation-table th:nth-child(3), .evaluation-table td:nth-child(3) {
-  width: 15%;
+  width: 10%;
   text-align: center;
   vertical-align: middle;
 }
 .evaluation-table th:nth-child(4), .evaluation-table td:nth-child(4) {
-  width: 20%;
+  width: 15%;
   vertical-align: middle;
   text-align: center;
 }
@@ -7998,25 +7998,35 @@ tr.spec-row td {
 
 .spec-toggle {
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   background-color: #f8f9fa;
-  color: #495057;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
   transition: all 0.2s ease;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
 }
 .spec-toggle:hover {
-  background-color: #e9ecef;
-  border-color: #ced4da;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #edf2f7;
+  border-color: #cbd5e0;
+  color: #2d3748;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
 }
 .spec-toggle:active, .spec-toggle.active {
-  background-color: #e2e6ea;
-  border-color: #dae0e5;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  background-color: #e2e8f0;
+  border-color: #cbd5e0;
+  color: #1a202c;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.05);
+  transform: translateY(0);
+}
+.spec-toggle span {
+  position: relative;
+  z-index: 1;
 }
 
 /*# sourceMappingURL=just-the-docs-default.css.map */
