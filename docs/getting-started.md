@@ -56,7 +56,7 @@ We recommend installing rospec using pip in a virtual environment to avoid confl
 The typical workflow when using rospec involves the following steps:
 1. **Component specifications**: Each component in your system should contain a specification file that describes its configurations, their types, and connections;
 2. **System specification through component configuration**: Define a `system` declaring the components used and their configurations;
-3. **Verify configurations**: Use rospec to check for misconfigurations
+3. **Verify configurations**: Use rospec to check for misconfigurations.
 
 ## Your First Component Specification
 

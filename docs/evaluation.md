@@ -22,7 +22,7 @@ This page shows the evaluation of misconfigurations that rospec can currently de
   <tbody>
     {% for row in site.data.questions %}
     {% if row.status == "Documentation" or row.status == "Detectable" %}
-    <tr>
+    <tr class="question-row">
         <td>
           <a href="https://answers.ros.org/question/{{ row.question }}" target="_blank" rel="noopener noreferrer">
           {{ row.question }}
@@ -42,20 +42,26 @@ This page shows the evaluation of misconfigurations that rospec can currently de
         </td>
         <td>
           {% if row.writer != blank and row.writer != "-" %}
-            <details>
-              <summary>Show Specification</summary>
-              <pre><code class="rospec-code">{{ row.writer | escape }}{% if row.integrator != blank and row.integrator != "-" %}
-
-system {
-{{ row.integrator | escape }}
-}{% endif %}</code></pre>
-            </details>
+            <button class="spec-toggle" data-spec-id="{{ row.question }}">Show Specification</button>
           {% else %}
             <div style="display: flex; justify-content: center; width: 100%;">-</div>
           {% endif %}
         </td>
     </tr>
+    {% if row.writer != blank and row.writer != "-" %}
+    <tr id="spec-{{ row.question }}" class="spec-row">
+        <td colspan="4">
+            <pre><code class="rospec-code">{{ row.writer | escape }}{% if row.integrator != blank and row.integrator != "-" %}
+
+system {
+{{ row.integrator | escape }}
+}{% endif %}</code></pre>
+        </td>
+    </tr>
+    {% endif %}
     {% endif %}
     {% endfor %}
   </tbody>
 </table>
+
+<script src="{{ '/assets/js/evaluation.js' | relative_url }}"></script>
