@@ -29,3 +29,73 @@ color: #856404;
       box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
     }
 }
+
+
+// Table layout improvements
+.evaluation-table {
+    width: 100%;
+    table-layout: fixed;
+    
+    th, td {
+      padding: 0.5rem;
+    }
+    
+    th:nth-child(1), td:nth-child(1) {
+      width: 8%; // Question ID column
+      vertical-align: middle; // Vertically center question numbers
+    }
+    
+    th:nth-child(2), td:nth-child(2) {
+      width: 42%; // Misconfiguration column
+      vertical-align: top; // Keep misconfiguration pills at the top
+    }
+    
+    th:nth-child(3), td:nth-child(3) {
+      width: 15%; // Status column
+      text-align: center;
+      vertical-align: middle; // Vertically center status pills
+    }
+    
+    th:nth-child(4), td:nth-child(4) {
+      width: 50%; // Specification column
+      vertical-align: middle; // Vertically center the "Show Specification" button
+    }
+    
+    // Center the header row text vertically and horizontally
+    th {
+      vertical-align: middle;
+      text-align: center;
+    }
+  }
+  
+  // Make misconfiguration labels more compact
+  .misconfig-label-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px 5px; // Reduced spacing between labels
+    max-width: 100%;
+  }
+  
+  .label-misconfiguration {
+    padding: 0.2em 0.4em;
+    font-size: 0.7rem;
+    margin: 1px 0;
+  }
+  
+  // Make the specification summary more compact
+  details {
+    width: 100%;
+  }
+  
+  details summary {
+    cursor: pointer;
+    padding: 0.3rem;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    text-align: center;
+    
+    &:hover {
+      background-color: #e9e9e9;
+    }
+  }

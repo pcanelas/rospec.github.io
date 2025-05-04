@@ -10,7 +10,7 @@ nav_order: 5
 
 This page shows the evaluation of misconfigurations that rospec can currently detect or document.
 
-<table>
+<table class="evaluation-table">
   <thead>
     <tr>
       <th>Question</th>
@@ -23,9 +23,11 @@ This page shows the evaluation of misconfigurations that rospec can currently de
     {% for row in site.data.questions %}
     {% if row.status == "Documentation" or row.status == "Detectable" %}
     <tr>
-        <td><a href="https://answers.ros.org/question/{{ row.question }}" target="_blank" rel="noopener noreferrer">
-        {{ row.question }}
-        </a></td>
+        <td>
+          <a href="https://answers.ros.org/question/{{ row.question }}" target="_blank" rel="noopener noreferrer">
+          {{ row.question }}
+          </a>
+        </td>
         <td>
           <div class="misconfig-label-group">
             {% for item in row.misconfiguration %}
@@ -33,12 +35,12 @@ This page shows the evaluation of misconfigurations that rospec can currently de
             {% endfor %}
           </div>
         </td>
-        <td style="text-align: center;">
+        <td>
           <span class="status-pill {% if row.status == 'Documentation' %}status-documentation{% else %}status-detectable{% endif %}">
             {{ row.status }}
           </span>
         </td>
-        <td style="text-align: center;">
+        <td>
           {% if row.writer != blank and row.writer != "-" %}
             <details>
               <summary>Show Specification</summary>
