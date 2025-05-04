@@ -1,7 +1,7 @@
 ---
 title: Getting Started
 sidebar: home_sidebar
-permalink: getting-started.html
+permalink: getting-started
 summary: Learn how to install and set up rospec for your ROS-based robot software projects.
 nav_order: 2
 ---

@@ -1,7 +1,7 @@
 ---
 title: Examples
 sidebar: home_sidebar
-permalink: examples.html
+permalink: examples
 nav_order: 4
 summary: Real-world examples of rospec specifications for common ROS components and systems.
 ---

@@ -1,7 +1,7 @@
 ---
 title: Playground
 sidebar: home_sidebar
-permalink: playground.html
+permalink: playground
 summary: Try out rospec syntax in this interactive playground
 nav_order: 3
 ---

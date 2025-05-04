@@ -1,7 +1,7 @@
 ---
 title: About us
 sidebar: home_sidebar
-permalink: about-us.html
+permalink: about-us
 summary: About-us
 nav_order: 6
 ---
