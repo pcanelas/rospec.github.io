@@ -50,14 +50,14 @@ Parameters are configuration values that affect component behavior.
 
 ### Required Parameters
 
-```
+```rospec
 param max_speed: double where {_ >= 0.0 && _ <= 10.0};
 param frame_id: string;
 ```
 
 ### Optional Parameters with Defaults
 
-```
+```rospec
 optional param use_sim_time: bool = false;
 optional param retry_count: int = 3;
 ```
@@ -66,7 +66,7 @@ optional param retry_count: int = 3;
 
 rospec uses liquid types to express constraints on parameter values:
 
-```
+```rospec
 param timeout: double where {_ > 0.0};
 param port: int where {_ >= 1024 && _ <= 65535};
 param mode: string where {_ in ["fast", "normal", "safe"]};
@@ -78,21 +78,21 @@ Define how nodes communicate through topics:
 
 ### Publishers
 
-```
+```rospec
 publishes to /cmd_vel: geometry_msgs/Twist;
 publishes to /image_raw: sensor_msgs/Image;
 ```
 
 ### Subscribers
 
-```
+```rospec
 subscribes to /laser_scan: sensor_msgs/LaserScan;
 subscribes to /map: nav_msgs/OccupancyGrid;
 ```
 
 ### Quality of Service (QoS)
 
-```
+```rospec
 @qos{sensor_data}
 publishes to /camera/image_raw: sensor_msgs/Image;
 
@@ -104,7 +104,7 @@ subscribes to /map: nav_msgs/OccupancyGrid;
 
 Define service providers and consumers:
 
-```
+```rospec
 provides service /get_map: nav_msgs/GetMap;
 consumes service /set_pose: geometry_msgs/SetPose;
 ```
@@ -113,7 +113,7 @@ consumes service /set_pose: geometry_msgs/SetPose;
 
 Specify transform broadcasts and listeners:
 
-```
+```rospec
 broadcast map to odom;
 broadcast odom to base_link;
 listens base_link to camera;
@@ -123,7 +123,7 @@ listens base_link to camera;
 
 Specify deployment context requirements:
 
-```
+```rospec
 context distribution: AfterHumbleVersion;
 context is_simulation: bool;
 ```
@@ -132,7 +132,7 @@ context is_simulation: bool;
 
 Express relationships between parameters:
 
-```
+```rospec
 node type controller_type {
   param max_velocity: double;
   optional param use_limits: bool = false;
@@ -148,7 +148,7 @@ node type controller_type {
 
 Define pluggable extensions:
 
-```
+```rospec
 plugin type right_arm_type {
   param tip_name: string;
   param root_name: string;

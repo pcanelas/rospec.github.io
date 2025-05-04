@@ -27,7 +27,7 @@ In ROS, plugins:
 
 rospec provides a specific syntax for defining plugin types:
 
-```
+```rospec
 plugin type right_arm_type {
   param tip_name: string;
   param root_name: string;
@@ -46,7 +46,7 @@ Similar to node types, plugin types can include:
 
 Nodes can use plugins by declaring parameters of type `Plugin`:
 
-```
+```rospec
 node type arm_kinematics_constraint_aware_type {
   param group: Plugin;
 }
@@ -56,7 +56,7 @@ node type arm_kinematics_constraint_aware_type {
 
 When configuring a system, you create plugin instances and assign them to nodes:
 
-```
+```rospec
 system {
   plugin instance right_arm: right_arm_type {
     param tip_name = "right_gripper";

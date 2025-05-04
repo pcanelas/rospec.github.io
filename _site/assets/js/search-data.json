@@ -41,727 +41,643 @@
     
     "relUrl": "/about-us"
   },"6": {
-    "doc": "Command Line Interface",
-    "title": "rospec Command Line Interface",
-    "content": "(Not working yet - coming soon) . The rospec command line interface (CLI) provides tools for verifying, analyzing, and managing specifications for ROS-based systems. ",
-    "url": "/cli.html#rospec-command-line-interface",
-    
-    "relUrl": "/cli.html#rospec-command-line-interface"
-  },"7": {
-    "doc": "Command Line Interface",
-    "title": "Installation",
-    "content": "The CLI is installed automatically when you install rospec: . pip install rospec . ",
-    "url": "/cli.html#installation",
-    
-    "relUrl": "/cli.html#installation"
-  },"8": {
-    "doc": "Command Line Interface",
-    "title": "Basic Commands",
-    "content": "Verify Command . The most common command is verify, which checks specifications for errors: . # Verify a single specification file rospec verify myspec.rspec # Verify all specification files in a directory rospec verify path/to/specs/ # Verify and generate a detailed report rospec verify myspec.rspec --report=report.json . Syntax Check . To quickly check for syntax errors without performing full verification: . rospec syntax myspec.rspec . Format Command . To format rospec files according to the standard style: . rospec format myspec.rspec # Format all rospec files in a directory rospec format path/to/specs/ --in-place . Info Command . To get information about a specification file: . rospec info myspec.rspec . This provides a summary of the components, connections, and properties defined in the file. ",
-    "url": "/cli.html#basic-commands",
-    
-    "relUrl": "/cli.html#basic-commands"
-  },"9": {
-    "doc": "Command Line Interface",
-    "title": "Command Options",
-    "content": "Common Options . These options work with most commands: . --verbose, -v Increase output verbosity --quiet, -q Suppress non-essential output --help, -h Show help message --version Show version information . Verify Options . --report=FILE Generate a verification report in JSON format --summary Show only a summary of verification results --fail-fast Stop on the first error --include-warnings Treat warnings as errors --ignore-warnings Don't show warnings --max-errors=N Show at most N errors (default: 10) . Format Options . --in-place, -i Modify files in place --check Check if files are formatted correctly --diff Show diff of formatting changes . ",
-    "url": "/cli.html#command-options",
-    
-    "relUrl": "/cli.html#command-options"
-  },"10": {
-    "doc": "Command Line Interface",
-    "title": "Verification Reports",
-    "content": "The --report option generates a detailed JSON report with information about verification results: . { \"verification_time\": \"2025-04-13T15:30:45\", \"rospec_version\": \"0.1.0\", \"files\": [ { \"filename\": \"warehouse_robot.rspec\", \"status\": \"failed\", \"errors\": [ { \"severity\": \"error\", \"message\": \"Parameter dependency violation in node 'controller'\", \"details\": \"Condition 'min_velocity &lt; max_velocity' is not satisfied\", \"location\": { \"line\": 42, \"column\": 3 } }, { \"severity\": \"warning\", \"message\": \"Subscriber to topic '/scan' has no matching publisher\", \"location\": { \"line\": 56, \"column\": 5 } } ] } ], \"summary\": { \"total_files\": 1, \"passed\": 0, \"failed\": 1, \"errors\": 1, \"warnings\": 1 } } . ",
-    "url": "/cli.html#verification-reports",
-    
-    "relUrl": "/cli.html#verification-reports"
-  },"11": {
-    "doc": "Command Line Interface",
-    "title": "Exit Codes",
-    "content": "The rospec CLI uses the following exit codes: . | 0: Success (no errors) | 1: Verification errors found | 2: Command line or syntax errors | 3: File system errors (e.g., file not found) | 4: Internal errors | . ",
-    "url": "/cli.html#exit-codes",
-    
-    "relUrl": "/cli.html#exit-codes"
-  },"12": {
-    "doc": "Command Line Interface",
-    "title": "Environment Variables",
-    "content": "rospec behavior can be modified with environment variables: . | ROSPEC_CONFIG: Path to configuration file | ROSPEC_INCLUDE_PATH: Additional directories to search for imported specifications | ROSPEC_LOG_LEVEL: Set logging level (DEBUG, INFO, WARNING, ERROR) | . ",
-    "url": "/cli.html#environment-variables",
-    
-    "relUrl": "/cli.html#environment-variables"
-  },"13": {
-    "doc": "Command Line Interface",
-    "title": "Configuration File",
-    "content": "rospec can be configured with a .rospec.yaml file in the project directory: . # .rospec.yaml include_paths: - /path/to/specs - /another/path verification: max_errors: 20 include_warnings: true fail_fast: false format: indent_size: 2 max_line_length: 100 . ",
-    "url": "/cli.html#configuration-file",
-    
-    "relUrl": "/cli.html#configuration-file"
-  },"14": {
-    "doc": "Command Line Interface",
-    "title": "Examples",
-    "content": "Basic Verification . # Verify a system specification rospec verify warehouse_system.rspec # Output might look like: # Verifying warehouse_system.rspec... # Error: Parameter dependency violation in node 'controller' # Condition 'min_velocity &lt; max_velocity' is not satisfied # at warehouse_system.rspec:42:3 # # Warning: Subscriber to topic '/scan' has no matching publisher # at warehouse_system.rspec:56:5 # # Verification failed: 1 error, 1 warning . Verifying Multiple Files . # Verify all rospec files in a directory rospec verify path/to/specs/ # Output might look like: # Verifying path/to/specs/node_types.rspec... OK # Verifying path/to/specs/system.rspec... Failed (2 errors) # Verifying path/to/specs/plugins.rspec... OK # # Verification failed: 2 errors in 1 file . Generate and Export JSON Report . # Verify and generate a report rospec verify warehouse_system.rspec --report=report.json # The report can be used by other tools or CI/CD systems . Check Formatting . # Check if files are formatted correctly rospec format path/to/specs/ --check # Output might look like: # path/to/specs/node_types.rspec: OK # path/to/specs/system.rspec: Would reformat # path/to/specs/plugins.rspec: OK # # 1 file would be reformatted, 2 files would be left unchanged. Get Specification Information . # Get information about a specification rospec info warehouse_system.rspec # Output might look like: # File: warehouse_system.rspec # # Node Types: 0 # Plugin Types: 0 # Node Instances: 5 # Plugin Instances: 3 # # Connections: # Publishers: 12 # Subscribers: 15 # Service Providers: 3 # Service Consumers: 3 # Action Servers: 1 # Action Clients: 1 # # Parameters: 42 # TF Frames: 8 . ",
-    "url": "/cli.html#examples",
-    
-    "relUrl": "/cli.html#examples"
-  },"15": {
-    "doc": "Command Line Interface",
-    "title": "Integration with Build Tools",
-    "content": "Make . verify: rospec verify path/to/specs/ format: rospec format path/to/specs/ --in-place check_format: rospec format path/to/specs/ --check . CMake . add_custom_target(verify COMMAND rospec verify ${CMAKE_SOURCE_DIR}/specs/ WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMENT \"Verifying rospec specifications\" ) . ",
-    "url": "/cli.html#integration-with-build-tools",
-    
-    "relUrl": "/cli.html#integration-with-build-tools"
-  },"16": {
-    "doc": "Command Line Interface",
-    "title": "Continuous Integration",
-    "content": "GitHub Actions . name: rospec Verification on: [push, pull_request] jobs: verify: runs-on: ubuntu-latest steps: - uses: actions/checkout@v2 - name: Install rospec run: pip install rospec - name: Verify specifications run: rospec verify path/to/specs/ --report=report.json - name: Upload verification report uses: actions/upload-artifact@v2 with: name: rospec-verification-report path: report.json . The rospec CLI provides a powerful and flexible way to integrate configuration verification into your development workflow, helping you catch misconfigurations early and ensure system reliability. ",
-    "url": "/cli.html#continuous-integration",
-    
-    "relUrl": "/cli.html#continuous-integration"
-  },"17": {
-    "doc": "Command Line Interface",
-    "title": "Command Line Interface",
-    "content": " ",
-    "url": "/cli.html",
-    
-    "relUrl": "/cli.html"
-  },"18": {
     "doc": "Component Communication",
     "title": "Component Communication in rospec",
     "content": "Effective communication between components is essential for ROS-based systems. rospec provides robust mechanisms to specify and verify various communication patterns, ensuring components are correctly integrated. ",
     "url": "/component-communication.html#component-communication-in-rospec",
     
     "relUrl": "/component-communication.html#component-communication-in-rospec"
-  },"19": {
+  },"7": {
     "doc": "Component Communication",
     "title": "Publisher-Subscriber Communication",
     "content": "The most common communication pattern in ROS is publisher-subscriber, where components exchange messages through named topics. Specifying Publishers . Specifying Subscribers . Topic Remapping . system { node instance camera: camera_driver_type { param camera_name = \"front_camera\"; } node instance processor: image_processor_type { param camera_name = \"front_camera\"; // Optional remapping if needed remap /front_camera/image_raw to /custom_image_topic; } } . ",
     "url": "/component-communication.html#publisher-subscriber-communication",
     
     "relUrl": "/component-communication.html#publisher-subscriber-communication"
-  },"20": {
+  },"8": {
     "doc": "Component Communication",
     "title": "Service-Based Communication",
     "content": "Services provide a request-response pattern for synchronous communication. Service Providers . node type map_server_type { provides service /map_server/get_map: nav_msgs/GetMap; provides service /map_server/get_map_properties: nav_msgs/GetMapProperties; } . Service Consumers . Dynamic Service Names . You can use parameters to dynamically determine service names: . node type object_tracker_type { param distance_service: string; consumes service content(distance_service): hector_nav_msgs/GetDistanceToObstacle; } system { node instance tracker: object_tracker_type { param distance_service = \"/get_distance_to_obstacle\"; } } . ",
     "url": "/component-communication.html#service-based-communication",
     
     "relUrl": "/component-communication.html#service-based-communication"
-  },"21": {
+  },"9": {
     "doc": "Component Communication",
     "title": "Action-Based Communication",
     "content": "Actions are used for long-running tasks with feedback and preemption capabilities. Action Servers . node type move_base_type { provides action /move_base: nav_msgs/MoveBase; provides action /clear_costmaps: std_msgs/Empty; } . Action Clients . node type mission_executor_type { consumes action /move_base: nav_msgs/MoveBase; consumes action /clear_costmaps: std_msgs/Empty; } . ",
     "url": "/component-communication.html#action-based-communication",
     
     "relUrl": "/component-communication.html#action-based-communication"
-  },"22": {
+  },"10": {
     "doc": "Component Communication",
     "title": "Quality of Service (QoS)",
     "content": "ROS 2 introduced Quality of Service settings for fine-grained control of communication properties. Defining QoS Policies . policy instance sensor_data: qos { param depth = 5; param reliability = BestEffort; param durability = Volatile; } policy instance reliable_transient: qos { param depth = 10; param reliability = Reliable; param durability = TransientLocal; } . Applying QoS to Publishers . node type camera_type { @qos{sensor_data} publishes to /camera/image_raw: sensor_msgs/Image; @qos{reliable_transient} publishes to /camera/camera_info: sensor_msgs/CameraInfo; } . Applying QoS to Subscribers . node type image_processor_type { @qos{sensor_data} subscribes to /camera/image_raw: sensor_msgs/Image; @qos{reliable_transient} subscribes to /camera/camera_info: sensor_msgs/CameraInfo; } . ",
     "url": "/component-communication.html#quality-of-service-qos",
     
     "relUrl": "/component-communication.html#quality-of-service-qos"
-  },"23": {
+  },"11": {
     "doc": "Component Communication",
     "title": "Message Type Compatibility",
     "content": "rospec checks that connected components use compatible message types: . node type camera_type { publishes to /camera/image_raw: sensor_msgs/Image; } node type processor_type { subscribes to /camera/image_raw: sensor_msgs/CompressedImage; // Error: Incompatible types } . ",
     "url": "/component-communication.html#message-type-compatibility",
     
     "relUrl": "/component-communication.html#message-type-compatibility"
-  },"24": {
+  },"12": {
     "doc": "Component Communication",
     "title": "Publisher Cardinality",
     "content": "You can specify constraints on the number of publishers or subscribers: . node type pose_initializer_type { publishes to /initialpose: geometry_msgs/PoseWithCovariance; } node type localization_type { subscribes to /initialpose: geometry_msgs/PoseWithCovariance where {count(publishers(_)) == 1}; // Ensure exactly one publisher } . ",
     "url": "/component-communication.html#publisher-cardinality",
     
     "relUrl": "/component-communication.html#publisher-cardinality"
-  },"25": {
+  },"13": {
     "doc": "Component Communication",
     "title": "Message Field Constraints",
     "content": "rospec allows you to specify constraints on message fields: . message alias ValidLaserScan: sensor_msgs/LaserScan { field angle_min: float where {_ &gt;= -3.14159 &amp;&amp; _ &lt;= 0.0}; field angle_max: float where {_ &gt;= 0.0 &amp;&amp; _ &lt;= 3.14159}; field range_min: float where {_ &gt;= 0.0}; field range_max: float where {_ &gt; range_min}; } node type laser_driver_type { publishes to /scan: ValidLaserScan; } . ",
     "url": "/component-communication.html#message-field-constraints",
     
     "relUrl": "/component-communication.html#message-field-constraints"
-  },"26": {
+  },"14": {
     "doc": "Component Communication",
     "title": "Verification",
     "content": "rospec automatically verifies communication configurations: . | Connection verification: Ensuring subscribers have corresponding publishers | Message type compatibility: Checking that connected components use compatible message types | QoS compatibility: Verifying QoS settings are compatible between publishers and subscribers | Service availability: Ensuring service clients have corresponding servers | Action availability: Checking that action clients have matching servers | Field constraints: Validating message field constraints | . By specifying communication patterns in rospec, you can ensure that components are correctly integrated and detect potential communication issues before deployment. ",
     "url": "/component-communication.html#verification",
     
     "relUrl": "/component-communication.html#verification"
-  },"27": {
+  },"15": {
     "doc": "Component Communication",
     "title": "Component Communication",
     "content": "(Coming soon) . ",
     "url": "/component-communication.html",
     
     "relUrl": "/component-communication.html"
-  },"28": {
+  },"16": {
     "doc": "Component Specifications",
     "title": "Component Specifications in rospec",
     "content": "Component specifications define the expected behavior, configuration parameters, and communication interfaces for ROS components. They serve as a formal contract and documentation for component users. ",
     "url": "/component-spec.html#component-specifications-in-rospec",
     
     "relUrl": "/component-spec.html#component-specifications-in-rospec"
-  },"29": {
+  },"17": {
     "doc": "Component Specifications",
     "title": "Node Type Definition",
     "content": "The basic structure for defining a node type in rospec: . node type &lt;node_type_name&gt; { // Parameters param &lt;param_name&gt;: &lt;type&gt; [where {&lt;constraints&gt;}]; optional param &lt;param_name&gt;: &lt;type&gt; = &lt;default_value&gt;; // Connections publishes to &lt;topic&gt;: &lt;message_type&gt;; subscribes to &lt;topic&gt;: &lt;message_type&gt;; // Services provides service &lt;service_name&gt;: &lt;service_type&gt;; consumes service &lt;service_name&gt;: &lt;service_type&gt;; // TF Frames broadcast &lt;parent_frame&gt; to &lt;child_frame&gt;; listens &lt;parent_frame&gt; to &lt;child_frame&gt;; // Context context &lt;context_name&gt;: &lt;type&gt;; } where { // Parameter dependencies &lt;dependency_expressions&gt;; } . ",
     "url": "/component-spec.html#node-type-definition",
     
     "relUrl": "/component-spec.html#node-type-definition"
-  },"30": {
+  },"18": {
     "doc": "Component Specifications",
     "title": "Parameters",
     "content": "Parameters are configuration values that affect component behavior. Required Parameters . param max_speed: double where {_ &gt;= 0.0 &amp;&amp; _ &lt;= 10.0}; param frame_id: string; . Optional Parameters with Defaults . optional param use_sim_time: bool = false; optional param retry_count: int = 3; . Parameter Constraints . rospec uses liquid types to express constraints on parameter values: . param timeout: double where {_ &gt; 0.0}; param port: int where {_ &gt;= 1024 &amp;&amp; _ &lt;= 65535}; param mode: string where {_ in [\"fast\", \"normal\", \"safe\"]}; . ",
     "url": "/component-spec.html#parameters",
     
     "relUrl": "/component-spec.html#parameters"
-  },"31": {
+  },"19": {
     "doc": "Component Specifications",
     "title": "Connections",
     "content": "Define how nodes communicate through topics: . Publishers . publishes to /cmd_vel: geometry_msgs/Twist; publishes to /image_raw: sensor_msgs/Image; . Subscribers . subscribes to /laser_scan: sensor_msgs/LaserScan; subscribes to /map: nav_msgs/OccupancyGrid; . Quality of Service (QoS) . @qos{sensor_data} publishes to /camera/image_raw: sensor_msgs/Image; @qos{reliable_qos} subscribes to /map: nav_msgs/OccupancyGrid; . ",
     "url": "/component-spec.html#connections",
     
     "relUrl": "/component-spec.html#connections"
-  },"32": {
+  },"20": {
     "doc": "Component Specifications",
     "title": "Services",
     "content": "Define service providers and consumers: . provides service /get_map: nav_msgs/GetMap; consumes service /set_pose: geometry_msgs/SetPose; . ",
     "url": "/component-spec.html#services",
     
     "relUrl": "/component-spec.html#services"
-  },"33": {
+  },"21": {
     "doc": "Component Specifications",
     "title": "TF Transforms",
     "content": "Specify transform broadcasts and listeners: . broadcast map to odom; broadcast odom to base_link; listens base_link to camera; . ",
     "url": "/component-spec.html#tf-transforms",
     
     "relUrl": "/component-spec.html#tf-transforms"
-  },"34": {
+  },"22": {
     "doc": "Component Specifications",
     "title": "Context Information",
     "content": "Specify deployment context requirements: . context distribution: AfterHumbleVersion; context is_simulation: bool; . ",
     "url": "/component-spec.html#context-information",
     
     "relUrl": "/component-spec.html#context-information"
-  },"35": {
+  },"23": {
     "doc": "Component Specifications",
     "title": "Parameter Dependencies",
     "content": "Express relationships between parameters: . node type controller_type { param max_velocity: double; optional param use_limits: bool = false; optional param min_velocity: double = 0.0; } where { use_limits -&gt; exists(min_velocity); max_velocity &gt; min_velocity; } . ",
     "url": "/component-spec.html#parameter-dependencies",
     
     "relUrl": "/component-spec.html#parameter-dependencies"
-  },"36": {
+  },"24": {
     "doc": "Component Specifications",
     "title": "Plugin Types",
     "content": "Define pluggable extensions: . plugin type right_arm_type { param tip_name: string; param root_name: string; optional param robot_description: string = \"robot_description\"; } . ",
     "url": "/component-spec.html#plugin-types",
     
     "relUrl": "/component-spec.html#plugin-types"
-  },"37": {
+  },"25": {
     "doc": "Component Specifications",
     "title": "Component Specifications",
     "content": "(Work In Progress) . ",
     "url": "/component-spec.html",
     
     "relUrl": "/component-spec.html"
-  },"38": {
+  },"26": {
     "doc": "Configuration Verification",
     "title": "Configuration Verification with rospec",
     "content": "rospec provides powerful verification capabilities to detect misconfigurations in ROS-based systems before they cause issues during runtime. This page explains the different types of verification performed by rospec and how to interpret the results. ",
     "url": "/configuration-verification.html#configuration-verification-with-rospec",
     
     "relUrl": "/configuration-verification.html#configuration-verification-with-rospec"
-  },"39": {
+  },"27": {
     "doc": "Configuration Verification",
     "title": "Verification Process",
     "content": "When you run the rospec verification tool on your specifications, it performs the following checks: . | Syntax validation: Ensures your specifications follow the correct rospec syntax | Type checking: Verifies that all parameter values match their declared types | Constraint validation: Checks that parameter values satisfy their constraints | Dependency verification: Ensures that relationships between parameters are respected | Connection validation: Verifies that publishers and subscribers are properly connected | QoS compatibility: Checks that QoS settings are compatible between connected components | TF tree validation: Ensures the TF tree is properly connected | Context validation: Verifies that deployment context requirements are met | . ",
     "url": "/configuration-verification.html#verification-process",
     
     "relUrl": "/configuration-verification.html#verification-process"
-  },"40": {
+  },"28": {
     "doc": "Configuration Verification",
     "title": "Running Verification",
     "content": "To verify your specifications, use the rospec verify command: . # Verify a single file rospec verify system.spec # Verify all specification files in a directory rospec verify path/to/specs/ # Verify and generate a report rospec verify system.spec --report=report.json . ",
     "url": "/configuration-verification.html#running-verification",
     
     "relUrl": "/configuration-verification.html#running-verification"
-  },"41": {
+  },"29": {
     "doc": "Configuration Verification",
     "title": "Understanding Verification Results",
     "content": "rospec provides detailed error messages that help you identify and fix misconfigurations. For example: . Error: Parameter 'max_velocity' in node 'controller' must be greater than 0.0 at system.spec:15:18 Error: Required parameter 'map_topic' is missing in node 'amcl' at system.spec:23:3 Error: Type mismatch in node 'image_processor'. Expected 'double' for parameter 'timeout', got 'string' at system.spec:31:24 Error: Subscriber to topic '/scan' in node 'obstacle_detector' has no matching publisher at system.spec:42:5 Error: Incompatible QoS settings for topic '/camera/image_raw': Publisher in 'camera_node' uses 'BestEffort' reliability Subscriber in 'image_processor' requires 'Reliable' reliability at system.spec:52:7 . ",
     "url": "/configuration-verification.html#understanding-verification-results",
     
     "relUrl": "/configuration-verification.html#understanding-verification-results"
-  },"42": {
+  },"30": {
     "doc": "Configuration Verification",
     "title": "Verification Categories",
     "content": "rospec detects various categories of misconfigurations: . 1. Argument and Parameter Configurations . | Type Mismatch: Parameter values don’t match their declared types | Bounds Violation: Parameter values fall outside their specified ranges | Missing Required Parameters: Required parameters not provided | Inconsistent Parameters: Conflicting parameter values | . Example: . node type controller_type { param max_velocity: double where {_ &gt; 0.0}; } system { node instance controller: controller_type { param max_velocity = -2.0; // Error: Bounds violation } } . 2. Component Integration . | Missing Publishers: Subscribers without matching publishers | Message Type Mismatch: Incompatible message types between publishers and subscribers | Service Provider Missing: Service consumers without corresponding providers | QoS Incompatibility: Conflicting QoS settings between publishers and subscribers | . Example: . node type camera_type { publishes to /camera/image_raw: sensor_msgs/CompressedImage; } node type processor_type { subscribes to /camera/image_raw: sensor_msgs/Image; // Error: Message type mismatch } . 3. Deployment Context . | Context Violation: Component used in an incompatible context | TF Tree Disconnection: Missing transforms in the TF tree | Distribution Incompatibility: Components from incompatible ROS distributions | . Example: . node type navigation_type { context is_simulation: bool; optional param use_sim_time: bool = false; } where { is_simulation -&gt; use_sim_time; } system { node instance navigation: navigation_type { context is_simulation = true; param use_sim_time = false; // Error: Context dependency violation } } . ",
     "url": "/configuration-verification.html#verification-categories",
     
     "relUrl": "/configuration-verification.html#verification-categories"
-  },"43": {
+  },"31": {
     "doc": "Configuration Verification",
     "title": "Configuration Verification",
     "content": "(Coming soon) . ",
     "url": "/configuration-verification.html",
     
     "relUrl": "/configuration-verification.html"
-  },"44": {
+  },"32": {
     "doc": "Evaluation",
     "title": "Evaluation",
     "content": "This page shows the evaluation of misconfigurations that rospec can currently detect or document. | Question | Misconfiguration | Status | Specification | . | 10924 | PARAMETER: Missing PARAMETER: Incorrect NAME: Namespaces NODE: Incorrect CONTEXTUAL: Application-Environment CONTEXTUAL: HARDWARE: Compute | Documentation | Show Specification | . | plugin type arm_kinematics_constraint_aware_type { optional param group: Plugin = default(right_arm_type); } plugin type right_arm_type { optional param tip_name: string = &quot;&quot;; optional param root_name: string = &quot;&quot;; param kinematics_solver: Plugin; param max_solver_iterations: int; param max_search_iterations: int; optional param robot_description: string = &quot;robot_description&quot;; optional param allow_valid_collisions: bool = false; optional param joint_states_safety_timeout: double = 0.0; optional param global_frame: string = &quot;&quot;; optional param tf_safety_timeout: Second = 0.0; optional param use_collision_map: bool = true; } plugin type kdlkinematicsplugin { optional param kinematics_solver_search_resolution: double = 0.005; optional param kinematics_solver_timeout: Second = 0.05; optional param kinematics_solver_attemps: Natural = 3; optional param namespace: string = &quot;kdl_kinematics_plugin&quot;; } system { plugin instance arm_kinematics_constraint_aware: arm_kinematics_constraint_aware_type { param group = right_arm; } plugin instance right_arm: right_arm_type { param tip_name = &quot;right_wrist_link&quot;; param root_name = &quot;lower_torso_link&quot;; param kinematics_solver = KDLKinematicsPlugin; param max_solver_iterations = 1000; param max_search_iterations = 10; } plugin instance KDLKinematicsPlugin: kdlkinematicsplugin { } } . | . | 11547 | MESSAGE: Conflicting-Publishers NAME: Remapping | Detectable | Show Specification | . | type alias Modes: Enum[SXGA15Hz, VGA30Hz, VGA25Hz, QVGA25Hz, QVGA30Hz, QVGA60Hz, QQVGA25Hz, QQVGA30Hz, QQVGA60Hz]; node type openni_node_type { optional param depth_frame_id: string = &quot;/openni_depth_optical_frame&quot;; optional param rgb_frame_id: string = &quot;/openni_rgb_optical_frame&quot;; optional param image_mode: Modes = VGA30Hz; optional param depth_mode: Modes = VGA30Hz; optional param use_indices: bool = false; optional param depth_registration: bool = false; optional param depth_time_offset: Second where {_ &gt;= -1 and _ &lt;= 1} = 0.0; optional param image_time_offset: Second where {_ &gt;= -1 and _ &lt;= 1} = 0.0; publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1} # assuming {depth_registration}; } system { node instance openni_node1: openni_node_type { param depth_registration = true; } node instance openni_node2: openni_node_type { param depth_registration = true; param rgb_frame_id = &quot;/openni_rgb_optical_frame_2&quot;; param depth_frame_id = &quot;/openni_depth_optical_frame_2&quot;; } } . | . | 173503 | PARAMETER: Missing MESSAGE: Periodic TIME: Frequency | Documentation | Show Specification | . | type alias Distro: OrderedEnum[Ardent, Bouncy, Crystal, Dashing, Eloquent, Foxy, Galactic, Humble, Iron, Jazzy, Kilted]; type alias Hertz: double; node type joy_node_type { context distribution: Distro; optional param autorepeat_rate: Hertz = 0.0; optional param deadzone: double where {-1.0 &lt;= _ and _ &lt;= 1.0} = 0.05; } . | . | 190483 | PARAMETER: Incorrect | Detectable | Show Specification | . | node type openni_node_type { optional param depth_registration: bool = false; publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1}; # assuming {depth_registration}; } node type amcl_type { optional param depth_registration: bool = false; publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1}; # assuming {depth_registration}; } system { node instance openni_node1: openni_node_type { param depth_registration = true; } node instance amcl: amcl_type { param depth_registration = true; } } . | . | 201031 | PARAMETER: Incorrect TYPES: Color-Format TYPES: Transformations NODE: Missing | Documentation | Show Specification | . | message alias RGBImage: sensor_msgs/Image { field height: int where {_ &gt;= 0}; field width: int where {_ &gt;= 0}; } type alias Natural: int where {_ &gt;= 0}; node type svo_node_type { optional param cam_topic: string = &quot;svo/camera/image_raw&quot;; optional param grid_size: double = 30; optional param max_n_kfs: Natural = 10; optional param loba_num_iter: Natural = 0; subscribes to content(cam_topic): RGBImage; } system { node instance svo: svo_node_type { param cam_topic = &quot;svo/ardrone/front/image_raw&quot;; } } . | . | 210414 | PARAMETER: Missing DSL: Navigation-Stack NAME: Namespaces | Documentation | Show Specification | . | type alias Distro: OrderedEnum[DiamondBlack, Electrict, Fuerte, Groovy, Hydro, Indigo, Jade, Kinetic, Lunar, Melodic, Noetic]; node type move_base_type { context distribution: Distro = Hydro; optional param GlobalPlanner/use_dijkstra: bool = false; } . | . | 217551 | MESSAGE: Conflicting-Publishers | Detectable | Show Specification | . | policy instance depth10qos: qos { setting history = KeepLast; setting depth = 10; } node type worker_type { @qos{depth10qos} publishes to /mico_arm_driver/in/cartesian_velocity: geometry_msgs/TwistStamped where {count(publishers(_)) == 1}; } system { node instance worker1: worker_type {} node instance worker2: worker_type {} } . | . | 232853 | PARAMETER: Dependency PARAMETER: Incorrect DSL: Navigation-Stack CONTEXTUAL: HARDWARE: Mechanical | Detectable | Show Specification | . | node type move_base_type { param cost_scaling_factor: double; param inflation_radius: double; param robot_radius: double; } where { exists(inflation_radius) == exists(cost_scaling_factor); robot_radius &lt;= inflation_radius; } system { node instance move_base: move_base_type { } } . | . | 235375 | MESSAGE: Conflicting-Publishers | Detectable | Show Specification | . | node type joint_state_publisher_type { publishes to joint_states: sensor_msgs/JointState where {count(publishers(_)) == 1}; } node type custom_node_type { publishes to joint_states: sensor_msgs/JointState where {count(publishers(_)) == 1}; } system { node instance joint_state_publisher: joint_state_publisher_type {} node instance custom_node: custom_node_type {} } . | . | 30235 | PARAMETER: Missing CALIBRATION: Camera CONTEXTUAL: HARDWARE: Sensors | Documentation | Show Specification | . | node type uv_cam_node_type { optional param format_mode: Enum[RGB, YUYV, MJPG] = RGB; optional param contrast: float; optional param exposure: float; optional param gain: float; optional param saturation: float; } system { node instance uv_camera_node: uv_camera_node_type {} } . | . | 316168 | PARAMETER: Missing DSL: Robot-Localization | Documentation | Show Specification | . | node type ekf_localization_node_type { # Parameter that provides an initial state param initial_state: int[][]; } . | . | 364801 | PARAMETER: Dependency PARAMETER: Incorrect DSL: MoveIt CONTEXTUAL: HARDWARE: Actuators CONTEXTUAL: HARDWARE: Mechanical | Detectable | Show Specification | . | node type move_group_type { param elbow_joint/max_acceleration: double where {_ &gt;= 0}; param elbow_joint/min_velocity: double; param elbow_joint/max_velocity: double; param angle_wraparound: bool; optional param elbow_joint/has_velocity_limits: bool = false; optional param elbow_joint/has_acceleration_limits: bool = false; } where { exists(elbow_joint/max_acceleration) -&gt; elbow_joint/has_acceleration_limits; } system { node instance move_group: move_group_type { param elbow_joint/max_acceleration = 0; param elbow_joint/max_velocity = 3.14; param elbow_joint/has_acceleration_limits = false; param elbow_joint/has_velocity_limits = false; } } . | . | 108291 | NAME: Namespaces NODE: Missing | Detectable | Show Specification | . | node type stereo_image_proc_type { argument manager: string; } system { node instance stereo_image_proc: stereo_image_proc_type { } } . | . | 11095 | PARAMETER: Missing CONTEXTUAL: Simulation-vs-Real | Detectable | Show Specification | . | node type laser_scan_matcher_node { context is_simulation: bool; optional param use_sim_time: bool = false; broadcast world to base_link; listen base_link to laser; } where { is_simulation -&gt; use_sim_time; } system { node instance laser_scan_matcher: laser_scan_matcher_node { context is_simulation = true; param use_sim_time = false; } } . | . | 12516 | MESSAGE: Periodic | Documentation | Show Specification | . | # turtlesim/Velocity was replaced with geometry_msgs/Twist message alias AnnotatedVector3: geometry_msgs/Vector3 { field x: RadSeconds; field y: RadSeconds; field z: RadSeconds; } message alias UnitsVelocity: turtlesim/Velocity { field linear: AnnotatedVector3; field angular: AnnotatedVector3; } . | . | 142456 | TYPES: Color-Format | Detectable | Show Specification | . | policy instance depth5qos: qos { setting history = KeepLast; setting depth = 5; } policy instance depth5qos: qos { setting history = KeepLast; setting depth = 1; } node type openni_camera_driver_depth_type { optional param depth_registration: bool = true; @qos{depth1qos} publishes to /camera/rgb/image_raw: Grayscale; } node type custom_node_type { @qos{depth5qos} subscribes to /camera/rgb/image_raw: RGB8; } system { node instance custom_node: custom_node_type { } node instance openni_camera_driver: openni_camera_driver_depth_type { } } . | . | 164526 | PARAMETER: Missing NAME: Remapping NAME: Namespaces | Detectable | Show Specification | . | node type hector_object_tracker_type { optional param distance_to_obstacle_service: string = &quot;get_distance_to_obstacle&quot;; publishes to visualization_marker: visualization_msgs/Marker; consumes service content(distance_to_obstacle_service): hector_nav_msgs/GetDistanceToObstacle; } node type hector_map_server_type { provides service /hector_map_server/get_distance_to_obstacle: hector_nav_msgs/GetDistanceToObstacle; } system { node instance hector_object_tracker: hector_object_tracker_type { } node instance hector_map_server: hector_map_server_type { } } . | . | 165661 | MESSAGE: Conflicting-Publishers DSL: Robot-Localization CALIBRATION: Odometry | Detectable | Show Specification | . | node type robot_localization_type { param imu0_config: bool[4][3]; param imu0_differential: bool[2][3]; } where { imu0_config[1][2] == imu0_differential[1][2]; } system { node instance robot_localization: robot_localization_type { param imu0_config = [[false, false, false], [false, false, true], [false, false, false], [false, false, false]]; param imu0_differential = [[false, false, false], [false, false, false]]; } } . | . | 185909 | DSL: Navigation-Stack CONTEXTUAL: Application-Environment CONTEXTUAL: HARDWARE: Sensors | Detectable | Show Specification | . | node type hokuyo_node_type { context environment: Enum[ObstacleLayout, EmptyLayout] where {_ == ObstacleLayout}; } system { node instance hokuyo_node: hokuyo_node_type { context environment = EmptyLayout; } } . | . | 188919 | PARAMETER: Incorrect CONTEXTUAL: Simulation-vs-Real | Detectable | Show Specification | . | node type laser_scan_matcher_node_type { optional context is_simulation: bool = false; optional param use_sim_time: bool = false; } where { is_simulation -&gt; use_sim_time; } system { node instance laser_scan_matcher_node: laser_scan_matcher_node_type { context is_simulation = false; param use_sim_time = true; } } . | . | 190126 | NAME: Remapping | Detectable | Show Specification | . | node type camera_calibration_type { consumes service /camera/set_camera_info: sensor_msgs/SetCameraInfo; } system { node instance camera_calibration: camera_calibration_type { } } . | . | 12977 | PARAMETER: Incorrect DSL: Navigation-Stack | Detectable | Show Specification | . | node type move_base_type { param local_costmap/min_obstacle_height: Meter; param local_costmap/footprint: double[4][2]; } where { local_costmap/footprint[0][1] &gt;= local_costmap/min_obstacle_height; } system { node instance move_base: move_base_type { param local_costmap/min_obstacle_height = 0.10; param local_costmap/footprint = [[-0.4, -0.4], [-0.4, 0.4], [0.4, 0.4], [0.4, 0.4]]; } } . | . | 195289 | PARAMETER: Missing DSL: Navigation-Stack NAME: Remapping | Detectable | Show Specification | . | node type amcl_type { consumes service static_map: nav_msgs/GetMap; } node type map_server_type { optional param topic_name: string = &quot;map&quot;; provides service content(topic_name): nav_msgs/LoadMap; } system { node instance amcl: amcl_type { # Requires a remap to 30lx } node instance map_server: map_server_type { param topic_name = &quot;30lx&quot;; } } . | . | 200387 | PARAMETER: Incorrect DSL: Navigation-Stack NODE: Missing CONTEXTUAL: HARDWARE: Sensors | Detectable | Show Specification | . | node type obstacle_layer_t { optional param z_voxels: int = 0; optional param observation_sources: Plugin[] = []; } where { z_voxels == len(observation_sources); } system { node instance obstacle_layer: obstacle_layer_t { param z_voxels = 2; param observation_sources = [scan, bump, irring_scan]; } # ... information about each plugin } . | . | 204073 | PARAMETER: Incorrect TYPES: Physical-Units TF: Incorrect-Transform DSL: Robot-Localization | Documentation | Show Specification | . | message alias AnnotatedMessage: nav_msgs/Odometry { # ... field pose: geometry_msgs/PoseWithCovariance; field twist: geometry_msgs/Quaternions; } node type ekf_localization_node_type { broadcast world_frame to base_link; } system { } . | . | 204321 | DSL: Navigation-Stack NAME: Remapping NAME: Namespaces LAUNCH: Includes | Detectable | Show Specification | . | node type move_base_t { publishes to cmd_vel: geometry_msgs/Twist; } node type rosaria_node_t { subscribes to /RosAria/cmd_vel: geometry_msgs/Twist; } system { node instance move_base: move_base_t { remaps cmd_vel to ~cmd_vel; } node instance rosaria_node: rosaria_node_t { } } . | . | 206849 | PARAMETER: Missing | Documentation | Show Specification | . | node type ardrone_autonomy_type { optional param enable_navdata_pressure_raw: bool = false; publishes to enable_navdata_pressure_raw: ardrone_autonomy/navdata_pressure_raw; # assuming {enable_navdata_pressure_raw}; } . | . | 207352 | MESSAGE: Format OTHER: Documentation | Documentation | Show Specification | . | node type gmapping_type { # since no publishes are provided, this acts as documentation broadcast map to odom; } . | . | 209404 | PARAMETER: Missing DSL: Navigation-Stack | Documentation | Show Specification | . | node type move_base_t { optional param base_local_planner: Plugin = default(TrajectoryPlannerROS); } . | . | 209450 | TYPES: Physical-Units | Documentation | Show Specification | . | type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16, 16UC1, 16UC2, 16UC3, 16UC4, 16SC1, 16SC2, 16SC3, 16SC4, BAYER_RGGB16, BAYER_BGGR16, BAYER_GBRG16, BAYER_GRBG16 ]; type alias ImageEncoding32: Enum[32SC1, 32SC2, 32SC3, 32SC4, 32FC1, 32FC2, 32FC3, 32FC4]; type alias Meter: uint8; type alias Millimeter: uint8; message alias ImageWith16Encoding: sensor_msgs/Image { field header: std_msgs/Header; field encoding: ImageEncoding16; field data: Millimeter[]; field height: uint32; field width: uint32; field is_bigendian: uint8; field step: uint32; } message alias ImageWith32Encoding: sensor_msgs/Image { field header: std_msgs/Header; field encoding: ImageEncoding32; field data: Meter[]; field height: uint32; field width: uint32; field is_bigendian: uint8; field step: uint32; } . | . | 210583 | DSL: Navigation-Stack NODE: Incorrect CONTEXTUAL: Simulation-vs-Real | Detectable | Show Specification | . | node type fake_localization_type { context is_simulation: bool where {_ == true}; } system { node instance fake_localization: fake_localization_type { context is_simulation = false; } } . | . | 214816 | PARAMETER: Missing TF: Missing-Transform DSL: Robot-Localization | Detectable | Show Specification | . | node type ekf_localization { optional param twist0: string = &quot;&quot;; optional param twist0_config: string[] = [false, false, false, false, false, false, true, true, true, false, false, false, false, false, false]; } where { exists(twist0_config) -&gt; exists(twist0); } system { node instance ekf_localization_node: ekf_localization { param twist0_config = [false, false, false, false, false, false, true, true, false, false, false, true, false, false, false]; } } . | . | 218573 | PARAMETER: Incorrect MESSAGE: Conflicting-Publishers NAME: Remapping | Detectable | Show Specification | . | node type usb_cam_node { publishes to image: sensor_msgs/Image where {count(publishers(_)) == 1}; } system { node instance usb_cam1: usb_cam_node { } node instance usb_cam2: usb_cam_node { } } . | . | 221925 | DSL: Navigation-Stack | Detectable | Show Specification | . | type alias MeterSecond : float; node type dwa_local_planner_type { optional param max_vel_x: MeterSecond = 0.55; optional param min_vel_x: MeterSecond = 0.0; } system { node instance dwa_local_planner: dwa_local_planner_type { param penalize_negative_x = true; } } . | . | 223521 | TF: Incorrect-Transform | Detectable | Show Specification | . | node type kinect2_bridge_type { publishes to /kinect2/sd/image_depth_rect: sensor_msgs/Image; publishes to /kinect2/sd/camera_info: sensor_msgs/CameraInfo; broadcast kinect2_ir_optical_frame to kinect2_link; } node type depth_to_pointcloud_type { subscribes to /kinect2/sd/image_depth_rect: sensor_msgs/Image; subscribes to /kinect2/sd/camera_info: sensor_msgs/CameraInfo; publishes to /kinect2/pointcloud: sensor_msgs/PointCloud2; } node type kinect2_filtering_type { subscribes to /kinect2/pointcloud: sensor_msgs/PointCloud2; publishes to /kinect2/pointcloud_filtered: sensor_msgs/PointCloud2; } node type pointcloud_to_laserscan_type { subscribes to /kinect2/pointcloud_filtered: sensor_msgs/PointCloud2; publishes to /scan2: sensor_msgs/LaserScan; listen target_frame from kinect2_link; } system { node instance kinect2_bridge : kinect2_bridge_type { } node instance depth_to_pointcloud: depth_to_pointcloud_type { } node instance pointcloud_to_laserscan: pointcloud_to_laserscan_type { } } . | . | 225375 | MESSAGE: No-Publisher | Detectable | Show Specification | . | node type ekf_localization_node_type { subscribes to /set_pose: geometry_msgs/Pose; } system { node instance ekf_localization_node: ekf_localization_node_type { } } . | . | 225694 | DSL: Robot-Localization NODE: Missing CONTEXTUAL: HARDWARE: Sensors | Detectable | Show Specification | . | node type rtabmap { optional param publish_tf: bool = false broadcast map to odom; # assuming {publish_tf}; } node type robot_localization_type { param map_frame: string; param odom_frame: string; broadcast content(map_frame) to content(odom_frame); } system { node instance rtab: rtabmap { } node instance robot_localization: robot_localization_type { param map_frame = &quot;map&quot;; param odom_frame = &quot;odom&quot;; } } . | . | 227092 | TF: Missing-Transform | Detectable | Show Specification | . | node type custom_node { subscribes to /tilt_controller/command: std_msgs/Float64; broadcast /tilt_laser to laser; } node type rviz_type { listen base_link to map; } system { node instance node: custom_node { } node instance rviz: rviz_type { } } . | . | 227128 | TF: Missing-Transform NAME: Mismatches | Detectable | Show Specification | . | node type node0_type { publishes to /car/odometry: nav_msgs/Odometry; broadcast odom to base_footprint; } node type node1_type { publishes to /car/odometro: nav_msgs/Odometry; broadcast odo to base_footprint; } node type gps_node_type { publishes to /car/gps: sensor_msgs/NavSatFix; # Assumed the message type broadcast gps to base_footprint; } node type robot_localization_ekf_type { subscribes to /car/odometry: nav_msgs/Odometry; subscribes to /car/odometro: nav_msgs/Odometry; subscribes to /car/gps: sensor_msgs/NavSatFix; listen odom to base_footprint; } system { node instance node0: node0_type { } node instance node1: node1_type { } node instance gps_node: gps_node_type { } node instance robot_localization_ekf: robot_localization_ekf_type { } # The arguments and parameters are not define to provide a minimal example of the misconfiguration } . | . | 229722 | NAME: Remapping | Detectable | Show Specification | . | node type gazebo_type { argument paused: bool; argument use_sim_time: bool; argument gui: bool; publishes to /odom: nav2_msgs/Odometry; publishes to tf: tf2_msgs/TFMessage; broadcast odom to base_footprint; } node type robot_pose_ek_type { publishes to tf: tf2_msgs/TFMessage; } node type gmapping_type { subscribes to tf: tf2_msgs/TFMessage where {count(publishers(_)) == 1}; } system { node instance gazebo: gazebo_type { argument paused = false; argument use_sim_time = true; argument gui = true; } node instance robot_pose_ekf: robot_pose_ekf_type { } node instance gmapping: gmapping_type { } } . | . | 231458 | PARAMETER: Incorrect CONTEXTUAL: HARDWARE: Compute | Detectable | Show Specification | . | node type rgbdslam_type { optional param topic_image_mono: string = &quot;/camera/rgb/image_color&quot;; optional param camera_info_topic: string = &quot;/camera/rgb/camera_info&quot;; optional param topic_image_depth: string = &quot;/camera/depth_registered/sw_registered/image_rect_raw&quot;; optional param topic_points: string = &quot;&quot;; optional param base_frame_name: string = &quot;/openni_rgb_optical_frame&quot;; } where { exists(topic_image_depth) -&gt; topic_points == &quot;&quot;; } system { node instance rgbdslam: rgbdslam_type { param topic_image_mono = &quot;/camera/color/image_raw&quot;; param camera_info_topic = &quot;/camera/depth/image_raw&quot;; param topic_image_depth = &quot;/camera/depth/points&quot;; param topic_points = &quot;/camera_link&quot;; param base_frame_name = &quot;/camera_link&quot;; } } . | . | 239888 | NAME: Namespaces | Documentation | Show Specification | . | node type amcl_type { context number_of_robots: int; optional param tf_prefix: string = &quot;&quot;; } where { number_of_robots &gt; 1 == exists(tf_prefix); } system { } . | . | 250138 | PARAMETER: Incorrect DSL: Navigation-Stack NODE: Incorrect CONTEXTUAL: Application-Environment CONTEXTUAL: HARDWARE: Sensors | Detectable | Show Specification | . | plugin type teb_local_planner_t { optional param orientation_mode: int = 1; optional param global_plan_overwrite_orientation: bool = false; } where { exists(orientation_mode) -&gt; global_plan_overwrite_orientation; } system { plugin instance teb_local_planner: teb_local_planner_t { param orientation_mode = 2; } } . | . | 253726 | LAUNCH: Duplication | Detectable | Show Specification | . | node type ratslam_ros_type { # ... } system { node instance ratslam_ros: ratslam_ros_type { } node instance ratslam_ros: ratslam_ros_type { } } . | . | 255713 | PARAMETER: Incorrect | Detectable | Show Specification | . | node type amcl_type { optional param tf_broadcast: bool = false; broadcast map to odom; #assuming {tf_broadcast}; } node type ekf_node_type { broadcast map to odom; } system { node instance amcl: amcl_type { } node instance ekf_node: ekf_node_type { } } . | . | 257637 | PARAMETER: Incorrect NAME: Mismatches | Detectable | Show Specification | . | node type custom_node_type { publishes to odom: nav_msgs/Odometry; broadcast odom to base_link; } node type hector_mapping_type { optional param base_frame: string = &quot;base_link&quot;; optional param odom_frame: string = &quot;odom&quot;; listen content(base_frame) to content(odom_frame); broadcast map to odom; } system { node instance custom_node: custom_node_type { } node instance hector_mapping: hector_mapping_type { param odom_frame = &quot;base_link&quot;; } } . | . | 257935 | NAME: Mismatches | Detectable | Show Specification | . | node type custom_node_type { subscribes to imu_data: sensor_msgs/Imu; } node type gazebo_ros_imu_type { publishes to imu/data: sensor_msgs/Imu; } system { node type custom_node_type { } node type gazebo_ros_imu_type { } } . | . | 259561 | NAME: Mismatches | Detectable | Show Specification | . | node type custom_node_1 { publishes to falconPose: geometry_msgs/Pose; } node type custom_node_2 { subscribes to position: geometry_msgs/Pose; } system { node instance custom_node1: custom_node_1 { } node instance custom_node2: custom_node_2 { } } . | . | 260640 | TYPES: Color-Format | Documentation | Show Specification | . | type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16, 16UC1, 16UC2, 16UC3, 16UC4, 16SC1, 16SC2, 16SC3, 16SC4, BAYER_RGGB16, BAYER_BGGR16, BAYER_GBRG16, BAYER_GRBG16 ]; type alias ImageEncoding32: Enum[32SC1, 32SC2, 32SC3, 32SC4, 32FC1, 32FC2, 32FC3, 32FC4]; type alias Meter: uint8; type alias Millimeter: uint8; message alias ImageWith16Encoding: sensor_msgs/Image { field header: std_msgs/Header; field encoding: ImageEncoding16; field data: Millimeter[]; field height: uint32; field width: uint32; field is_bigendian: uint8; field step: uint32; } message alias ImageWith32Encoding: sensor_msgs/Image { field header: std_msgs/Header; field encoding: ImageEncoding32; field data: Meter[]; field height: uint32; field width: uint32; field is_bigendian: uint8; field step: uint32; } . | . | 266708 | NAME: Namespaces | Documentation | Show Specification | . | node type image_proc_type { optional param queue_size: int = 5; subscribes to image_raw: sensor_msgs/Image; subscribes to camera_info: sensor_msgs/CameraInfo; publishes to image_mono: sensor_msgs/Image; publishes to image_rect: sensor_msgs/Image; # ... } . | . | 27979 | PARAMETER: Dead-Write CONTEXTUAL: HARDWARE: Sensors OTHER: Documentation | Documentation | Show Specification | . | node type sicklms { context device_resolution: double; optional param use_rep_117: bool = true; optional param port: string = &quot;dev/lms200&quot;; optional param baud: Rate = 38400; optional param inverted: bool = false; optional param frame_id: string = &quot;laser&quot;; optional param angle: int = 0; optional param resolution: double = 0.0; optional param connect_delay: double = 0.0; publishes to scan: sensor_msgs/Laserscan; } . | . | 280412 | NODE: Missing | Detectable | Show Specification | . | node type turtlesim_node { subscribes to turtle2/cmd_vel: geometry_msgs/Twist; publishes to turtle2/pose: geometry_msgs/Pose; } node type turtle_tf_broadcast { param turtle: string; subscribes to content(turtle)/pose: geometry_msgs/Pose; broadcast content(turtle) to world; } node type turtle_tf_listener { publishes to turtle2/cmd_vel: geometry_msgs/Twist; listen turtle2 to turtle1; } system { node instance turtlesim_node: turtlesim_node { } node instance turtle1_tf_broadcast: turtle_tf_broadcast { param turtle = &quot;turtle1&quot;; } } . | . | 28163 | PARAMETER: Missing LAUNCH: Includes CONTEXTUAL: Simulation-vs-Real | Detectable | Show Specification | . | node type planning_scene_warehouse_viewer_t { context is_simulation: bool; optional argument use_monitor: bool = false; optional argument use_collision_map: bool = false; optional param use_robot_data: bool = false; subscribes to /joint_states: sensor_msgs/JointState; # assuming {use_monitor}; } where { is_simulation -&gt; use_monitor; is_simulation -&gt; !use_robot_data; } system { node instance planning_scene_warehouse_viewer: planning_scene_warehouse_viewer_t { context is_simulation = true; } } . | . | 283932 | TF: Missing-Transform | Detectable | Show Specification | . | node type custom_node_type { broadcast camera_rgb_frame to camera_link; } node type freenect_node_type { optional param publish_tf: bool = true; broadcast camera_link to camera_rgb_frame; # assuming {publish_tf}; } system { node instance custom_node: custom_node_type { } node instance freenect_node: freenect_node_type { } } . | . | 285062 | PARAMETER: Missing DSL: Navigation-Stack NAME: Namespaces | Detectable | Show Specification | . | node type map_server_type { optional param frame_id: string = &quot;map&quot;; optional param use_map_topic: bool = false; } where { exists(frame_id) -&gt; use_map_topic; } system { node instance map_server: map_server_type { param frame_id = &quot;/map&quot;; param use_map_topic = false; } } . | . | 285266 | TYPES: Physical-Units CONTEXTUAL: Simulation-vs-Real OTHER: Documentation | Documentation | Show Specification | . | type alias MeterPerSecond: float; type alias RadianPerSecond: float; message alias LinearVector3: geometry_msgs/Vector3 { field x: MeterPerSecond; field y: MeterPerSecond; field z: MeterPerSecond; } message alias AngularVector3: geometry_msgs/Vector3 { field x: RadianPerSecond; field y: RadianPerSecond; field z: RadianPerSecond; } message alias AnnotatedTwist: geometry_msgs/Twist { field linear: LinearVector3; field angular: AngularVector3; } . | . | 296720 | PARAMETER: Missing OTHER: Simulation | Detectable | Show Specification | . | node type joint_controller_type { context is_simulation: bool; optional param use_sim_time: bool = false; } where { is_simulation -&gt; use_sim_time; } system { node instance joint_controller: joint_controller_type { context is_simulation = true; } } . | . | 29953 | TYPES: Constraints | Documentation | Show Specification | . | message alias RestrictedPointCloud2: sensor_msgs/PointCloud2 { field data: unint8[]; } where { data[0] &lt; data[len(data) - 1]; } node type laser_scan_matcher_type { optional param use_cloud_input: bool = false; optional param cloud_range_min: double = 0.1; optional param cloud_range_max: double = 50.0; subscribes to scan: sensor_msgs/LaserScan; subscribes to cloud: RestrictedPointCloud2; subscribes to imu_data: sensor_msgs/Imu; subscribes to odom: nav_msgs/Odometry; listen base_link to laser; broadcast world to base_link; } where { !use_cloud_input -&gt; !exists(cloud_range_min); !use_cloud_input -&gt; !exists(cloud_range_max); } . | . | 31036 | TYPES: Transformations CONTEXTUAL: HARDWARE: Sensors | Documentation | Show Specification | . | node type gmapping_type { context positioning: Enum[Vertical, Horizontal, Tilted] where {_ != Tilted}; } . | . | 316037 | TF: Incorrect-Transform NAME: Mismatches | Detectable | Show Specification | . | node type amcl_type { # I believe these are actually in params, that then we provide and amcl does the broadcast, but I abstracted that here broadcast map to odom; } node type static_transform_publisher { broadcast map to odom; } system { node instance amcl: amcl_type { } node instance map_to_odom: static_transform_publisher { } } . | . | 319065 | PARAMETER: Incorrect DSL: Navigation-Stack | Detectable | Show Specification | . | node type amcl_type { param odom_model_type: Enum[DiffCorrected, OmniCorrected]; optional param lazer_z_hit: double = 0.95; optional param odom_alpha1: double = 0.2; optional param odom_alpha2: double = 0.2; optional param odom_alpha3: double = 0.2; optional param odom_alpha4: double = 0.2; optional param odom_alpha5: double = 0.2; } where { odom_model_type == OmniCorrected -&gt; exists(odom_alpha5); odom_model_type == DiffCorrected -&gt; odom_alpha1 &lt;= 0.01 and odom_alpha2 &lt;= 0.01 and odom_alpha3 &lt;= 0.01 and odom_alpha4 &lt;= 0.01; } system { node instance amcl: amcl_type { param odom_model_type = DiffCorrected; param odom_alpha1 = 4.0; param odom_alpha2 = 0.9; param odom_alpha3 = 0.2; param odom_alpha4 = 0.2; } } . | . | 320389 | MESSAGE: Conflicting-Publishers TF: Incorrect-Transform CONTEXTUAL: HARDWARE: Sensors | Detectable | Show Specification | . | node type rgbd_sync_type { publishes to /rgbd_image: sensor_images/Image; } node type zed_wrapper_node_type { publishes to /rgbd_image: sensor_images/Image; } node type rtabmap_type { subscribes to rgbd_image: sensor_images/Image where {count(publishers(_)) == 1}; } system { node instance rgbd_sync: rgbd_sync_type { } node instance zed_wrapper_node: zed_wrapper_node_type { } node instance rtabmap: rtabmap_type { remaps rgbd_image to /rgbd_image; } } . | . | 325712 | PARAMETER: Incorrect TF: Incorrect-Transform | Detectable | Show Specification | . | node type ekf_localization_node_type { broadcast map to odom; broadcast odom to base_link; # Abstracted, these are set in parameters, but in this case the configuration is this one } node type static_transform_publisher { broadcast gps_enu to odom; } system { node instance ekf_localization_node: ekf_localization_node_type { } node instance static_transform: static_transform_publisher { } } . | . | 33175 | CONTEXTUAL: HARDWARE: Compute | Detectable | Show Specification | . | node type rgbdslam_type { param fixed_frame_name: string; param ground_truth_frame_name: string; param base_frame_name: string; param fixed_camera: bool; } where { base_frame_name == &quot;odom&quot; -&gt; !exists(fixed_camera); } system { tance rgbdslam: rgbdslam_type { param fixed_frame_name = &quot;/map&quot;; param ground_truth_frame_name = &quot;&quot;; param base_frame_name = &quot;/odom&quot;; param fixed_camera = true; } } . | . | 336055 | OTHER: Documentation | Documentation | Show Specification | . | type alias Radian: float; node type imu_compass_driver_type { optional param /imu/declination: Radian = 0.0; } . | . | 336221 | NAME: Remapping | Detectable | Show Specification | . | node type move_base_type { publishes to initialpose: geometry_msgs/PoseWithCovarianceStamped; } node type new_amcl_type { # argument model: Enum[Burger, Waffle, WafflePi]; # argument move_forward_only: bool = false; subscribes to initialpose_dqn: geometry_msgs/PoseWithCovarianceStamped; } system { node instance move_base: move_base_type { } node instance amcl: new_amcl_type { } } . | . | 340683 | MESSAGE: Conflicting-Publishers TF: Duplication | Detectable | Show Specification | . | node type local_costmap_t { param global_frame: string; param robot_base_frame: string; broadcast content(global_frame) to content(robot_base_frame); } node type global_costmap_t { param global_frame: string; param robot_base_frame: string; broadcast content(global_frame) to content(robot_base_frame); } node type amcl_type { param base_frame_id: string; param global_frame_id: string; } system { node instance local_costmap: local_costmap_t { param global_frame = &quot;odom&quot;; param robot_base_frame = &quot;base_link&quot;; } node instance global_costmap: global_costmap_t { param global_frame = &quot;/map&quot;; param robot_base_frame = &quot;base_link&quot;; } node instance amcl: amcl_type { param base_frame_id = &quot;base_link&quot;; param global_frame_id = &quot;/map&quot;; } } . | . | 350740 | PARAMETER: Incorrect DSL: Robot-Localization | Detectable | Show Specification | . | node type navsat_transform_node_type { context version: OrderedEnum[V2, V221, V223]; context yaw_orientation: Enum[North, East, West, South]; param yaw_offset: double; } where { (version &gt;= V221) -&gt; (yaw_orientation == East -&gt; yaw_offset == 0); (version &gt;= V221) -&gt; (yaw_orientation != East -&gt; yaw_offset != 0); (version &lt;= V221) -&gt; (yaw_orientation == North -&gt; yaw_offset == 0); (version &lt;= V221) -&gt; (yaw_orientation != North -&gt; yaw_offset != 0); } system { node instance navsat_transform_node: navsat_transform_node_type { context version = V221; context yaw_orientation = East; param yaw_offset = 3.14159265359; } } . | . | 360477 | NAME: Mismatches | Detectable | Show Specification | . | node type laserscan_multi_merger_type { publishes to laserscan_multi_merger/parameter_descriptions: dynamic_reconfigure/ConfigDescription; publishes to laserscan_multi_merger/parameter_updates: dynamic_reconfigure/Config; publishes to merged_cloud: sensor_msgs/PointCloud2; publishes to rosout: rosgraph_msgs/Log; publishes to scan_multi: sensor_msgs/MultiEchoLaserScan; } node type ira_laser_tools_type { optional param destination_frame: string = &quot;cart_frame&quot;; optional param cloud_destination_topic: string = &quot;/merged_cloud&quot;; optional param scan_destination_topic: string = &quot;scan_multi&quot;; optional param laserscan_topics: string[] = [&quot;/scansx&quot;, &quot;/scandx&quot;]; optional param angle_min: double = -2.0; optional param angle_max: double = 2.0; optional param angle_increment: double = 0.0058; optional param scan_time: double = 0.033333; optional param range_min: double = 0.30; optional param range_max: double = 50.0; subscribes to content(laserscan_topics[0]): sensor_msgs/LaserScan; subscribes to content(laserscan_topics[1]): sensor_msgs/LaserScan; } where { angle_min &lt; angle_max; range_min &lt; range_max; } system { node instance laserscan_multi_merger: laserscan_multi_merger_type { } node instance ira_laser_tools: ira_laser_tools_type { param laserscan_topics = [&quot;/sensor_1/points&quot;, &quot;/sensor_2/points&quot;]; } } . | . | 374209 | LAUNCH: Arguments | Documentation | Show Specification | . | node type component_manager_type { optional argument use_intra_process_comms: bool = false; } . | . | 378462 | PARAMETER: Incorrect DSL: Robot-Localization NAME: Mismatches CONTEXTUAL: HARDWARE: Sensors | Detectable | Show Specification | . | node type ekf_filter_node_type { optional param world_frame: string = &quot;odom&quot;; } system { node instance ekf_filter_node: ekf_filter_node_type { param worl_frame = &quot;map&quot;; } } . | . | 379101 | TF: Missing-Transform NAME: Remapping | Detectable | Show Specification | . | node type robot_state_publisher { context number_of_robots: int; optional param tf_prefix: string = &quot;&quot;; } where { number_of_robots &gt; 1 -&gt; exists(tf_prefix); } system { node instance robot_state_publisher: robot_state_publisher_type { context number_of_robots = 2; } } . | . | 390380 | PARAMETER: Incorrect | Detectable | Show Specification | . | node type op_motion_simulator_type { context object_avoidance: bool; optional param simObjNumber: int = 5; optional param GuassianErrorFactor: int = 0; optional param pointCloudPointsNumber: int = 75; optional param useNavGoalToSetStaticObstacle: bool = true; } where { object_avoidance -&gt; !useNavGoalToSetStaticObstacle; } system { node instance op_motion_simulation: op_motion_simulator_type { context object_avoidance = true; } } . | . | 393902 | PARAMETER: Incorrect DSL: Robot-Localization CALIBRATION: Odometry CONTEXTUAL: HARDWARE: Sensors | Detectable | Show Specification | . | node type ekf_filter_node_type { param odom0_config: bool[]; optional param two_d_mode: bool = false; } where { two_d_mode -&gt; odom0_config[6] and odom0_config[7]; } system { node instance ekf_filter_node: ekf_filter_node_type { param odom0_config = [false, false, false, false, false, false, false, false, false, false, false, true, false, false, false]; param two_d_mode = true; } } . | . | 401185 | PARAMETER: Missing PARAMETER: Defaults DSL: Navigation-Stack | Detectable | Show Specification | . | node type amcl_type { optional param set_initial_pose: bool = false; optional param always_reset_initial_pose: bool = false; optional param initial_pose: geometry_msgs/Pose = geometry_msgs/Pose { position = geometry_msgs/Point { x = 0.0, y = 0.0, theta = 0.0, }, orientation = geometry_msgs/Quaternion { x = 0.0, y = 0.0, z = 0.0, w = 0.0, }, }; subscribes to initialpose: geometry_msgs/PoseWithCovarianceStamped; } where { exists(initial_pose) -&gt; set_initial_pose; exists(initial_pose) and set_initial_pose -&gt; always_reset_initial_pose; } system { node instance amcl: amcl_type { param set_initial_pose = false; param always_reset_initial_pose = false; # Placeholder parameters here, no longer available on Github param initial_pose = geometry_msgs/Pose { position = geometry_msgs/Point { x = 1.0, y = 1.0, z = 1.0, }, orientation = geometry_msgs/Quaternion { x = 1.0, y = 1.0, z = 1.0, w = 1.0, }, }; } } . | . | 405765 | DSL: Navigation-Stack NAME: Remapping OTHER: Documentation | Detectable | Show Specification | . | node type custom_node_type { subscribes to /robo/cmd_vel: geometry_msgs/Twist; } # We are not sure what the controller is, but independently of the controller it publishes to cmd_vel, according to the question node type nav2_controller_type { publishes to /cmd_vel: geometry_msgs/Twist; } system { node instance custom_node: custom_node_type { } node instance nav2_controller: nav2_controller_type { # missing: remaps /cmd_vel to /robo/cmd_vel; } } . | . | 41000 | TF: Incorrect-Transform | Detectable | Show Specification | . | node type amcl_type { optional param odom: string = &quot;odom&quot;; optional param map: string = &quot;map&quot;; broadcast content(odom) to base_link; broadcast content(map) to content(odom); } node type custom_node_type { broadcast odom to odom_error; } system { node instance amcl: amcl_type { param odom = &quot;odom_error&quot;; } node instance custom_node: custom_node_type { } } . | . | 45556 | DSL: Navigation-Stack NAME: Mismatches | Detectable | Show Specification | . | node type action_server_type { provides service move_base: MoveBaseAction; } node type simple_move_type { consumes service SimpleActionClient: MoveBaseAction; } system { node instance action_server: action_server_type { } node instance simple_move: simple_move_type { } } . | . | 53228 | PARAMETER: Incorrect | Detectable | Show Specification | . | node type rgbdslam_type { optional param individual_cloud_out_topic: string = &quot;topic_points&quot;; optional param store_pointclouds: bool = true; publishes to content(individual_cloud_out_topic): sensor_msgs/PointCloud2; # assuming {store_pointclouds}; } node type custom_node_type { # This is used to mimic the attempt to access the information from this topic subscribes to /rgbdslam/batch_clouds: sensor_msgs/PointCloud2; } system { node instance rgbdslam: rgbdslam_type { param individual_cloud_out_topic = &quot;/rgbdslam/batch_clouds&quot;; param store_pointclouds = false; } node instance custom_node custom_node_type { } } . | . | 59087 | PARAMETER: Incorrect CONTEXTUAL: HARDWARE: Sensors | Documentation | Show Specification | . | node type hokuyo_node_type { context sensor_max_angle_fov: double; context sensor_min_angle_fov: double; param min_ang_limit: double; param max_ang_limit: double; } where { min_ang_limit &lt;= sensor_min_angle_fov; max_ang_limit &lt;= sensor_max_angle_fov; } . | . | 63179 | TF: Incorrect-Transform NAME: Namespaces OTHER: Simulation | Detectable | Show Specification | . | node type rviz_type { context number_of_systems: int; optional param tf_prefix: string = &quot;&quot;; } where { number_of_systems &gt; 1 -&gt; exists(tf_prefix); } system { node instance rviz: rviz_type { context number_of_systems = 2; } } . | . | 66176 | PARAMETER: Missing LAUNCH: Arguments OTHER: Simulation | Detectable | Show Specification | . | node type hector_mapping_type { context is_simulation: bool; optional param use_sim_time: bool = false; } where { is_simulation -&gt; use_sim_time; } system { node instance hector_mapping: hector_mapping_type { context is_simulation = true; } } . | . | 9711 | TYPES: Constraints | Documentation | Show Specification | . | message alias RestrictedQuaternion: geometry_msgs/Quaternion { field x: float64; field y: float64; field z: float64; field w: float64; } where { (x + y + z + w) != 0; } . | . | 98736 | PARAMETER: Incorrect TYPES: Constraints TF: Incorrect-Transform NODE: Missing | Detectable | Show Specification | . | node type amcl_type { broadcast map to odom; broadcast odom to base_link; # Abstracted, these come from parameters and are not hardcoded } node type static_transform_publisher_type { broadcast map to odom; } system { node instance amcl: amcl_type { } node instance map_to_odom: static_transform_publisher_type { } } . | . ",
     "url": "/evaluation",
     
     "relUrl": "/evaluation"
-  },"45": {
+  },"33": {
     "doc": "Examples",
     "title": "rospec Examples",
     "content": "This page provides practical examples of rospec specifications to help you understand how to apply rospec to real-world ROS components and systems. ",
     "url": "/examples#rospec-examples",
     
     "relUrl": "/examples#rospec-examples"
-  },"46": {
+  },"34": {
     "doc": "Examples",
     "title": "Basic Node Type Example",
     "content": "node type laser_scan_matcher_type { context is_simulation: bool; optional param use_sim_time: bool = false; broadcast world to base_link; listens base_link to laser; } where { is_simulation -&gt; use_sim_time; } . This example defines a laser scan matcher node type with: . | A context requirement indicating whether it’s running in simulation | An optional parameter with a default value | TF frame broadcast and listen declarations | A dependency that enforces use_sim_time must be true in simulation context | . ",
     "url": "/examples#basic-node-type-example",
     
     "relUrl": "/examples#basic-node-type-example"
-  },"47": {
+  },"35": {
     "doc": "Examples",
     "title": "Publisher-Subscriber Example",
     "content": "node type hector_object_tracker_type { param distance_to_obstacle_service: string; subscribes to worldmodel/image_percept: hector_worldmodel_msgs/ImagePercept; publishes to visualization_marker: visualization_msgs/Marker; consumes service content(distance_to_obstacle_service): hector_nav_msgs/GetDistanceToObstacle; } node type hector_map_server_type { provides service /hector_map_server/get_distance_to_obstacle: hector_nav_msgs/GetDistanceToObstacle; } . The system integration would look like: . system { node instance hector_object_tracker: hector_object_tracker_type { param distance_to_obstacle_service = \"get_distance_to_obstacle\"; } node instance hector_map_server: hector_map_server_type { remap /hector_map_server/get_distance_to_obstacle to get_distance_to_obstacle; } } . ",
     "url": "/examples#publisher-subscriber-example",
     
     "relUrl": "/examples#publisher-subscriber-example"
-  },"48": {
+  },"36": {
     "doc": "Examples",
     "title": "Message Alias Example",
     "content": "type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16, 16UC1, 16UC2, 16UC3, 16UC4, 16SC1, 16SC2, 16SC3, 16SC4, BAYER_RGGB16, BAYER_BGGR16, BAYER_GBRG16, BAYER_GRBG16]; type alias Millimeter: int8; message alias ImageWith16Encoding: sensor_msgs/Image { field header: Header; field encoding: ImageEncoding16; field data: Millimeter[]; } . ",
     "url": "/examples#message-alias-example",
     
     "relUrl": "/examples#message-alias-example"
-  },"49": {
+  },"37": {
     "doc": "Examples",
     "title": "Quality of Service (QoS) Example",
     "content": "policy instance best_effort_qos5: qos { param depth = 5; param reliability = BestEffort; } node type openni_camera_driver_depth_type { optional param depth_registration: bool = true; @qos{best_effort_qos5} publishes to /camera/rgb/image_raw: GrayScale; } node type custom_node_type { @qos{reliable_qos5} subscribes to /camera/rgb/image_raw: RGB8; } . ",
     "url": "/examples#quality-of-service-qos-example",
     
     "relUrl": "/examples#quality-of-service-qos-example"
-  },"50": {
+  },"38": {
     "doc": "Examples",
     "title": "Plugin Example",
     "content": "node type arm_kinematics_constraint_aware_type { param group: Plugin; } plugin type right_arm_type { param tip_name: string; param root_name: string; optional param robot_description: string = \"robot_description\"; optional param tf_safety_timeout: Second = 0.0; } . ",
     "url": "/examples#plugin-example",
     
     "relUrl": "/examples#plugin-example"
-  },"51": {
+  },"39": {
     "doc": "Examples",
     "title": "AMCL Node Example",
     "content": "type alias LaserModelType: Enum[Beam, LikelihoodField, LikelihoodFieldProb] node type amcl_type { context distribution: AfterHumbleVersion; param robot_model_type: Enum[DifferentialMotionModel, OmniMotionModel]; param scan_topic_name: string; param map_topic_name: string; optional param z_hit: double = 0.5; optional param z_max: double = 0.05; optional param z_rand: double = 0.5; optional param z_short: double = 0.005; optional param always_reset_initial_pose: bool = false; optional param laser_model_type: LaserModelType = LikelihoodField; @qos{sensor_data} publishes to particle_cloud: nav2_msgs/ParticleCloud; @qos{sensor_data_profile} subscribes to content(scan_topic_name): RestrictedLaserScan; @qos{system_default_qos} subscribes to initialpose: geometry_msgs/PoseWithCovarianceStamped where {count(publishers(_)) == 1}; @qos{transient_reliable_qos} subscribes to content(map_topic_name): nav_msgs/OccupancyGrid; provides service reinitialize_global_localization: std_srvs/Empty; provides service set_initial_pose: nav2_msgs/SetInitialPose; broadcast map to odom; broadcast odom to base_link; broadcast base_link to scan; } where { laser_model_type == Beam -&gt; z_hit + z_max + z_rand + z_short == 1; laser_model_type == LikelihoodField -&gt; z_hit + z_rand == 1; always_reset_initial_pose -&gt; exists(initial_pose); } . ",
     "url": "/examples#amcl-node-example",
     
     "relUrl": "/examples#amcl-node-example"
-  },"52": {
+  },"40": {
     "doc": "Examples",
     "title": "Complete Warehouse Robot Example",
-    "content": "``` system { node instance amcl: amcl_type { param robot_model_type = DifferentialMotionModel; param scan_topic_name = “scan”; param map_topic_name = “map”; param z_hit = 0.7; param z_rand = 0.3; param laser_model_type = LikelihoodField; } . node instance map_server: map_server_type { param map_file = “warehouse_map.yaml”; param use_sim_time = true; } . node instance controller_server: controller_server_type { param controller_frequency = 20.0; param min_x_velocity_threshold = 0.001; param min_y_velocity_threshold = 0.5; param min_theta_velocity_threshold = 0.001; . param plugins = [\"FollowPath\"]; context is_simulation = true; } . plugin instance follow_path: follow_path_type { param plugin_name = “follow_path”; param controller_frequency = 20.0; param max_velocity = [0.5, 0.0, 1.0]; param min_velocity = [-0.5, 0.0, -1.0]; param max_acceleration = [1.0, 0.0, 2.0]; } . plugin instance keep_out_filter: keep_out_filter_type { param plugin_name = “keep_out_filter”; param enabled = true; param filter_info_topic = “costmap_filter_info”; param mask_topic = “keep_out_mask”; } . node instance planner_server: planner_server_type { param planner_plugins = [“GridBased”]; param use_sim_time = true; . context is_simulation = true; } . plugin instance grid_based: grid_based_type { param plugin_name = “GridBased”; param allow_unknown = true; param use_astar = false; param use_final_approach_orientation = true; } . node instance costmap: costmap_type { param global_frame = “map”; param robot_base_frame = “base_link”; param rolling_window = true; param always_send_full_costmap = false; param footprint = [[0.12, 0.12], [0.12, -0.12], [-0.12, -0.12], [-0.12, 0.12]]; . param plugins = [\"obstacle_layer\", \"inflation_layer\"]; context is_simulation = true; } } . ",
+    "content": "system { node instance amcl: amcl_type { param robot_model_type = DifferentialMotionModel; param scan_topic_name = \"scan\"; param map_topic_name = \"map\"; param z_hit = 0.7; param z_rand = 0.3; param laser_model_type = LikelihoodField; } node instance map_server: map_server_type { param map_file = \"warehouse_map.yaml\"; param use_sim_time = true; } node instance controller_server: controller_server_type { param controller_frequency = 20.0; param min_x_velocity_threshold = 0.001; param min_y_velocity_threshold = 0.5; param min_theta_velocity_threshold = 0.001; param plugins = [\"FollowPath\"]; context is_simulation = true; } plugin instance follow_path: follow_path_type { param plugin_name = \"follow_path\"; param controller_frequency = 20.0; param max_velocity = [0.5, 0.0, 1.0]; param min_velocity = [-0.5, 0.0, -1.0]; param max_acceleration = [1.0, 0.0, 2.0]; } plugin instance keep_out_filter: keep_out_filter_type { param plugin_name = \"keep_out_filter\"; param enabled = true; param filter_info_topic = \"costmap_filter_info\"; param mask_topic = \"keep_out_mask\"; } node instance planner_server: planner_server_type { param planner_plugins = [\"GridBased\"]; param use_sim_time = true; context is_simulation = true; } plugin instance grid_based: grid_based_type { param plugin_name = \"GridBased\"; param allow_unknown = true; param use_astar = false; param use_final_approach_orientation = true; } node instance costmap: costmap_type { param global_frame = \"map\"; param robot_base_frame = \"base_link\"; param rolling_window = true; param always_send_full_costmap = false; param footprint = [[0.12, 0.12], [0.12, -0.12], [-0.12, -0.12], [-0.12, 0.12]]; param plugins = [\"obstacle_layer\", \"inflation_layer\"]; context is_simulation = true; } } . ",
     "url": "/examples#complete-warehouse-robot-example",
     
     "relUrl": "/examples#complete-warehouse-robot-example"
-  },"53": {
+  },"41": {
     "doc": "Examples",
     "title": "Examples",
     "content": " ",
     "url": "/examples",
     
     "relUrl": "/examples"
-  },"54": {
+  },"42": {
     "doc": "Getting Started",
     "title": "Getting Started",
     "content": " ",
     "url": "/getting-started",
     
     "relUrl": "/getting-started"
-  },"55": {
+  },"43": {
     "doc": "Getting Started",
     "title": "Prerequisites",
     "content": "Before you begin, ensure you have the following installed: . | Python 3.9 or higher installed on your system; | Poetry, for dependency management tool in Python. | . ",
     "url": "/getting-started#prerequisites",
     
     "relUrl": "/getting-started#prerequisites"
-  },"56": {
+  },"44": {
     "doc": "Getting Started",
     "title": "Installation",
     "content": "rospec can be installed either via pip or from source. Install via pip . You can install rospec using pip, which is the recommended method for most users. Open a terminal and run the following command to install rospec and check its version: . pip install rospec rospec --version . Install from source . Installing from source is useful if you want to contribute to the project or if you need the latest features that are not yet available in the pip version. To install from source, follow these steps: . | Clone the repository and navigate to the project directory; git clone https://github.com/pcanelas/rospec.git cd rospec . | Install dependencies using Poetry poetry install . | Activate the virtual environment poetry shell . | . The virtual environment will be activated, and you can run rospec commands from there. We recommend installing rospec using pip in a virtual environment to avoid conflicts with other Python packages. You can create a virtual environment using python -m venv venv and activate it with source venv/bin/activate (Linux/Mac) or venv\\Scripts\\activate (Windows). ",
     "url": "/getting-started#installation",
     
     "relUrl": "/getting-started#installation"
-  },"57": {
+  },"45": {
     "doc": "Getting Started",
     "title": "Basic Workflow",
     "content": "The typical workflow when using rospec involves the following steps: . | Component specifications: Each component in your system should contain a specification file that describes its configurations, their types, and connections; | System specification through component configuration: Define a system declaring the components used and their configurations; | Verify configurations: Use rospec to check for misconfigurations. | . ",
     "url": "/getting-started#basic-workflow",
     
     "relUrl": "/getting-started#basic-workflow"
-  },"58": {
+  },"46": {
     "doc": "Getting Started",
     "title": "Your First Component Specification",
     "content": "Let’s create a very simple specification with a single parameter and its refinement for a ROS node: . node type camera_node_type { param frame_rate: double where {_ &gt; 0.0 &amp;&amp; _ &lt;= 30.0}; publishes to camera/image_raw: sensor_msgs/Image; } . This specification defines a camera node type with: . | A required frame_rate parameter that must be a positive number not exceeding 30; | A defined topic called camera/image_raw that it publishes to with the message type sensor_msgs/Image. | . ",
     "url": "/getting-started#your-first-component-specification",
     
     "relUrl": "/getting-started#your-first-component-specification"
-  },"59": {
+  },"47": {
     "doc": "Getting Started",
     "title": "System Specification",
     "content": "Create a system integration file to specify how components connect: . system { node instance main_camera: camera_node_type { param frame_rate = -15.0; } } . ",
     "url": "/getting-started#system-specification",
     
     "relUrl": "/getting-started#system-specification"
-  },"60": {
+  },"48": {
     "doc": "Getting Started",
     "title": "Verifying Configurations",
     "content": "Run rospec to verify your configurations: . rospec --specifications path/to/your/specifications.rospec . rospec will analyze your specifications and report any misconfigurations. ",
     "url": "/getting-started#verifying-configurations",
     
     "relUrl": "/getting-started#verifying-configurations"
-  },"61": {
+  },"49": {
     "doc": "Getting Started",
     "title": "Next Steps",
     "content": "Now that you’ve created your first component specification, you can: . | Learn about advanced type constraints | Explore component connections | See real-world examples | . Happy specifying! . ",
     "url": "/getting-started#next-steps",
     
     "relUrl": "/getting-started#next-steps"
-  },"62": {
+  },"50": {
     "doc": "Home",
     "title": "rospec - A Domain Specific Language for ROS-based Robot Software",
     "content": "Ensuring the correct configuration and integration of your ROS components since 2025. ",
     "url": "/#rospec---a-domain-specific-language-for-ros-based-robot-software",
     
     "relUrl": "/#rospec---a-domain-specific-language-for-ros-based-robot-software"
-  },"63": {
+  },"51": {
     "doc": "Home",
     "title": "Getting started",
     "content": "hi . hi . hi . hi . hi . @inproceedings{canelas2025rospec, authors = {}, title = {}, booktitle = {}, year = {2025}, doi = {}, } . ",
     "url": "/#getting-started",
     
     "relUrl": "/#getting-started"
-  },"64": {
+  },"52": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
     "url": "/",
     
     "relUrl": "/"
-  },"65": {
+  },"53": {
     "doc": "Language",
     "title": "Navigation",
     "content": "The default page layout supports various navigation features: . | a main navigation panel, highlighting the currently selected page; | a list of auxiliary links, shown on all pages; | lists of breadcrumbs, shown on all except top level pages; | optional lists of links to child pages (so-called ‘tables of contents’); and | section heading links for in-page navigation, with an optional back-to-top link. | . See the following pages for how to specify these features, with illustrative examples. ",
     "url": "/docs/language/#navigation",
     
     "relUrl": "/docs/language/#navigation"
-  },"66": {
+  },"54": {
     "doc": "Language",
     "title": "Language",
     "content": " ",
     "url": "/docs/language/",
     
     "relUrl": "/docs/language/"
-  },"67": {
+  },"55": {
     "doc": "Integration Specifications",
     "title": "Integration Specifications in rospec",
     "content": "Integration specifications define how different components work together in a ROS-based system. This ensures that components are correctly configured and connected, preventing misconfigurations that could lead to unpredictable behavior. ",
     "url": "/integration-spec.html#integration-specifications-in-rospec",
     
     "relUrl": "/integration-spec.html#integration-specifications-in-rospec"
-  },"68": {
+  },"56": {
     "doc": "Integration Specifications",
     "title": "System Definition",
     "content": "The basic structure for defining a system in rospec: . system { // Node instances node instance &lt;node_name&gt;: &lt;node_type&gt; { // Parameter assignments param &lt;param_name&gt; = &lt;value&gt;; ... // Remapping remap &lt;original_topic&gt; to &lt;new_topic&gt;; } // Additional node instances ... } . ",
     "url": "/integration-spec.html#system-definition",
     
     "relUrl": "/integration-spec.html#system-definition"
-  },"69": {
+  },"57": {
     "doc": "Integration Specifications",
     "title": "Node Instantiation",
     "content": "Creating instances of previously defined node types: . system { node instance move_group: move_group_type { param elbow_joint/max_acceleration = 0.5; param elbow_joint/min_velocity = 0.1; param elbow_joint/max_velocity = 2.0; param elbow_joint/has_velocity_limits = true; } } . ",
     "url": "/integration-spec.html#node-instantiation",
     
     "relUrl": "/integration-spec.html#node-instantiation"
-  },"70": {
+  },"58": {
     "doc": "Integration Specifications",
     "title": "Parameter Assignment",
     "content": "Assigning values to parameters defined in the node type: . node instance laser_scan_matcher: laser_scan_matcher_type { param distance_to_obstacle_service = \"get_distance_to_obstacle\"; param use_sim_time = true; context is_simulation = true; } . ",
     "url": "/integration-spec.html#parameter-assignment",
     
     "relUrl": "/integration-spec.html#parameter-assignment"
-  },"71": {
+  },"59": {
     "doc": "Integration Specifications",
     "title": "Topic Remapping",
     "content": "Redirecting topics to different names: . node instance hector_map_server: hector_map_server_type { remap /hector_map_server/get_distance_to_obstacle to get_distance_to_obstacle; } . ",
     "url": "/integration-spec.html#topic-remapping",
     
     "relUrl": "/integration-spec.html#topic-remapping"
-  },"72": {
+  },"60": {
     "doc": "Integration Specifications",
     "title": "Connection Verification",
     "content": "When a system is defined, rospec verifies: . | Publisher-Subscriber Connections: Ensuring that for each subscriber, there is a matching publisher with a compatible message type | Service Provider-Consumer Connections: Checking that service consumers have corresponding service providers | QoS Compatibility: Validating that Quality of Service settings are compatible between publishers and subscribers | TF Frame Connectivity: Ensuring that the TF tree is properly connected | . ",
     "url": "/integration-spec.html#connection-verification",
     
     "relUrl": "/integration-spec.html#connection-verification"
-  },"73": {
+  },"61": {
     "doc": "Integration Specifications",
     "title": "Plugin Integration",
     "content": "Integrating plugins with nodes: . plugin instance right_arm: right_arm_type { param tip_name = \"right_gripper\"; param root_name = \"base_link\"; } node instance arm_kinematics: arm_kinematics_constraint_aware_type { param group = right_arm; // Assigns the plugin to the node } . ",
     "url": "/integration-spec.html#plugin-integration",
     
     "relUrl": "/integration-spec.html#plugin-integration"
-  },"74": {
+  },"62": {
     "doc": "Integration Specifications",
     "title": "Context Validation",
     "content": "Ensuring that components are deployed in the correct context: . node instance navigation_stack: navigation_stack_type { context is_simulation = true; param use_sim_time = true; // Must match the context } . ",
     "url": "/integration-spec.html#context-validation",
     
     "relUrl": "/integration-spec.html#context-validation"
-  },"75": {
+  },"63": {
     "doc": "Integration Specifications",
     "title": "Integration Specifications",
     "content": " ",
     "url": "/integration-spec.html",
     
     "relUrl": "/integration-spec.html"
-  },"76": {
+  },"64": {
     "doc": "Parameter Dependencies",
     "title": "Parameter Dependencies in rospec",
     "content": "One of the powerful features of rospec is the ability to express and verify dependencies between parameters. This allows component writers to document and enforce complex relationships that must be maintained for correct operation. ",
     "url": "/parameter-dependencies.html#parameter-dependencies-in-rospec",
     
     "relUrl": "/parameter-dependencies.html#parameter-dependencies-in-rospec"
-  },"77": {
+  },"65": {
     "doc": "Parameter Dependencies",
     "title": "Basic Dependencies",
     "content": "The most common form of dependency is a simple implication between parameters: . node type controller_type { optional param use_velocity_limits: bool = false; optional param max_velocity: double; optional param min_velocity: double; } where { use_velocity_limits -&gt; exists(max_velocity); use_velocity_limits -&gt; exists(min_velocity); } . This specifies that if use_velocity_limits is true, then both max_velocity and min_velocity must be defined. ",
     "url": "/parameter-dependencies.html#basic-dependencies",
     
     "relUrl": "/parameter-dependencies.html#basic-dependencies"
-  },"78": {
+  },"66": {
     "doc": "Parameter Dependencies",
     "title": "Value Dependencies",
     "content": "Dependencies can also involve specific parameter values: . node type amcl_type { optional param laser_model_type: LaserModelType = LikelihoodField; optional param z_hit: double = 0.5; optional param z_max: double = 0.05; optional param z_rand: double = 0.5; optional param z_short: double = 0.005; } where { laser_model_type == Beam -&gt; z_hit + z_max + z_rand + z_short == 1; laser_model_type == LikelihoodField -&gt; z_hit + z_rand == 1; } . This example from the AMCL node shows how the meaning and constraints on certain parameters depend on the value of the laser_model_type parameter. ",
     "url": "/parameter-dependencies.html#value-dependencies",
     
     "relUrl": "/parameter-dependencies.html#value-dependencies"
-  },"79": {
+  },"67": {
     "doc": "Parameter Dependencies",
     "title": "Existence Dependencies",
     "content": "You can use the exists() function to check if an optional parameter is defined: . node type navigation_stack_type { optional param global_planner: string; optional param global_planner_frequency: double; } where { exists(global_planner) -&gt; exists(global_planner_frequency); } . This ensures that if a global planner is specified, its frequency must also be defined. ",
     "url": "/parameter-dependencies.html#existence-dependencies",
     
     "relUrl": "/parameter-dependencies.html#existence-dependencies"
-  },"80": {
+  },"68": {
     "doc": "Parameter Dependencies",
     "title": "Context Dependencies",
     "content": "rospec allows expressing dependencies between context values and parameters: . node type laser_scan_matcher_type { context is_simulation: bool; optional param use_sim_time: bool = false; } where { is_simulation -&gt; use_sim_time; } . This ensures that if the component is deployed in a simulation context, the use_sim_time parameter must be true. ",
     "url": "/parameter-dependencies.html#context-dependencies",
     
     "relUrl": "/parameter-dependencies.html#context-dependencies"
-  },"81": {
+  },"69": {
     "doc": "Parameter Dependencies",
     "title": "Numeric Relationships",
     "content": "This example ensures that if min and max velocities are defined, min must be less than max, and if a default velocity is defined, it must fall within the allowed range. ",
     "url": "/parameter-dependencies.html#numeric-relationships",
     
     "relUrl": "/parameter-dependencies.html#numeric-relationships"
-  },"82": {
+  },"70": {
     "doc": "Parameter Dependencies",
     "title": "Multiple Parameter Dependencies",
     "content": "This enforces that the rolling_window and static_map parameters cannot both be true, and if rolling_window is true, size parameters must be defined, while if static_map is true, size parameters must not be defined. ",
     "url": "/parameter-dependencies.html#multiple-parameter-dependencies",
     
     "relUrl": "/parameter-dependencies.html#multiple-parameter-dependencies"
-  },"83": {
+  },"71": {
     "doc": "Parameter Dependencies",
     "title": "Symbolic Dependencies",
     "content": "rospec supports symbolic variables in dependencies: . ",
     "url": "/parameter-dependencies.html#symbolic-dependencies",
     
     "relUrl": "/parameter-dependencies.html#symbolic-dependencies"
-  },"84": {
+  },"72": {
     "doc": "Parameter Dependencies",
     "title": "Parameter Dependencies",
     "content": "(Coming soon) . ",
     "url": "/parameter-dependencies.html",
     
     "relUrl": "/parameter-dependencies.html"
-  },"85": {
+  },"73": {
     "doc": "Playground",
     "title": "Playground",
     "content": "Try writing rospec specifications and see the verification in action. ✓Verify ✕Clear ",
     "url": "/playground",
     
     "relUrl": "/playground"
-  },"86": {
+  },"74": {
     "doc": "Plugins in rospec",
     "title": "Plugins in rospec",
     "content": " ",
     "url": "/plugins.html#plugins-in-rospec",
     
     "relUrl": "/plugins.html#plugins-in-rospec"
-  },"87": {
+  },"75": {
     "doc": "Plugins in rospec",
     "title": "Plugin Fundamentals",
     "content": "In ROS, plugins: . | Are dynamically loaded libraries that extend component functionality | Allow for modular design and flexible configuration | Are widely used in navigation, perception, and control systems | Often have their own configuration parameters and requirements | Can introduce misconfigurations if not properly documented and verified | . ",
     "url": "/plugins.html#plugin-fundamentals",
     
     "relUrl": "/plugins.html#plugin-fundamentals"
-  },"88": {
+  },"76": {
     "doc": "Plugins in rospec",
     "title": "Specifying Plugins in rospec",
     "content": "rospec provides a specific syntax for defining plugin types: . plugin type right_arm_type { param tip_name: string; param root_name: string; optional param robot_description: string = \"robot_description\"; optional param tf_safety_timeout: Second = 0.0; } . Similar to node types, plugin types can include: . | Required and optional parameters with types and constraints | Connections to topics and services | TF frame broadcasts and listeners | Parameter dependencies | . ",
     "url": "/plugins.html#specifying-plugins-in-rospec",
     
     "relUrl": "/plugins.html#specifying-plugins-in-rospec"
-  },"89": {
+  },"77": {
     "doc": "Plugins in rospec",
     "title": "Plugin Usage in Nodes",
     "content": "Nodes can use plugins by declaring parameters of type Plugin: . node type arm_kinematics_constraint_aware_type { param group: Plugin; } . ",
     "url": "/plugins.html#plugin-usage-in-nodes",
     
     "relUrl": "/plugins.html#plugin-usage-in-nodes"
-  },"90": {
+  },"78": {
     "doc": "Plugins in rospec",
     "title": "Instantiating Plugins",
     "content": "When configuring a system, you create plugin instances and assign them to nodes: . system { plugin instance right_arm: right_arm_type { param tip_name = \"right_gripper\"; param root_name = \"base_link\"; } node instance arm_kinematics: arm_kinematics_constraint_aware_type { param group = right_arm; // Assigns the plugin to the node } } . ",
     "url": "/plugins.html#instantiating-plugins",
     
     "relUrl": "/plugins.html#instantiating-plugins"
-  },"91": {
+  },"79": {
     "doc": "Plugins in rospec",
     "title": "Plugins in rospec",
     "content": "(Coming soon) . ",
     "url": "/plugins.html",
     
     "relUrl": "/plugins.html"
-  },"92": {
+  },"80": {
     "doc": "TF Frames in rospec",
     "title": "TF Frames in rospec",
     "content": "Transform frames (TF) are a critical component of ROS-based robotic systems, providing a way to track spatial relationships between different parts of a robot and its environment. rospec provides dedicated syntax for specifying and verifying TF frame relationships. ",
     "url": "/tf-frames.html#tf-frames-in-rospec",
     
     "relUrl": "/tf-frames.html#tf-frames-in-rospec"
-  },"93": {
+  },"81": {
     "doc": "TF Frames in rospec",
     "title": "TF Fundamentals",
     "content": "In ROS, the TF system: . | Tracks relationships between coordinate frames over time | Allows transforming points, vectors, and poses between different frames | Organizes frames in a tree structure, with each frame having a single parent | Facilitates distributed computing by providing consistent frame data to all nodes | . Misconfigurations in TF are common and can lead to serious issues: . | Missing transforms causing navigation failures | Incorrect frame relationships leading to collisions | Outdated transforms resulting in incorrect planning | . ",
     "url": "/tf-frames.html#tf-fundamentals",
     
     "relUrl": "/tf-frames.html#tf-fundamentals"
-  },"94": {
+  },"82": {
     "doc": "TF Frames in rospec",
     "title": "Specifying TF Frames in rospec",
     "content": "rospec provides two primary ways to specify TF frame relationships: . 1. Broadcasts . When a node publishes transformations: . node type base_controller_type { broadcast odom to base_link; } . This indicates that the node broadcasts the transformation from the odom frame to the base_link frame. 2. Listeners . When a node requires transformations from other nodes: . node type laser_scan_matcher_type { listens base_link to laser; } . This indicates that the node needs to know the transformation from base_link to laser, which must be provided by another node. ",
     "url": "/tf-frames.html#specifying-tf-frames-in-rospec",
     
     "relUrl": "/tf-frames.html#specifying-tf-frames-in-rospec"
-  },"95": {
+  },"83": {
     "doc": "TF Frames in rospec",
     "title": "TF Frames with Parameters",
     "content": "Often, frame names are configurable parameters: . node type amcl_type { param global_frame: string = \"map\"; param odom_frame: string = \"odom\"; param base_frame: string = \"base_link\"; broadcast content(global_frame) to content(odom_frame); broadcast content(odom_frame) to content(base_frame); } . The content() function in rospec dynamically resolves parameter values for frame names. ",
     "url": "/tf-frames.html#tf-frames-with-parameters",
     
     "relUrl": "/tf-frames.html#tf-frames-with-parameters"
-  },"96": {
+  },"84": {
     "doc": "TF Frames in rospec",
     "title": "TF Tree Verification",
     "content": "rospec automatically verifies the TF tree by: . | Checking for missing transforms: Ensuring that for every frame a node listens to, there is a corresponding broadcaster | Validating tree structure: Ensuring each frame has exactly one parent | Checking for cycles: Ensuring there are no loops in the transform tree | . For example, given: . node instance amcl: amcl_type { broadcast map to odom; } node instance laser_scan_matcher: laser_scan_matcher_type { broadcast odom to base_link; listens base_link to laser; } node instance laser_driver: laser_driver_type { // Missing transform broadcast from base_link to laser } . rospec would detect: . Error: Missing transform broadcast in the TF tree. Node 'laser_scan_matcher' listens to transform from 'base_link' to 'laser', but no node broadcasts this transform. at system.spec:15:3 . ",
     "url": "/tf-frames.html#tf-tree-verification",
     
     "relUrl": "/tf-frames.html#tf-tree-verification"
-  },"97": {
+  },"85": {
     "doc": "TF Frames in rospec",
     "title": "TF Frames in rospec",
     "content": "(Coming soon) . ",
     "url": "/tf-frames.html",
     
     "relUrl": "/tf-frames.html"
-  },"98": {
+  },"86": {
     "doc": "rospec Type System",
     "title": "rospec Type System",
     "content": "rospec uses a rich type system built on liquid and dependent types to express constraints and relationships between configuration values. This enables precise specification and verification of component configurations. ",
     "url": "/type-system.html#rospec-type-system",
     
     "relUrl": "/type-system.html#rospec-type-system"
-  },"99": {
+  },"87": {
     "doc": "rospec Type System",
     "title": "Basic Types",
     "content": "rospec supports the following primitive types: . | Type | Description | Examples | . | bool | Boolean values | true, false | . | int | Integer values | -1, 0, 42 | . | int8, int16, int32, int64 | Sized integers | 127, -32768 | . | uint8, uint16, uint32, uint64 | Unsigned integers | 255, 65535 | . | float | Floating-point numbers | 3.14159, -0.5 | . | double | Double-precision floating point | 1.23456789, -2.71828 | . | string | Text values | \"robot_name\", \"base_link\" | . ",
     "url": "/type-system.html#basic-types",
     
     "relUrl": "/type-system.html#basic-types"
-  },"100": {
+  },"88": {
     "doc": "rospec Type System",
     "title": "Refined Types (Liquid Types)",
     "content": "rospec uses liquid types to express constraints on values: . param max_speed: double where {_ &gt;= 0.0 &amp;&amp; _ &lt;= 10.0}; param retry_count: int where {_ &gt; 0 &amp;&amp; _ &lt; 10}; . The underscore (_) represents the value being constrained. ",
     "url": "/type-system.html#refined-types-liquid-types",
     
     "relUrl": "/type-system.html#refined-types-liquid-types"
-  },"101": {
+  },"89": {
     "doc": "rospec Type System",
     "title": "Type Aliases",
     "content": "You can define aliases for types to improve code readability: . type alias LaserModelType: Enum[Beam, LikelihoodField, LikelihoodFieldProb]; type alias Meter: double; type alias Radian: double; type alias NodeName: string; . ",
     "url": "/type-system.html#type-aliases",
     
     "relUrl": "/type-system.html#type-aliases"
-  },"102": {
+  },"90": {
     "doc": "rospec Type System",
     "title": "Enumerations",
     "content": " ",
     "url": "/type-system.html#enumerations",
     
     "relUrl": "/type-system.html#enumerations"
-  },"103": {
+  },"91": {
     "doc": "rospec Type System",
     "title": "Message Types",
     "content": "rospec automatically understands standard ROS message types: . publishes to cmd_vel: geometry_msgs/Twist; subscribes to laser_scan: sensor_msgs/LaserScan; provides service get_map: nav_msgs/GetMap; . ",
     "url": "/type-system.html#message-types",
     
     "relUrl": "/type-system.html#message-types"
-  },"104": {
+  },"92": {
     "doc": "rospec Type System",
     "title": "Message Alias and Field Specifications",
     "content": "You can define message aliases with field-specific constraints: . message alias ImageWith16Encoding: sensor_msgs/Image { field header: Header; field encoding: ImageEncoding16; field data: Millimeter[]; } . This allows for more specific type checking when components exchange messages. ",
     "url": "/type-system.html#message-alias-and-field-specifications",
     
     "relUrl": "/type-system.html#message-alias-and-field-specifications"
-  },"105": {
+  },"93": {
     "doc": "rospec Type System",
     "title": "Optional Types",
     "content": "Parameters can be marked as optional with default values: . optional param timeout: double = 30.0; optional param retry_count: int = 3; optional param node_name: string = \"default_node\"; . ",
     "url": "/type-system.html#optional-types",
     
     "relUrl": "/type-system.html#optional-types"
-  },"106": {
+  },"94": {
     "doc": "rospec Type System",
     "title": "Arrays and Collections",
     "content": "rospec supports array types: . param gain_values: double[] where {length(_) == 3}; param joint_names: string[]; . ",
     "url": "/type-system.html#arrays-and-collections",
     
     "relUrl": "/type-system.html#arrays-and-collections"
-  },"107": {
+  },"95": {
     "doc": "rospec Type System",
     "title": "Physical Units",
     "content": "rospec encourages specifying physical units for clarity: . type alias Meter: double; type alias Millimeter: double; type alias Radian: double; type alias Degree: double; param wheel_radius: Meter = 0.1; param joint_limit: Radian where {_ &gt;= 0.0 &amp;&amp; _ &lt;= 3.14159}; . ",
     "url": "/type-system.html#physical-units",
     
     "relUrl": "/type-system.html#physical-units"
-  },"108": {
+  },"96": {
     "doc": "rospec Type System",
     "title": "Type Checking",
     "content": "rospec performs static type checking to ensure: . | Parameter values match their declared types | Constraints on parameter values are satisfied | Dependent constraints between parameters are respected | Message types in publisher-subscriber connections are compatible | Service types in provider-consumer connections match | QoS settings are compatible | . ",
     "url": "/type-system.html#type-checking",
     
     "relUrl": "/type-system.html#type-checking"
-  },"109": {
+  },"97": {
     "doc": "rospec Type System",
     "title": "rospec Type System",
     "content": "(Coming soon) . ",

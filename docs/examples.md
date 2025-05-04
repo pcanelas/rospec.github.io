@@ -12,7 +12,7 @@ This page provides practical examples of rospec specifications to help you under
 
 ## Basic Node Type Example
 
-```
+```rospec
 node type laser_scan_matcher_type {
   context is_simulation: bool;
   
@@ -34,7 +34,7 @@ This example defines a laser scan matcher node type with:
 
 ## Publisher-Subscriber Example
 
-```
+```rospec
 node type hector_object_tracker_type {
   param distance_to_obstacle_service: string;
   
@@ -52,7 +52,7 @@ node type hector_map_server_type {
 
 The system integration would look like:
 
-```
+```rospec
 system {
   node instance hector_object_tracker: hector_object_tracker_type {
     param distance_to_obstacle_service = "get_distance_to_obstacle";
@@ -66,7 +66,7 @@ system {
 
 ## Message Alias Example
 
-```
+```rospec
 type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16, 16UC1,
   16UC2, 16UC3, 16UC4, 16SC1, 16SC2, 16SC3, 16SC4, BAYER_RGGB16,
   BAYER_BGGR16, BAYER_GBRG16, BAYER_GRBG16];
@@ -82,7 +82,7 @@ message alias ImageWith16Encoding: sensor_msgs/Image {
 
 ## Quality of Service (QoS) Example
 
-```
+```rospec
 policy instance best_effort_qos5: qos {
   param depth = 5;
   param reliability = BestEffort;
@@ -103,7 +103,7 @@ node type custom_node_type {
 
 ## Plugin Example
 
-```
+```rospec
 node type arm_kinematics_constraint_aware_type {
   param group: Plugin;
 }
@@ -118,7 +118,7 @@ plugin type right_arm_type {
 
 ## AMCL Node Example
 
-```
+```rospec
 type alias LaserModelType: Enum[Beam, LikelihoodField, LikelihoodFieldProb]
 
 node type amcl_type {
@@ -164,7 +164,7 @@ node type amcl_type {
 
 ## Complete Warehouse Robot Example
 
-```
+```rospec
 system {
   node instance amcl: amcl_type {
     param robot_model_type = DifferentialMotionModel;
@@ -232,3 +232,4 @@ system {
     context is_simulation = true;
   }
 }
+```

@@ -76,7 +76,7 @@ rospec detects various categories of misconfigurations:
 - **Inconsistent Parameters**: Conflicting parameter values
 
 Example:
-```
+```rospec
 node type controller_type {
   param max_velocity: double where {_ > 0.0};
 }
@@ -96,7 +96,7 @@ system {
 - **QoS Incompatibility**: Conflicting QoS settings between publishers and subscribers
 
 Example:
-```
+```rospec
 node type camera_type {
   publishes to /camera/image_raw: sensor_msgs/CompressedImage;
 }
@@ -113,7 +113,7 @@ node type processor_type {
 - **Distribution Incompatibility**: Components from incompatible ROS distributions
 
 Example:
-```
+```rospec
 node type navigation_type {
   context is_simulation: bool;
   

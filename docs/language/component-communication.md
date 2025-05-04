@@ -25,7 +25,7 @@ The most common communication pattern in ROS is publisher-subscriber, where comp
 
 ### Topic Remapping
 
-```
+```rospec
 system {
   node instance camera: camera_driver_type {
     param camera_name = "front_camera";
@@ -46,7 +46,7 @@ Services provide a request-response pattern for synchronous communication.
 
 ### Service Providers
 
-```
+```rospec
 node type map_server_type {
   provides service /map_server/get_map: nav_msgs/GetMap;
   provides service /map_server/get_map_properties: nav_msgs/GetMapProperties;
@@ -60,7 +60,7 @@ node type map_server_type {
 
 You can use parameters to dynamically determine service names:
 
-```
+```rospec
 node type object_tracker_type {
   param distance_service: string;
   
@@ -80,7 +80,7 @@ Actions are used for long-running tasks with feedback and preemption capabilitie
 
 ### Action Servers
 
-```
+```rospec
 node type move_base_type {
   provides action /move_base: nav_msgs/MoveBase;
   provides action /clear_costmaps: std_msgs/Empty;
@@ -89,7 +89,7 @@ node type move_base_type {
 
 ### Action Clients
 
-```
+```rospec
 node type mission_executor_type {
   consumes action /move_base: nav_msgs/MoveBase;
   consumes action /clear_costmaps: std_msgs/Empty;
@@ -102,7 +102,7 @@ ROS 2 introduced Quality of Service settings for fine-grained control of communi
 
 ### Defining QoS Policies
 
-```
+```rospec
 policy instance sensor_data: qos {
   param depth = 5;
   param reliability = BestEffort;
@@ -118,7 +118,7 @@ policy instance reliable_transient: qos {
 
 ### Applying QoS to Publishers
 
-```
+```rospec
 node type camera_type {
   @qos{sensor_data}
   publishes to /camera/image_raw: sensor_msgs/Image;
@@ -130,7 +130,7 @@ node type camera_type {
 
 ### Applying QoS to Subscribers
 
-```
+```rospec
 node type image_processor_type {
   @qos{sensor_data}
   subscribes to /camera/image_raw: sensor_msgs/Image;
@@ -144,7 +144,7 @@ node type image_processor_type {
 
 rospec checks that connected components use compatible message types:
 
-```
+```rospec
 node type camera_type {
   publishes to /camera/image_raw: sensor_msgs/Image;
 }
@@ -158,7 +158,7 @@ node type processor_type {
 
 You can specify constraints on the number of publishers or subscribers:
 
-```
+```rospec
 node type pose_initializer_type {
   publishes to /initialpose: geometry_msgs/PoseWithCovariance;
 }
@@ -173,7 +173,7 @@ node type localization_type {
 
 rospec allows you to specify constraints on message fields:
 
-```
+```rospec
 message alias ValidLaserScan: sensor_msgs/LaserScan {
   field angle_min: float where {_ >= -3.14159 && _ <= 0.0};
   field angle_max: float where {_ >= 0.0 && _ <= 3.14159};

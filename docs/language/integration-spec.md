@@ -14,7 +14,7 @@ Integration specifications define how different components work together in a RO
 
 The basic structure for defining a system in rospec:
 
-```
+```rospec
 system {
   // Node instances
   node instance <node_name>: <node_type> {
@@ -35,7 +35,7 @@ system {
 
 Creating instances of previously defined node types:
 
-```
+```rospec
 system {
   node instance move_group: move_group_type {
     param elbow_joint/max_acceleration = 0.5;
@@ -50,7 +50,7 @@ system {
 
 Assigning values to parameters defined in the node type:
 
-```
+```rospec
 node instance laser_scan_matcher: laser_scan_matcher_type {
   param distance_to_obstacle_service = "get_distance_to_obstacle";
   param use_sim_time = true;
@@ -62,7 +62,7 @@ node instance laser_scan_matcher: laser_scan_matcher_type {
 
 Redirecting topics to different names:
 
-```
+```rospec
 node instance hector_map_server: hector_map_server_type {
   remap /hector_map_server/get_distance_to_obstacle to get_distance_to_obstacle;
 }
@@ -81,7 +81,7 @@ When a system is defined, rospec verifies:
 
 Integrating plugins with nodes:
 
-```
+```rospec
 plugin instance right_arm: right_arm_type {
   param tip_name = "right_gripper";
   param root_name = "base_link";
@@ -96,7 +96,7 @@ node instance arm_kinematics: arm_kinematics_constraint_aware_type {
 
 Ensuring that components are deployed in the correct context:
 
-```
+```rospec
 node instance navigation_stack: navigation_stack_type {
   context is_simulation = true;
   param use_sim_time = true;  // Must match the context

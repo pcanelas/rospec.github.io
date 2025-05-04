@@ -17,7 +17,7 @@ One of the powerful features of rospec is the ability to express and verify depe
 
 The most common form of dependency is a simple implication between parameters:
 
-```
+```rospec
 node type controller_type {
   optional param use_velocity_limits: bool = false;
   optional param max_velocity: double;
@@ -35,7 +35,7 @@ This specifies that if `use_velocity_limits` is `true`, then both `max_velocity`
 
 Dependencies can also involve specific parameter values:
 
-```
+```rospec
 node type amcl_type {
   optional param laser_model_type: LaserModelType = LikelihoodField;
   optional param z_hit: double = 0.5;
@@ -55,7 +55,7 @@ This example from the AMCL node shows how the meaning and constraints on certain
 
 You can use the `exists()` function to check if an optional parameter is defined:
 
-```
+```rospec
 node type navigation_stack_type {
   optional param global_planner: string;
   optional param global_planner_frequency: double;
@@ -71,7 +71,7 @@ This ensures that if a global planner is specified, its frequency must also be d
 
 rospec allows expressing dependencies between context values and parameters:
 
-```
+```rospec
 node type laser_scan_matcher_type {
   context is_simulation: bool;
   optional param use_sim_time: bool = false;

@@ -36,7 +36,7 @@ rospec provides two primary ways to specify TF frame relationships:
 
 When a node publishes transformations:
 
-```
+```rospec
 node type base_controller_type {
   broadcast odom to base_link;
 }
@@ -48,7 +48,7 @@ This indicates that the node broadcasts the transformation from the `odom` frame
 
 When a node requires transformations from other nodes:
 
-```
+```rospec
 node type laser_scan_matcher_type {
   listens base_link to laser;
 }
@@ -60,7 +60,7 @@ This indicates that the node needs to know the transformation from `base_link` t
 
 Often, frame names are configurable parameters:
 
-```
+```rospec
 node type amcl_type {
   param global_frame: string = "map";
   param odom_frame: string = "odom";
@@ -83,7 +83,7 @@ rospec automatically verifies the TF tree by:
 
 For example, given:
 
-```
+```rospec
 node instance amcl: amcl_type {
   broadcast map to odom;
 }
@@ -100,7 +100,7 @@ node instance laser_driver: laser_driver_type {
 
 rospec would detect:
 
-```
+```rospec
 Error: Missing transform broadcast in the TF tree.
   Node 'laser_scan_matcher' listens to transform from 'base_link' to 'laser',
   but no node broadcasts this transform.
