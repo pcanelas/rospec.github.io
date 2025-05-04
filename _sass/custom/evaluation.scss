@@ -1,0 +1,31 @@
+// Custom styling for evaluation page
+// Status pills styling
+.status-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    min-width: 80px;
+}
+  
+.status-documentation {
+    background-color: #ffeeba;
+color: #856404;
+}
+  
+.status-detectable {
+    background-color: #d4edda;
+    color: #155724;
+}
+  
+// Enhance misconfiguration pills
+.label-misconfiguration {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+    
+    &:hover {
+      box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+    }
+}
