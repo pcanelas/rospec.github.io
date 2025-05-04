@@ -1,7 +1,7 @@
 ---
 #layout: minimal
 title: Evaluation
-permalink: questions.html
+permalink: evaluation
 sidebar: home_sidebar
 nav_order: 5
 ---
