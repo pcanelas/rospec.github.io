@@ -6,7 +6,7 @@ sidebar: home_sidebar
 nav_order: 5
 ---
 
-# Evaluation of rospec
+# Evaluation
 
 This page shows the evaluation of misconfigurations that rospec can currently detect or document.
 

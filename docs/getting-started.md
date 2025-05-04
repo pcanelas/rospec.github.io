@@ -79,10 +79,9 @@ Create a system integration file to specify how components connect:
 
 ```rospec
 system {
-  node instance main_camera: camera_node_type {
-    param frame_rate = -15.0;
-    param resolution = "640x480";
-  }
+    node instance main_camera: camera_node_type {
+        param frame_rate = -15.0;
+    }
 }
 ```
 
@@ -101,7 +100,6 @@ rospec will analyze your specifications and report any misconfigurations.
 Now that you've created your first component specification, you can:
 
 - Learn about [advanced type constraints](type-constraints.html)
-- Understand [parameter dependencies](parameter-dependencies.html)
 - Explore [component connections](component-connections.html)
 - See [real-world examples](examples.html)
 
