@@ -1,38 +1,67 @@
+/**
+ * Custom syntax highlighting for rospec code blocks
+ */
 document.addEventListener('DOMContentLoaded', function() {
-    // Find all rospec code elements
-    const rospecCodeBlocks = document.querySelectorAll('code.rospec-code');
-    
-    // Process each code block
-    rospecCodeBlocks.forEach(function(codeBlock) {
-        const code = codeBlock.textContent;
-        let highlightedCode = code;
+    // Define the rospec language for highlight.js
+    if (window.hljs) {
+      // Define rospec language grammar
+      window.hljs.registerLanguage('rospec', function(hljs) {
+        const CONNECTION_KEYWORDS = 
+          'subscribers subscribes to publishes to broadcasts listens dynamic ' +
+          'broadcast listen static publishers remapping to calls service ' +
+          'provides consumes';
         
-        // Replace keywords with spans containing the appropriate classes
-        // Connection keywords
-        highlightedCode = highlightedCode.replace(/\b(subscribers|subscribes to|publishes to|broadcasts|listens|dynamic|broadcast|listen|static|publishers|remaps|provides|consumes)\b/g, '<span class="cm-connection-keyword">$1</span>');
+        const ROSPEC_KEYWORDS = 
+          'node type plugin type policy rules attach to message service action ' +
+          'qos policy frame link hierarchy alias field from nodelet instance ' +
+          'expects system ensures and or optional topic param where response ' +
+          'request feedback remaps external verify plugin';
         
-        // Rospec keywords
-        highlightedCode = highlightedCode.replace(/\b(node|type|plugin|policy|system|instance|where|param|optional|context)\b/g, '<span class="cm-rospec-keyword">$1</span>');
+        const SPECIAL_KEYWORDS = 
+          'exists count content eventually always tag qos in out context ' +
+          'childs parents';
         
-        // Special keywords
-        highlightedCode = highlightedCode.replace(/\b(exists|count|content|eventually|always|tag|qos|in|out)\b/g, '<span class="cm-special-keyword">$1</span>');
-        highlightedCode = highlightedCode.replace(/@\w+/g, '<span class="cm-special-keyword">$&</span>');
+        const TYPES = 
+          'int float double bool string int8 int16 int32 int64 uint8 uint16 ' +
+          'uint32 uint64';
         
-        // Types
-        highlightedCode = highlightedCode.replace(/\b(int|float|double|bool|string)\b/g, '<span class="cm-ttype">$1</span>');
-        highlightedCode = highlightedCode.replace(/\b([a-z0-9_]+\/[a-zA-Z0-9_]*[A-Z][a-zA-Z0-9_\/]*)\b/g, '<span class="cm-ttype">$1</span>');
-        highlightedCode = highlightedCode.replace(/\b([A-Z][a-zA-Z0-9_]+)\b/g, '<span class="cm-ttype">$1</span>');
-        
-        // Boolean values
-        highlightedCode = highlightedCode.replace(/\b(true|false)\b/g, '<span class="cm-number">$1</span>');
-        
-        // Numbers
-        highlightedCode = highlightedCode.replace(/\b\d+\b/g, '<span class="cm-number">$1</span>');
-        
-        // Comments
-        highlightedCode = highlightedCode.replace(/(#.*)$/gm, '<span class="cm-rospec-comment">$1</span>');
-        
-        // Set the highlighted code
-        codeBlock.innerHTML = highlightedCode;
-    });
-});
+        return {
+          name: 'rospec',
+          case_insensitive: false,
+          keywords: {
+            keyword: ROSPEC_KEYWORDS,
+            built_in: CONNECTION_KEYWORDS,
+            literal: 'true false',
+            type: TYPES,
+            meta: SPECIAL_KEYWORDS
+          },
+          contains: [
+            hljs.C_LINE_COMMENT_MODE,
+            hljs.QUOTE_STRING_MODE,
+            hljs.APOS_STRING_MODE,
+            hljs.C_NUMBER_MODE,
+            {
+              className: 'class',
+              // Match ROS message types like std_msgs/String
+              begin: /\b([a-z0-9_]+\/[a-zA-Z0-9_]*[A-Z][a-zA-Z0-9_\/]*)\b/
+            },
+            // Other capitalized types
+            {
+              className: 'class',
+              begin: /\b([A-Z][a-zA-Z0-9_]+)\b/
+            },
+            // Operator
+            {
+              className: 'operator',
+              begin: /[{}:;=]/
+            }
+          ]
+        };
+      });
+      
+      // Find and highlight all rospec code blocks
+      document.querySelectorAll('pre code.language-rospec, code.rospec-code').forEach(function(block) {
+        hljs.highlightElement(block);
+      });
+    }
+  });

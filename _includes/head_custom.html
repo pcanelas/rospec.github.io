@@ -1,0 +1,70 @@
+<!-- Load highlight.js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<!-- Custom rospec styling -->
+<style>
+/* Basic code block styling */
+pre code.language-rospec {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: 'JetBrains Mono', monospace, Consolas, 'Courier New', monospace;
+  line-height: 1.5;
+  text-align: left;
+  padding: 10px;
+  width: 100%;
+  overflow-x: auto;
+  background-color: #f8f8f8;
+}
+
+/* Force all punctuation and operators to be black */
+.hljs-punctuation, .hljs-operator {
+  color: #000000 !important;
+  background-color: transparent !important;
+}
+
+/* Keywords */
+.hljs-keyword {
+  color: #000000 !important;
+  font-weight: bold !important;
+}
+
+/* Special keywords */
+.hljs-meta {
+  color: darkorange !important;
+  font-weight: bold !important;
+}
+
+/* Connection keywords */
+.hljs-built_in {
+  color: #87004b !important;
+  font-weight: bold !important;
+}
+
+/* Types */
+.hljs-type, .hljs-class {
+  color: #083088 !important;
+}
+
+/* Variables */
+.hljs-variable, .hljs-attr {
+  color: #830000 !important;
+}
+
+/* Numbers */
+.hljs-number {
+  color: #008cff !important;
+}
+
+/* Comments */
+.hljs-comment {
+  color: #9e9e9e !important;
+  font-style: italic !important;
+}
+
+/* Strings */
+.hljs-string {
+  color: rgb(17, 107, 40) !important;
+}
+</style>
