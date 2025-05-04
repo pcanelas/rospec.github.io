@@ -14,12 +14,12 @@ Here we have the evaluation of our paper...
       <th>Question</th>
       <th>Misconfiguration</th>
       <th>Status</th>
-      <th>Writer</th>
-      <th>Integrator</th>
+      <th>Specification</th>
     </tr>
   </thead>
   <tbody>
     {% for row in site.data.questions %}
+    {% if row.status == "Documentation" or row.status == "Detectable" %}
     <tr>
         <td><a href="https://answers.ros.org/question/{{ row.question }}" target="_blank" rel="noopener noreferrer">
         {{ row.question }}
@@ -32,19 +32,22 @@ Here we have the evaluation of our paper...
           </div>
         </td>
       <td>{{ row.status }}</td>
-      <td>
-        <details>
-          <summary>Show Writer</summary>
-          <pre><code class="rospec-code">{{ row.writer | escape }}</code></pre>
-        </details>
-      </td>
-      <td>
-        <details>
-          <summary>Show Integrator</summary>
-          <pre><code class="rospec-code">{{ row.integrator | escape }}</code></pre>
-        </details>
+      <td style="text-align: center;">
+        {% if row.writer != blank and row.writer != "-" %}
+          <details>
+            <summary>Show Specification</summary>
+            <pre><code class="rospec-code">{{ row.writer | escape }}{% if row.integrator != blank and row.integrator != "-" %}
+
+system {
+{{ row.integrator | escape }}
+}{% endif %}</code></pre>
+          </details>
+        {% else %}
+          <div style="display: flex; justify-content: center; width: 100%;">-</div>
+        {% endif %}
       </td>
     </tr>
+    {% endif %}
     {% endfor %}
   </tbody>
 </table>

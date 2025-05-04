@@ -15,10 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
           'node plugin policy rules attach message service action ' +
           'qos frame link hierarchy field from nodelet instance ' +
           'expects system ensures and or optional topic param where response ' +
-          'request feedback remaps external verify setting type alias';
+          'request feedback remaps external verify setting type alias context';
         
         const SPECIAL_KEYWORDS = 
-          'exists count content eventually always tag qos in out context ' +
+          'exists count content eventually always tag qos in out ' +
           'childs parents default';
         
         const TYPES = 
