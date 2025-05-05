@@ -7,6 +7,12 @@ window.addEventListener('load', function() {
   function enhanceRospecHighlighting(element) {
     if (!element) return;
     
+    // Check for comments that start with # and add highlighting
+    element.innerHTML = element.innerHTML.replace(
+      /(#.*)$/gm, 
+      '<span class="hljs-comment">$1</span>'
+    );
+      
     // Add specific highlight classes for context keyword
     element.innerHTML = element.innerHTML.replace(
       /(\bcontext\b)/g, 

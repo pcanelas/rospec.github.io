@@ -36,7 +36,11 @@ document.addEventListener('DOMContentLoaded', function() {
             meta: SPECIAL_KEYWORDS
           },
           contains: [
-            hljs.C_LINE_COMMENT_MODE,
+            {
+              className: 'comment',
+              begin: /#/, 
+              end: /$/
+            },
             hljs.QUOTE_STRING_MODE,
             hljs.APOS_STRING_MODE,
             hljs.C_NUMBER_MODE,

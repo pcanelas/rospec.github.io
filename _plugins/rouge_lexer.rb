@@ -38,7 +38,7 @@ if defined?(Rouge) && !Rouge::Lexers.const_defined?(:Rospec)
         
         state :root do
           rule %r/\s+/m, Text::Whitespace
-          rule %r/#.*$/, Comment::Single
+          rule %r/#.*$/, Comment::Single  # This is the updated line for # comments
           
           # Connection keywords
           rule %r/\b(#{connection_keywords.join('|')})\b/, Keyword::Declaration
