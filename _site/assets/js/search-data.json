@@ -350,11 +350,11 @@
     "relUrl": "/getting-started#next-steps"
   },"50": {
     "doc": "Home",
-    "title": "rospec - A Domain Specific Language for ROS-based Robot Software",
+    "title": " rospec - A Domain Specific Language for ROS-based Robot Software",
     "content": "Ensuring the correct configuration and integration of your ROS components since 2025. ",
-    "url": "/#rospec---a-domain-specific-language-for-ros-based-robot-software",
+    "url": "/#-rospec---a-domain-specific-language-for-ros-based-robot-software",
     
-    "relUrl": "/#rospec---a-domain-specific-language-for-ros-based-robot-software"
+    "relUrl": "/#-rospec---a-domain-specific-language-for-ros-based-robot-software"
   },"51": {
     "doc": "Home",
     "title": "Getting started",

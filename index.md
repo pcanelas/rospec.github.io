@@ -6,7 +6,8 @@ description: Homepage for rospec!
 permalink: /
 ---
 
-# rospec - A Domain Specific Language for ROS-based Robot Software
+
+# <img src="assets/images/logo.svg" alt="rospec logo" style="height: 40px; vertical-align: middle;"> rospec - A Domain Specific Language for ROS-based Robot Software
 {: .fs-9 }
 
 Ensuring the correct configuration and integration of your ROS components since 2025.
