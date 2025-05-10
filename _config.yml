@@ -1,7 +1,7 @@
 title: rospec
 description: A Domain Specification Language for detecting configuration and integration errors in ROS-based Robot Software.
 baseurl: "/" # the first page that we get into
-url: "rospec.pcanelas.com"
+url: "https://pcanelas.com"
 repository: pcanelas/rospec.github.io
 
 remote_theme: just-the-docs/just-the-docs

@@ -1,1 +1,1 @@
-Sitemap: rospec.pcanelas.com/sitemap.xml
+Sitemap: https://pcanelas.com/sitemap.xml
