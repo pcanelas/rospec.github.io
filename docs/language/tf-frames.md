@@ -1,8 +1,9 @@
 ---
-title: TF Frames in rospec
+title: TF Frames
 sidebar: home_sidebar
-permalink: tf-frames.html
+permalink: tf-frames
 parent: Language
+nav_order: 3
 summary: Learn how to specify and verify TF frame broadcasts and listeners in rospec.
 ---
 

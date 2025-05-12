@@ -1,8 +1,9 @@
 ---
-title: Integration Specifications
+title: System Integration
 sidebar: home_sidebar
-permalink: integration-spec.html
+permalink: system
 parent: Language
+nav_order: 5
 summary: Learn how to specify and verify the integration of ROS components using rospec.
 ---
 

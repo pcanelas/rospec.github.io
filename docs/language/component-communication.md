@@ -1,8 +1,9 @@
 ---
 title: Component Communication
 sidebar: home_sidebar
-permalink: component-communication.html
+permalink: component-communication
 parent: Language
+nav_order: 1
 summary: Learn how to specify and verify communication between ROS components using rospec.
 ---
 

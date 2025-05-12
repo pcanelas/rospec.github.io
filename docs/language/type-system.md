@@ -1,8 +1,9 @@
 ---
-title: rospec Type System
+title: Type System
 sidebar: home_sidebar
-permalink: type-system.html
+permalink: type-system
 parent: Language
+nav_order: 6
 summary: Understanding the type system in rospec, including basic types, liquid types, and type aliases.
 ---
 
@@ -111,15 +112,3 @@ type alias Degree: double;
 param wheel_radius: Meter = 0.1;
 param joint_limit: Radian where {_ >= 0.0 && _ <= 3.14159};
 ```
-
-## Type Checking
-
-rospec performs static type checking to ensure:
-
-1. Parameter values match their declared types
-2. Constraints on parameter values are satisfied
-3. Dependent constraints between parameters are respected
-4. Message types in publisher-subscriber connections are compatible
-5. Service types in provider-consumer connections match
-6. QoS settings are compatible
-

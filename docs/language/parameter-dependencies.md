@@ -3,6 +3,7 @@ title: Parameter Dependencies
 sidebar: home_sidebar
 permalink: parameter-dependencies.html
 parent: Language
+nav_order: 2
 summary: Learn how to express and verify relationships between parameters in rospec.
 ---
 

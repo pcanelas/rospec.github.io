@@ -1,8 +1,9 @@
 ---
-title: Component Specifications
+title: Component Specification
 sidebar: home_sidebar
-permalink: component-spec.html
+permalink: component-specification
 parent: Language
+nav_order: 0
 summary: Learn how to write rospec specifications for ROS components.
 ---
 

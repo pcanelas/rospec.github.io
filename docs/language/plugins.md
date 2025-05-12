@@ -1,8 +1,9 @@
 ---
-title: Plugins in rospec
+title: Plugins
 sidebar: home_sidebar
-permalink: plugins.html
+permalink: plugins
 parent: Language
+nav_order: 4
 summary: Learn how to specify and verify plugin configurations in rospec.
 ---
 
