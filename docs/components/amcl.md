@@ -61,5 +61,3 @@ system {
     }
 }
 ```
-
-## Complete Warehouse Robot Example

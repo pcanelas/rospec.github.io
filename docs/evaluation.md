@@ -64,4 +64,8 @@ system {
   </tbody>
 </table>
 
+<!-- Include evaluation.js for toggle functionality -->
 <script src="{{ '/assets/js/evaluation.js' | relative_url }}"></script>
+
+<!-- Include the rospec verification script -->
+<script src="{{ '/assets/js/rospec-verification.js' | relative_url }}"></script>

@@ -10,7 +10,7 @@ summary: Understanding the type system in rospec, including basic types, liquid 
 (Coming soon)
 {: .important }
 
-# rospec Type System
+# Type System
 
 rospec uses a rich type system built on liquid and dependent types to express constraints and relationships between configuration values. This enables precise specification and verification of component configurations.
 
@@ -27,12 +27,13 @@ rospec supports the following primitive types:
 | `float` | Floating-point numbers | `3.14159`, `-0.5` |
 | `double` | Double-precision floating point | `1.23456789`, `-2.71828` |
 | `string` | Text values | `"robot_name"`, `"base_link"` |
+| `t` | message type | `geometry_msgs/Twist`, `sensor_msgs/LaserScan` |
 
 ## Refined Types (Liquid Types)
 
 rospec uses liquid types to express constraints on values:
 
-```
+```rospec
 param max_speed: double where {_ >= 0.0 && _ <= 10.0};
 param retry_count: int where {_ > 0 && _ < 10};
 ```
@@ -43,7 +44,7 @@ The underscore (`_`) represents the value being constrained.
 
 You can define aliases for types to improve code readability:
 
-```
+```rospec
 type alias LaserModelType: Enum[Beam, LikelihoodField, LikelihoodFieldProb];
 type alias Meter: double;
 type alias Radian: double;
@@ -58,7 +59,7 @@ type alias NodeName: string;
 
 rospec automatically understands standard ROS message types:
 
-```
+```rospec
 publishes to cmd_vel: geometry_msgs/Twist;
 subscribes to laser_scan: sensor_msgs/LaserScan;
 provides service get_map: nav_msgs/GetMap;
@@ -68,7 +69,7 @@ provides service get_map: nav_msgs/GetMap;
 
 You can define message aliases with field-specific constraints:
 
-```
+```rospec
 message alias ImageWith16Encoding: sensor_msgs/Image {
   field header: Header;
   field encoding: ImageEncoding16;
@@ -83,7 +84,7 @@ This allows for more specific type checking when components exchange messages.
 
 Parameters can be marked as optional with default values:
 
-```
+```rospec
 optional param timeout: double = 30.0;
 optional param retry_count: int = 3;
 optional param node_name: string = "default_node";
@@ -94,7 +95,7 @@ optional param node_name: string = "default_node";
 
 rospec supports array types:
 
-```
+```rospec
 param gain_values: double[] where {length(_) == 3};
 param joint_names: string[];
 ```
@@ -103,7 +104,7 @@ param joint_names: string[];
 
 rospec encourages specifying physical units for clarity:
 
-```
+```rospec
 type alias Meter: double;
 type alias Millimeter: double;
 type alias Radian: double;

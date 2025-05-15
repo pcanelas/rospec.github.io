@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "rospec"
+version = "0.0.1"
+description = "Specification and verification of ROS-based robot software"
+authors = ["Paulo Canelas <pasantos@andrew.cmu.edu>"]
+readme = "README.rst"
+packages = [{include = "src/rospec"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+lark = "1.2.2"
+z3-solver = "4.14.1.0"
+rich = "14.0.0"
+loguru = "0.7.3"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "7.2.0"        # ruff for flake8
+pep8-naming = "0.14.1"
+mypy = "1.15.0"
+pytest = "8.3.5"
+ptpython = "3.0.29"
+tox = "4.25.0"
+twine = "6.1.0"
+types-setuptools = "78.1.0.20250329"
+yapf = "0.43.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+mypy_path = "src"
+namespace_packages = true
+explicit_package_bases = true
+
+[tool.flake8]
+max-line-length = 120
+
+[tool.poetry.scripts]
+rospec = "src.rospec.cli:main" # this would be rospec.cli

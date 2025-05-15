@@ -28,13 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return {
           name: 'rospec',
           case_insensitive: false,
-          keywords: {
-            keyword: ROSPEC_KEYWORDS,
-            built_in: CONNECTION_KEYWORDS,
-            literal: 'true false KeepLast',
-            type: TYPES,
-            meta: SPECIAL_KEYWORDS
-          },
           contains: [
             {
               className: 'comment',
@@ -74,7 +67,14 @@ document.addEventListener('DOMContentLoaded', function() {
               className: 'operator',
               begin: /[{}:;=<>!]/
             }
-          ]
+          ],
+          keywords: {
+            keyword: ROSPEC_KEYWORDS,
+            built_in: CONNECTION_KEYWORDS,
+            literal: 'true false KeepLast',
+            type: TYPES,
+            meta: SPECIAL_KEYWORDS
+          },
         };
       });
       

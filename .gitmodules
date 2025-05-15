@@ -1,0 +1,3 @@
+[submodule "rospec"]
+	path = rospec
+	url = https://github.com/pcanelas/rospec.git
