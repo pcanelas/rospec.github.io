@@ -3,7 +3,7 @@ title: Playground
 sidebar: home_sidebar
 permalink: playground
 summary: Try out rospec syntax in this interactive playground
-nav_order: 3
+nav_order: 6
 ---
 
 # Playground

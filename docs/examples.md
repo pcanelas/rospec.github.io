@@ -49,12 +49,10 @@ This configuration verification fails because `elbow_joint/max_velocity` is defi
 Another common challenge in ROS is understanding message semantics, particularly with image encodings and physical units that aren't explicitly documented.
 
 ```rospec
-type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16, 16UC1,
-  16UC2, 16UC3, 16UC4, 16SC1, 16SC2, 16SC3, 16SC4, BAYER_RGGB16,
-  BAYER_BGGR16, BAYER_GBRG16, BAYER_GRBG16];
+type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16, 16UC1, 16UC2, 16UC3, 16UC4, 
+        16SC1, 16SC2, 16SC3, 16SC4, BAYER_RGGB16, BAYER_BGGR16, BAYER_GBRG16, BAYER_GRBG16];
 
-type alias ImageEncoding32: Enum[32SC1, 32SC2, 32SC3, 32SC4,
-  32FC1, 32FC2, 32FC3, 32FC4];
+type alias ImageEncoding32: Enum[32SC1, 32SC2, 32SC3, 32SC4, 32FC1, 32FC2, 32FC3, 32FC4];
 
 type alias Meter: int8;
 type alias Millimeter: int8;
