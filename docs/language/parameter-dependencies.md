@@ -1,99 +1,126 @@
 ---
 title: Parameter Dependencies
 sidebar: home_sidebar
-permalink: parameter-dependencies.html
+permalink: parameter-dependencies
 parent: Language
 nav_order: 2
 summary: Learn how to express and verify relationships between parameters in rospec.
 ---
 
-(Coming soon)
-{: .important }
+# Parameter Dependencies
 
-# Parameter Dependencies in rospec
+Parameter dependencies are a powerful feature in rospec that allows you to express and verify relationships between configuration values. 
+By documenting these dependencies formally, you can prevent subtle misconfigurations that might otherwise lead to unexpected or dangerous robot behavior.
 
-One of the powerful features of rospec is the ability to express and verify dependencies between parameters. This allows component writers to document and enforce complex relationships that must be maintained for correct operation.
+## The `where` Clause
 
-## Basic Dependencies
-
-The most common form of dependency is a simple implication between parameters:
+In rospec, parameter dependencies are expressed in the `where` clause of a node type definition:
 
 ```rospec
-node type controller_type {
-  optional param use_velocity_limits: bool = false;
-  optional param max_velocity: double;
-  optional param min_velocity: double;
-  
+node type <node_name> {
+    // Parameters, context information, etc.
 } where {
-  use_velocity_limits -> exists(max_velocity);
-  use_velocity_limits -> exists(min_velocity);
+    // Parameter dependencies
 }
 ```
 
-This specifies that if `use_velocity_limits` is `true`, then both `max_velocity` and `min_velocity` must be defined.
+The `where` clause contains logical expressions that must be satisfied for a component configuration to be valid.
 
-## Value Dependencies
+## Basic Implications
 
-Dependencies can also involve specific parameter values:
+The most common form of dependency is a simple implication using the arrow operator (`->`):
+
+```rospec
+node type laser_scan_matcher_node {
+    context is_simulation: bool;
+    optional param use_sim_time: bool = false;
+} where {
+    is_simulation -> use_sim_time;
+}
+```
+
+This specification states that if the component is running in simulation (`is_simulation` is `true`), then the `use_sim_time` parameter must be `true`. 
+This is a common requirement in ROS systems to ensure components use the same time source in simulation environments.
+
+## Parameter Existence Dependencies
+
+Sometimes, the existence of one parameter should depend on another parameter's value. 
+The `exists()` function checks if an optional parameter is defined:
+
+```rospec
+node type rviz_type {
+    context number_of_systems: int;
+    optional param tf_prefix: string = "";
+} where {
+    number_of_systems > 1 -> exists(tf_prefix);
+}
+```
+
+In this example from an RViz configuration, a transform prefix must be specified when multiple robot systems are running concurrently. 
+The `exists()` function ensures not only that the parameter is defined, but that it has a non-empty value.
+
+## Negated Dependencies
+
+Dependencies can also express mutual exclusion or negative relationships:
+
+```rospec
+node type rgbdslam_type {
+    param base_frame_name: string;
+    optional param fixed_camera: bool = false;
+} where {
+    base_frame_name == "odom" -> !exists(fixed_camera);
+}
+```
+
+This specifies that if the `base_frame_name` is set to "odom", then the `fixed_camera` parameter should not be defined or should be `false`. 
+Such constraints prevent incompatible combinations of parameters that would lead to incorrect system behavior.
+
+## Value Range Dependencies
+
+Parameters often have interdependent valid ranges:
+
+```rospec
+node type dwa_local_planner_type {
+    optional param max_vel_x: MeterSecond = 0.55;
+    optional param min_vel_x: MeterSecond = 0.0;
+} where {
+    max_vel_x > min_vel_x;
+}
+```
+
+This constraint ensures the maximum velocity is always greater than the minimum velocity, which is a physical requirement for the planner to function correctly.
+
+## Mathematical Relationships
+
+Dependencies can express complex mathematical relationships between parameters:
+
+```rospec
+node type move_base_type {
+    param min_obstacle_height: Meter;
+    param footprint: double[4][2];
+} where {
+    footprint[0][1] >= min_obstacle_height;
+}
+```
+
+This ensures that the y-coordinate of the robot's footprint is at least as large as the minimum obstacle height, preventing the robot from colliding with obstacles it can't detect.
+
+## Conditional Parameter Constraints
+
+Parameter constraints can depend on the values of other parameters:
 
 ```rospec
 node type amcl_type {
-  optional param laser_model_type: LaserModelType = LikelihoodField;
-  optional param z_hit: double = 0.5;
-  optional param z_max: double = 0.05;
-  optional param z_rand: double = 0.5;
-  optional param z_short: double = 0.005;
-  
+    optional param laser_model_type: LaserModelType = LikelihoodField;
+    optional param z_hit: double = 0.5;
+    optional param z_max: double = 0.05;
+    optional param z_rand: double = 0.5;
+    optional param z_short: double = 0.005;
 } where {
-  laser_model_type == Beam -> z_hit + z_max + z_rand + z_short == 1;
-  laser_model_type == LikelihoodField -> z_hit + z_rand == 1;
+    laser_model_type == Beam -> z_hit + z_max + z_rand + z_short == 1;
+    laser_model_type == LikelihoodField -> z_hit + z_rand == 1;
 }
 ```
 
-This example from the AMCL node shows how the meaning and constraints on certain parameters depend on the value of the `laser_model_type` parameter.
-
-## Existence Dependencies
-
-You can use the `exists()` function to check if an optional parameter is defined:
-
-```rospec
-node type navigation_stack_type {
-  optional param global_planner: string;
-  optional param global_planner_frequency: double;
-  
-} where {
-  exists(global_planner) -> exists(global_planner_frequency);
-}
-```
-
-This ensures that if a global planner is specified, its frequency must also be defined.
-
-## Context Dependencies
-
-rospec allows expressing dependencies between context values and parameters:
-
-```rospec
-node type laser_scan_matcher_type {
-  context is_simulation: bool;
-  optional param use_sim_time: bool = false;
-  
-} where {
-  is_simulation -> use_sim_time;
-}
-```
-
-This ensures that if the component is deployed in a simulation context, the `use_sim_time` parameter must be `true`.
-
-## Numeric Relationships
-
-
-This example ensures that if min and max velocities are defined, min must be less than max, and if a default velocity is defined, it must fall within the allowed range.
-
-## Multiple Parameter Dependencies
-
-
-This enforces that the `rolling_window` and `static_map` parameters cannot both be `true`, and if `rolling_window` is `true`, size parameters must be defined, while if `static_map` is `true`, size parameters must not be defined.
-
-## Symbolic Dependencies
-
-rospec supports symbolic variables in dependencies:
+This example from AMCL (a widely used localization component) shows how the constraints on certain parameters depend on the value of the `laser_model_type` parameter. 
+Different laser models require different combinations of probability parameters, and these must sum to 1 for the probabilistic model to be valid.

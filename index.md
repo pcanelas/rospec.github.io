@@ -75,7 +75,8 @@ rospec supports verification of multiple kinds of misconfigurations:
 
 ## Research Paper
 
-rospec is based on research from Carnegie Mellon University and University of Lisbon. For a detailed explanation of the language design, formal semantics, and evaluation, check out our paper:
+This is a research project within the [Software and Societal Systems Department (S3D)](https://s3d.cmu.edu/) and the [Robotics Institute](https://www.ri.cmu.edu/) at Carnegie Mellon University, and [LASIGE](https://lasige.pt/) at University of Lisbon. 
+For a detailed explanation of the language design, semantics, and evaluation, check out our paper:
 
 ```
 @inproceedings{canelas2025rospec,

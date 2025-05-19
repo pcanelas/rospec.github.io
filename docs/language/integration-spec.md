@@ -7,99 +7,128 @@ nav_order: 5
 summary: Learn how to specify and verify the integration of ROS components using rospec.
 ---
 
-# Integration Specifications in rospec
+# System Integration
 
-Integration specifications define how different components work together in a ROS-based system. This ensures that components are correctly configured and connected, preventing misconfigurations that could lead to unpredictable behavior.
+While component specifications define the requirements and capabilities of individual components, system integration specifications define how these components work together in a complete robot system. 
+These integration specifications allow rospec to verify that components are correctly configured and connected, preventing misconfigurations before deployment.
 
 ## System Definition
 
-The basic structure for defining a system in rospec:
+A system specification in rospec begins with the `system` keyword, followed by a block containing node instances:
 
 ```rospec
 system {
-  // Node instances
-  node instance <node_name>: <node_type> {
-    // Parameter assignments
-    param <param_name> = <value>;
-    ...
-    
-    // Remapping
-    remap <original_topic> to <new_topic>;
-  }
-  
-  // Additional node instances
-  ...
+    # Node instances
+    # Plugin assignments
 }
 ```
+
+The system block is typically defined in a separate file from component specifications, allowing the separation of component development (Writer role) from system integration (Integrator role).
 
 ## Node Instantiation
 
-Creating instances of previously defined node types:
+To use a component in a system, you create an instance of its node type:
 
 ```rospec
 system {
-  node instance move_group: move_group_type {
-    param elbow_joint/max_acceleration = 0.5;
-    param elbow_joint/min_velocity = 0.1;
-    param elbow_joint/max_velocity = 2.0;
-    param elbow_joint/has_velocity_limits = true;
-  }
+    node instance laser_scan_matcher: laser_scan_matcher_node {
+        context is_simulation = true;
+        param use_sim_time = true;
+    }
 }
 ```
+
+This creates an instance of the `laser_scan_matcher_node` type named `laser_scan_matcher`, setting its simulation context to `true` and its `use_sim_time` parameter to `true`.
+
+Each node instance must satisfy all the requirements specified in its node type definition, including parameter types, constraints, and dependencies.
 
 ## Parameter Assignment
 
-Assigning values to parameters defined in the node type:
+Within a node instance, you assign values to parameters:
 
 ```rospec
-node instance laser_scan_matcher: laser_scan_matcher_type {
-  param distance_to_obstacle_service = "get_distance_to_obstacle";
-  param use_sim_time = true;
-  context is_simulation = true;
+node instance move_base: move_base_type {
+    param min_obstacle_height = 0.10;
+    param footprint = [[-0.4, -0.4], [-0.4, 0.4], [0.4, 0.4], [0.4, 0.4]];
 }
 ```
 
-## Topic Remapping
+When assigning parameter values, rospec verifies that:
+- The values match the expected types
+- The values satisfy any constraints defined in the node type
+- All required parameters are provided
+- All parameter dependencies are satisfied
 
-Redirecting topics to different names:
+If a parameter assignment violates any of these requirements, rospec reports an error, helping you identify and fix misconfigurations.
+
+## Context Configuration
+
+Context information defines the deployment environment for components. When instantiating nodes, you specify the context values:
+
+```rospec
+node instance planning_scene_warehouse_viewer: planning_scene_warehouse_viewer_t {
+    context is_simulation = true;
+}
+```
+
+This sets the `is_simulation` context to `true` for this node instance. rospec will verify that all context-dependent parameter constraints are satisfied based on this value.
+
+## Default Values and Optional Parameters
+
+For optional parameters with default values, you can choose to either provide a value or accept the default:
+
+```rospec
+node instance dwa_local_planner: dwa_local_planner_type {
+    # Using the default values for max_vel_x (0.55) and min_vel_x (0.0)
+    param penalize_negative_x = true;
+}
+```
+
+In this example, the node instance uses the default values for `max_vel_x` and `min_vel_x` defined in the node type, while explicitly setting `penalize_negative_x` to `true`.
+
+## Multiple Node Instances
+A system typically contains multiple node instances that work together:
+
+```rospec
+system {
+    node instance amcl: amcl_type {
+        param odom = "odom_error";
+    }
+    
+    node instance custom_node: custom_node_type {
+        # This node broadcasts odom to odom_error
+    }
+}
+```
+
+This example shows two node instances: an AMCL localization node and a custom node that provides transform information used by AMCL.
+
+## Topic Remapping
+ROS allows remapping topics and services at runtime, which is essential for component reuse. rospec supports this through the `remap` keyword:
 
 ```rospec
 node instance hector_map_server: hector_map_server_type {
-  remap /hector_map_server/get_distance_to_obstacle to get_distance_to_obstacle;
+    remap /hector_map_server/get_distance_to_obstacle to get_distance_to_obstacle;
 }
 ```
+
+This remaps a service provided by the `hector_map_server` node to a different name, allowing it to connect with other components that expect the service at this new name.
 
 ## Connection Verification
-
-When a system is defined, rospec verifies:
-
-1. **Publisher-Subscriber Connections**: Ensuring that for each subscriber, there is a matching publisher with a compatible message type
-2. **Service Provider-Consumer Connections**: Checking that service consumers have corresponding service providers
-3. **QoS Compatibility**: Validating that Quality of Service settings are compatible between publishers and subscribers
-4. **TF Frame Connectivity**: Ensuring that the TF tree is properly connected
-
-## Plugin Integration
-
-Integrating plugins with nodes:
+When you define a system, rospec automatically verifies connections between components:
 
 ```rospec
-plugin instance right_arm: right_arm_type {
-  param tip_name = "right_gripper";
-  param root_name = "base_link";
-}
+system {
+    node instance openni_node1: openni_node_type {
+        param depth_registration = true;
+    }
 
-node instance arm_kinematics: arm_kinematics_constraint_aware_type {
-  param group = right_arm;  // Assigns the plugin to the node
+    node instance openni_node2: openni_node_type {
+        param depth_registration = true;
+        param rgb_frame_id = "/openni_rgb_optical_frame";
+        param depth_frame_id = "/openni_depth_optical_frame";
+    }
 }
 ```
 
-## Context Validation
-
-Ensuring that components are deployed in the correct context:
-
-```rospec
-node instance navigation_stack: navigation_stack_type {
-  context is_simulation = true;
-  param use_sim_time = true;  // Must match the context
-}
-```
+In this example with two depth camera nodes, rospec would verify that they don't publish to the same topics (which would cause conflicts) by checking the cardinality constraints specified in the node type.

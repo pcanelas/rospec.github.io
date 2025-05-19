@@ -7,103 +7,106 @@ nav_order: 3
 summary: Learn how to specify and verify TF frame broadcasts and listeners in rospec.
 ---
 
-(Coming soon)
-{: .important }
+# TF Frames
 
-# TF Frames in rospec
+Transform frames (TF) are a fundamental component of ROS-based robotic systems. 
+They provide a way to track spatial relationships between different parts of a robot and its environment, enabling consistent coordinate transformations for sensors, actuators, and planning algorithms. 
+rospec offers dedicated syntax for specifying and verifying these transform relationships.
 
-Transform frames (TF) are a critical component of ROS-based robotic systems, providing a way to track spatial relationships between different parts of a robot and its environment. rospec provides dedicated syntax for specifying and verifying TF frame relationships.
+## Transform Frame Fundamentals
 
-## TF Fundamentals
+In ROS, the transform system:
 
-In ROS, the TF system:
+- Maintains a tree structure of coordinate frames
+- Allows transforming positions, orientations, and velocities between frames
+- Tracks the evolution of these relationships over time
+- Provides a distributed framework where different components can contribute transforms
 
-- Tracks relationships between coordinate frames over time
-- Allows transforming points, vectors, and poses between different frames
-- Organizes frames in a tree structure, with each frame having a single parent
-- Facilitates distributed computing by providing consistent frame data to all nodes
+Common misconfigurations in transform frames include:
 
-Misconfigurations in TF are common and can lead to serious issues:
+- Missing transforms creating disconnected frame segments
+- Multiple components broadcasting the same transform
+- Incorrect parent-child relationships
+- Outdated or stale transforms
 
-- Missing transforms causing navigation failures
-- Incorrect frame relationships leading to collisions
-- Outdated transforms resulting in incorrect planning
+These issues can lead to serious problems like navigation failures, collisions, or unpredictable motion. 
+rospec helps prevent these problems through static verification of transform relationships.
 
-## Specifying TF Frames in rospec
+## Specifying Transform Broadcasts
 
-rospec provides two primary ways to specify TF frame relationships:
-
-### 1. Broadcasts
-
-When a node publishes transformations:
-
-```rospec
-node type base_controller_type {
-  broadcast odom to base_link;
-}
-```
-
-This indicates that the node broadcasts the transformation from the `odom` frame to the `base_link` frame.
-
-### 2. Listeners
-
-When a node requires transformations from other nodes:
-
-```rospec
-node type laser_scan_matcher_type {
-  listens base_link to laser;
-}
-```
-
-This indicates that the node needs to know the transformation from `base_link` to `laser`, which must be provided by another node.
-
-## TF Frames with Parameters
-
-Often, frame names are configurable parameters:
+Components that publish transforms use the `broadcast` keyword:
 
 ```rospec
 node type amcl_type {
-  param global_frame: string = "map";
-  param odom_frame: string = "odom";
-  param base_frame: string = "base_link";
-  
-  broadcast content(global_frame) to content(odom_frame);
-  broadcast content(odom_frame) to content(base_frame);
+    broadcast map to odom;
+    broadcast odom to base_link;
 }
 ```
 
-The `content()` function in rospec dynamically resolves parameter values for frame names.
+This example from an AMCL localization node indicates that it broadcasts two transforms:
+1. From the `map` frame to the `odom` frame
+2. From the `odom` frame to the `base_link` frame
 
-## TF Tree Verification
+These broadcasts contribute to the transform tree, allowing other components to transform coordinates between these frames.
 
-rospec automatically verifies the TF tree by:
+## Dynamically Named Frames
 
-1. **Checking for missing transforms**: Ensuring that for every frame a node listens to, there is a corresponding broadcaster
-2. **Validating tree structure**: Ensuring each frame has exactly one parent
-3. **Checking for cycles**: Ensuring there are no loops in the transform tree
-
-For example, given:
+Often, frame names are configurable parameters. rospec supports this through the `content()` function:
 
 ```rospec
-node instance amcl: amcl_type {
-  broadcast map to odom;
-}
+node type amcl_type {
+    param odom: string = "odom";
+    param map: string = "map";
 
-node instance laser_scan_matcher: laser_scan_matcher_type {
-  broadcast odom to base_link;
-  listens base_link to laser;
-}
-
-node instance laser_driver: laser_driver_type {
-  // Missing transform broadcast from base_link to laser
+    broadcast content(map) to content(odom);
+    broadcast content(odom) to base_link;
 }
 ```
 
-rospec would detect:
+This specification indicates that the transform frame names come from parameters, making the component more configurable. 
+The `content()` function resolves the parameter value at verification time.
+
+## Specifying Transform Listeners
+
+Components that need transforms but don't broadcast them use the `listen` keyword:
 
 ```rospec
-Error: Missing transform broadcast in the TF tree.
-  Node 'laser_scan_matcher' listens to transform from 'base_link' to 'laser',
-  but no node broadcasts this transform.
-  at system.spec:15:3
+node type laser_scan_matcher_node {
+    broadcast world to base_link;
+    listen base_link to laser;
+}
 ```
+
+This indicates that the component:
+1. Broadcasts the transform from `world` to `base_link`
+2. Requires a transform from `base_link` to `laser` that must be provided by another component
+
+The `listen` keyword creates a verification requirement that the specified transform must be available in the system.
+
+## Transform Tree Verification
+
+When analyzing a system specification, rospec verifies the completeness and consistency of the transform tree:
+
+```rospec
+system {
+    node instance amcl: amcl_type { }
+    node instance map_to_odom: static_transform_publisher_type { }
+}
+```
+
+In this example, both nodes broadcast the transform from `map` to `odom`. 
+rospec would detect this inconsistency, as having multiple sources for the same transform can cause unpredictable behavior.
+
+## Checking for Missing Transforms
+
+rospec also verifies that all required transforms are provided:
+
+```rospec
+system {
+    node instance laser_scan_matcher: laser_scan_matcher_node {
+        // Listens for base_link to laser transform, but no component provides it
+    }
+}
+```
+
+In this case, rospec would identify that the transform from `base_link` to `laser` is required but not provided by any component in the system.
