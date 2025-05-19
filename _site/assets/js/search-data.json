@@ -119,71 +119,71 @@
     "relUrl": "/component-communication"
   },"17": {
     "doc": "Component Specification",
-    "title": "Component Specifications in rospec",
-    "content": "Component specifications define the expected behavior, configuration parameters, and communication interfaces for ROS components. They serve as a formal contract and documentation for component users. ",
-    "url": "/component-specification#component-specifications-in-rospec",
+    "title": "Component Specifications",
+    "content": "Component specifications serve as formal contracts that define the expected behavior, configuration parameters, and communication interfaces for ROS components. They enable both documentation for users and verification to prevent misconfigurations. ",
+    "url": "/component-specification#component-specifications",
     
-    "relUrl": "/component-specification#component-specifications-in-rospec"
+    "relUrl": "/component-specification#component-specifications"
   },"18": {
     "doc": "Component Specification",
     "title": "Node Type Definition",
-    "content": "The basic structure for defining a node type in rospec: . node type &lt;node_type_name&gt; { // Parameters param &lt;param_name&gt;: &lt;type&gt; [where {&lt;constraints&gt;}]; optional param &lt;param_name&gt;: &lt;type&gt; = &lt;default_value&gt;; // Connections publishes to &lt;topic&gt;: &lt;message_type&gt;; subscribes to &lt;topic&gt;: &lt;message_type&gt;; // Services provides service &lt;service_name&gt;: &lt;service_type&gt;; consumes service &lt;service_name&gt;: &lt;service_type&gt;; // TF Frames broadcast &lt;parent_frame&gt; to &lt;child_frame&gt;; listens &lt;parent_frame&gt; to &lt;child_frame&gt;; // Context context &lt;context_name&gt;: &lt;type&gt;; } where { // Parameter dependencies &lt;dependency_expressions&gt;; } . ",
+    "content": "The foundation of any rospec specification is the node type definition. This structure encapsulates all the information about a component’s requirements, capabilities, and constraints: . node type &lt;node_type_name&gt; { # Parameters, context information, etc. } where { # Parameter dependencies and constraints } . Let’s explore each element of a component specification in detail. ",
     "url": "/component-specification#node-type-definition",
     
     "relUrl": "/component-specification#node-type-definition"
   },"19": {
     "doc": "Component Specification",
     "title": "Parameters",
-    "content": "Parameters are configuration values that affect component behavior. Required Parameters . param max_speed: double where {_ &gt;= 0.0 &amp;&amp; _ &lt;= 10.0}; param frame_id: string; . Optional Parameters with Defaults . optional param use_sim_time: bool = false; optional param retry_count: int = 3; . Parameter Constraints . rospec uses liquid types to express constraints on parameter values: . param timeout: double where {_ &gt; 0.0}; param port: int where {_ &gt;= 1024 &amp;&amp; _ &lt;= 65535}; param mode: string where {_ in [\"fast\", \"normal\", \"safe\"]}; . ",
+    "content": "Parameters are configuration values that affect component behavior. In rospec, you can specify both required and optional parameters, along with their types and constraints. Required parameters must be provided when creating a node instance, while optional parameters can have default values: . node type move_base_type { param min_obstacle_height: Meter; param footprint: double[4][2]; optional param max_vel_x: MeterSecond = 0.55; optional param min_vel_x: MeterSecond = 0.0; } . In this example from a move_base node, we define required parameters for minimum obstacle height (using a domain-specific Meter type) and a footprint defined as a 4×2 array of doubles representing the robot’s outline. The velocity parameters are optional with default values. The optional keyword indicates that integrators don’t need to explicitly set these values, as they will default to the specified values if omitted. ",
     "url": "/component-specification#parameters",
     
     "relUrl": "/component-specification#parameters"
   },"20": {
     "doc": "Component Specification",
-    "title": "Connections",
-    "content": "Define how nodes communicate through topics: . Publishers . publishes to /cmd_vel: geometry_msgs/Twist; publishes to /image_raw: sensor_msgs/Image; . Subscribers . subscribes to /laser_scan: sensor_msgs/LaserScan; subscribes to /map: nav_msgs/OccupancyGrid; . Quality of Service (QoS) . @qos{sensor_data} publishes to /camera/image_raw: sensor_msgs/Image; @qos{reliable_qos} subscribes to /map: nav_msgs/OccupancyGrid; . ",
-    "url": "/component-specification#connections",
+    "title": "Type Constraints",
+    "content": "rospec uses liquid types to express constraints on parameter values, allowing for precise specification of acceptable values. Numeric Constraints . You can constrain numeric values to specific ranges: . node type openni_node_type { optional param depth_time_offset: Second where {_ &gt;= -1 and _ &lt;= 1} = 0.0; optional param image_time_offset: Second where {_ &gt;= -1 and _ &lt;= 1} = 0.0; } . Here, both time offset parameters must be between -1 and 1 seconds. The underscore (_) refers to the parameter value being constrained. Enumerated Types . For parameters with a fixed set of valid values, you can use enumerated types: . type alias Modes: Enum[SXGA15Hz, VGA30Hz, VGA25Hz, QVGA25Hz, QVGA30Hz, QVGA60Hz, QQVGA25Hz, QQVGA30Hz, QQVGA60Hz]; node type openni_node_type { optional param image_mode: Modes = VGA30Hz; optional param depth_mode: Modes = VGA30Hz; } . This ensures the parameter can only be assigned one of the enumerated values, preventing invalid configurations. ",
+    "url": "/component-specification#type-constraints",
     
-    "relUrl": "/component-specification#connections"
+    "relUrl": "/component-specification#type-constraints"
   },"21": {
     "doc": "Component Specification",
-    "title": "Services",
-    "content": "Define service providers and consumers: . provides service /get_map: nav_msgs/GetMap; consumes service /set_pose: geometry_msgs/SetPose; . ",
-    "url": "/component-specification#services",
-    
-    "relUrl": "/component-specification#services"
-  },"22": {
-    "doc": "Component Specification",
-    "title": "TF Transforms",
-    "content": "Specify transform broadcasts and listeners: . broadcast map to odom; broadcast odom to base_link; listens base_link to camera; . ",
-    "url": "/component-specification#tf-transforms",
-    
-    "relUrl": "/component-specification#tf-transforms"
-  },"23": {
-    "doc": "Component Specification",
     "title": "Context Information",
-    "content": "Specify deployment context requirements: . context distribution: AfterHumbleVersion; context is_simulation: bool; . ",
+    "content": "Context represents deployment or environmental factors that affect a component’s configuration: . node type laser_scan_matcher_node { context is_simulation: bool; optional param use_sim_time: bool = false; } where { is_simulation -&gt; use_sim_time; } . This example shows a node that needs to know if it’s running in simulation. The where clause specifies that if the context is simulation, the use_sim_time parameter must be true. Here’s another example showing how context can influence component behavior: . node type rviz_type { context number_of_systems: int; optional param tf_prefix: string = \"\"; } where { number_of_systems &gt; 1 -&gt; exists(tf_prefix); } . In this case, when multiple robot systems are running simultaneously (indicated by number_of_systems &gt; 1), a transform prefix must be specified to prevent transform conflicts. ",
     "url": "/component-specification#context-information",
     
     "relUrl": "/component-specification#context-information"
-  },"24": {
+  },"22": {
     "doc": "Component Specification",
     "title": "Parameter Dependencies",
-    "content": "Express relationships between parameters: . node type controller_type { param max_velocity: double; optional param use_limits: bool = false; optional param min_velocity: double = 0.0; } where { use_limits -&gt; exists(min_velocity); max_velocity &gt; min_velocity; } . ",
+    "content": "The where clause in a node type definition allows you to express relationships between parameters: . node type rgbdslam_type { param fixed_frame_name: string; param ground_truth_frame_name: string; param base_frame_name: string; optional param fixed_camera: bool = false; } where { base_frame_name == \"odom\" -&gt; !exists(fixed_camera); } . This example from rgbdslam shows that if the base_frame_name is “odom”, then the fixed_camera parameter cannot be defined (or must be false). Dependencies can also involve mathematical relationships: . node type move_base_type { param min_obstacle_height: Meter; param footprint: double[4][2]; } where { footprint[0][1] &gt;= min_obstacle_height; } . This ensures that the footprint’s y-coordinate is at least as large as the minimum obstacle height. Another common pattern is ensuring physical constraints are maintained: . node type dwa_local_planner_type { optional param max_vel_x: MeterSecond = 0.55; optional param min_vel_x: MeterSecond = 0.0; } where { max_vel_x &gt; min_vel_x; } . This enforces that the maximum velocity must be greater than the minimum velocity. ",
     "url": "/component-specification#parameter-dependencies",
     
     "relUrl": "/component-specification#parameter-dependencies"
+  },"23": {
+    "doc": "Component Specification",
+    "title": "Type Aliases",
+    "content": "To improve readability and reusability, rospec allows you to define type aliases: . type alias Meter: double; type alias MeterSecond: float; type alias Second: float; . This example defines domain-specific types for physical units, making specifications more expressive and easier to understand. ",
+    "url": "/component-specification#type-aliases",
+    
+    "relUrl": "/component-specification#type-aliases"
+  },"24": {
+    "doc": "Component Specification",
+    "title": "Arguments",
+    "content": "Arguments are command-line inputs provided when launching nodes: . node type stereo_image_proc_type { argument manager: string; } . Similar to parameters, arguments can be required or optional with default values. ",
+    "url": "/component-specification#arguments",
+    
+    "relUrl": "/component-specification#arguments"
   },"25": {
     "doc": "Component Specification",
-    "title": "Plugin Types",
-    "content": "Define pluggable extensions: . plugin type right_arm_type { param tip_name: string; param root_name: string; optional param robot_description: string = \"robot_description\"; } . ",
-    "url": "/component-specification#plugin-types",
+    "title": "Putting It All Together",
+    "content": "A complete node specification might look like: . node type planning_scene_warehouse_viewer_t { context is_simulation: bool; optional argument use_monitor: bool = false; optional argument use_collision_map: bool = false; optional param use_robot_data: bool = false; } where { is_simulation -&gt; use_monitor; is_simulation -&gt; !use_robot_data; } . This specification defines a planning scene warehouse viewer node that: . | Has contextual knowledge about whether it’s running in simulation | Has optional arguments for monitoring and collision map usage | Has an optional parameter for using robot data | Enforces relationships between the simulation context and other parameters | . When integrators use this specification, rospec can verify that their configuration respects all these requirements, preventing misconfigurations before deployment. ",
+    "url": "/component-specification#putting-it-all-together",
     
-    "relUrl": "/component-specification#plugin-types"
+    "relUrl": "/component-specification#putting-it-all-together"
   },"26": {
     "doc": "Component Specification",
     "title": "Component Specification",
-    "content": "(Work In Progress) . ",
+    "content": " ",
     "url": "/component-specification",
     
     "relUrl": "/component-specification"
@@ -295,7 +295,7 @@
   },"42": {
     "doc": "Home",
     "title": " rospec - A Domain-Specific Language for ROS-based Robot Software",
-    "content": "Ensuring the correct configuration and integration of your ROS components . Get Started View on GitHub . ",
+    "content": "Ensuring the correct configuration and integration of your ROS components. Get Started View on GitHub . ",
     "url": "/#-rospec---a-domain-specific-language-for-ros-based-robot-software",
     
     "relUrl": "/#-rospec---a-domain-specific-language-for-ros-based-robot-software"
@@ -316,21 +316,21 @@
   },"45": {
     "doc": "Home",
     "title": "Why rospec?",
-    "content": "rospec provides a formal way to specify and verify component configurations and integrations, reducing the risks associated with misconfigured robot systems. | Designed for ROS: Built from the ground up with ROS concepts and patterns in mind | Expressive Type System: Uses liquid types to express constraints on parameter values | Comprehensive Verification: Checks parameter types, bounds, dependencies, communication patterns, and more | Two Stakeholder Views: Addresses both component writers who create reusable components and integrators who build systems | . ",
+    "content": "rospec provides a formal way to specify and verify component configurations and integrations, reducing the risks associated with misconfigured robot systems. | Designed for ROS: Built from the ground up with ROS concepts and patterns in mind; | Expressive Type System: Uses liquid types to express constraints on parameter values; | Comprehensive Verification: Checks parameter types, bounds, dependencies, communication patterns, and more; | Two Stakeholder Views: Addresses both component writers who create reusable components and integrators who build systems. | . ",
     "url": "/#why-rospec",
     
     "relUrl": "/#why-rospec"
   },"46": {
     "doc": "Home",
     "title": "Features",
-    "content": "rospec supports verification of multiple kinds of misconfigurations: . | Parameter Type Checking: Ensures parameters have correct types | Value Constraints: Enforces bounds and other restrictions on parameter values | Parameter Dependencies: Verifies relationships between parameters (e.g., one parameter requiring another) | Communication Verification: Checks publisher-subscriber, service, and action connections | QoS Compatibility: Ensures Quality of Service settings are compatible | TF Frame Verification: Validates transform tree connectivity | Context Validation: Checks that components are deployed in appropriate contexts | . ",
+    "content": "rospec supports verification of multiple kinds of misconfigurations: . | Parameter Type Checking: Ensures parameters have correct types; | Value Constraints: Enforces bounds and other restrictions on parameter values; | Parameter Dependencies: Verifies relationships between parameters (e.g., one parameter requiring another); | Communication Verification: Checks publisher-subscriber, service, and action connections; | QoS Compatibility: Ensures Quality of Service settings are compatible; | TF Frame Verification: Validates transform tree connectivity; | Context Validation: Checks that components are deployed in appropriate contexts. | . ",
     "url": "/#features",
     
     "relUrl": "/#features"
   },"47": {
     "doc": "Home",
     "title": "Research Paper",
-    "content": "rospec is based on research from Carnegie Mellon University and University of Lisbon. For a detailed explanation of the language design, formal semantics, and evaluation, check out our paper: . @inproceedings{canelas2025rospec, title = {ROSpec: A Domain-Specific Language for ROS-based Robot Software}, author = {Canelas, Paulo and Schmerl, Bradley and Fonseca, Alcides and Timperley, Christopher S.}, booktitle = {Journal of the ACM}, volume = {37}, number = {4}, pages = {26}, year = {2025}, doi = {XXXXXXX.XXXXXXX} } . Ready to try it out? Get started now or check out our examples to see how rospec can help improve the reliability of your robot software. ",
+    "content": "rospec is based on research from Carnegie Mellon University and University of Lisbon. For a detailed explanation of the language design, formal semantics, and evaluation, check out our paper: . @inproceedings{canelas2025rospec, title = {}, author = {}, booktitle = {}, volume = {}, number = {}, pages = {}, year = {}, doi = {} } . Ready to try it out? Get started now or check out our examples to see how rospec can help improve the reliability of your robot software. ",
     "url": "/#research-paper",
     
     "relUrl": "/#research-paper"

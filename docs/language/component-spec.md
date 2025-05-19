@@ -7,152 +7,190 @@ nav_order: 0
 summary: Learn how to write rospec specifications for ROS components.
 ---
 
-(Work In Progress)
-{: .important }
+# Component Specifications 
 
-# Component Specifications in rospec
-
-Component specifications define the expected behavior, configuration parameters, and communication interfaces for ROS components. They serve as a formal contract and documentation for component users.
+Component specifications serve as formal contracts that define the expected behavior, configuration parameters, and communication interfaces for ROS components. They enable both documentation for users and verification to prevent misconfigurations.
 
 ## Node Type Definition
 
-The basic structure for defining a node type in rospec:
+The foundation of any rospec specification is the node type definition. This structure encapsulates all the information about a component's requirements, capabilities, and constraints:
 
-```
+```rospec
 node type <node_type_name> {
-  // Parameters
-  param <param_name>: <type> [where {<constraints>}];
-  optional param <param_name>: <type> = <default_value>;
-  
-  // Connections
-  publishes to <topic>: <message_type>;
-  subscribes to <topic>: <message_type>;
-  
-  // Services
-  provides service <service_name>: <service_type>;
-  consumes service <service_name>: <service_type>;
-  
-  // TF Frames
-  broadcast <parent_frame> to <child_frame>;
-  listens <parent_frame> to <child_frame>;
-  
-  // Context
-  context <context_name>: <type>;
-  
+    # Parameters, context information, etc.
 } where {
-  // Parameter dependencies
-  <dependency_expressions>;
+    # Parameter dependencies and constraints
 }
 ```
+
+Let's explore each element of a component specification in detail.
 
 ## Parameters
 
-Parameters are configuration values that affect component behavior.
+Parameters are configuration values that affect component behavior. In rospec, you can specify both required and optional parameters, along with their types and constraints.
 
-### Required Parameters
-
-```rospec
-param max_speed: double where {_ >= 0.0 && _ <= 10.0};
-param frame_id: string;
-```
-
-### Optional Parameters with Defaults
+**Required** parameters must be provided when creating a node instance, while **optional** parameters can have default values:
 
 ```rospec
-optional param use_sim_time: bool = false;
-optional param retry_count: int = 3;
+node type move_base_type {
+    param min_obstacle_height: Meter;
+    param footprint: double[4][2];
+
+    optional param max_vel_x: MeterSecond = 0.55;
+    optional param min_vel_x: MeterSecond = 0.0;
+}
 ```
 
-### Parameter Constraints
+In this example from a move_base node, we define required parameters for minimum obstacle height (using a domain-specific `Meter` type) and a footprint defined as a 4×2 array of doubles representing the robot's outline. The velocity parameters are optional with default values. The `optional` keyword indicates that integrators don't need to explicitly set these values, as they will default to the specified values if omitted.
 
-rospec uses liquid types to express constraints on parameter values:
+## Type Constraints
+
+rospec uses liquid types to express constraints on parameter values, allowing for precise specification of acceptable values.
+
+### Numeric Constraints
+
+You can constrain numeric values to specific ranges:
 
 ```rospec
-param timeout: double where {_ > 0.0};
-param port: int where {_ >= 1024 && _ <= 65535};
-param mode: string where {_ in ["fast", "normal", "safe"]};
+node type openni_node_type {
+    optional param depth_time_offset: Second where {_ >= -1 and _ <= 1} = 0.0;
+    optional param image_time_offset: Second where {_ >= -1 and _ <= 1} = 0.0;
+}
 ```
 
-## Connections
+Here, both time offset parameters must be between -1 and 1 seconds. The underscore (`_`) refers to the parameter value being constrained.
 
-Define how nodes communicate through topics:
+### Enumerated Types
 
-### Publishers
+For parameters with a fixed set of valid values, you can use enumerated types:
 
 ```rospec
-publishes to /cmd_vel: geometry_msgs/Twist;
-publishes to /image_raw: sensor_msgs/Image;
+type alias Modes: Enum[SXGA15Hz, VGA30Hz, VGA25Hz, QVGA25Hz, QVGA30Hz, QVGA60Hz, QQVGA25Hz, QQVGA30Hz, QQVGA60Hz];
+
+node type openni_node_type {
+    optional param image_mode: Modes = VGA30Hz;
+    optional param depth_mode: Modes = VGA30Hz;
+}
 ```
 
-### Subscribers
-
-```rospec
-subscribes to /laser_scan: sensor_msgs/LaserScan;
-subscribes to /map: nav_msgs/OccupancyGrid;
-```
-
-### Quality of Service (QoS)
-
-```rospec
-@qos{sensor_data}
-publishes to /camera/image_raw: sensor_msgs/Image;
-
-@qos{reliable_qos}
-subscribes to /map: nav_msgs/OccupancyGrid;
-```
-
-## Services
-
-Define service providers and consumers:
-
-```rospec
-provides service /get_map: nav_msgs/GetMap;
-consumes service /set_pose: geometry_msgs/SetPose;
-```
-
-## TF Transforms
-
-Specify transform broadcasts and listeners:
-
-```rospec
-broadcast map to odom;
-broadcast odom to base_link;
-listens base_link to camera;
-```
+This ensures the parameter can only be assigned one of the enumerated values, preventing invalid configurations.
 
 ## Context Information
 
-Specify deployment context requirements:
+Context represents deployment or environmental factors that affect a component's configuration:
 
 ```rospec
-context distribution: AfterHumbleVersion;
-context is_simulation: bool;
+node type laser_scan_matcher_node {
+    context is_simulation: bool;
+    optional param use_sim_time: bool = false;
+} where {
+    is_simulation -> use_sim_time;
+}
 ```
+
+This example shows a node that needs to know if it's running in simulation. The `where` clause specifies that if the context is simulation, the `use_sim_time` parameter must be true.
+
+Here's another example showing how context can influence component behavior:
+
+```rospec
+node type rviz_type {
+    context number_of_systems: int;
+    optional param tf_prefix: string = "";
+} where {
+    number_of_systems > 1 -> exists(tf_prefix);
+}
+```
+
+In this case, when multiple robot systems are running simultaneously (indicated by `number_of_systems > 1`), a transform prefix must be specified to prevent transform conflicts.
 
 ## Parameter Dependencies
 
-Express relationships between parameters:
+The `where` clause in a node type definition allows you to express relationships between parameters:
 
 ```rospec
-node type controller_type {
-  param max_velocity: double;
-  optional param use_limits: bool = false;
-  optional param min_velocity: double = 0.0;
-  
+node type rgbdslam_type {
+    param fixed_frame_name: string;
+    param ground_truth_frame_name: string;
+    param base_frame_name: string;
+    optional param fixed_camera: bool = false;
 } where {
-  use_limits -> exists(min_velocity);
-  max_velocity > min_velocity;
+    base_frame_name == "odom" -> !exists(fixed_camera);
 }
 ```
 
-## Plugin Types
+This example from rgbdslam shows that if the `base_frame_name` is "odom", then the `fixed_camera` parameter cannot be defined (or must be false).
 
-Define pluggable extensions:
+Dependencies can also involve mathematical relationships:
 
 ```rospec
-plugin type right_arm_type {
-  param tip_name: string;
-  param root_name: string;
-  optional param robot_description: string = "robot_description";
+node type move_base_type {
+    param min_obstacle_height: Meter;
+    param footprint: double[4][2];
+} where {
+    footprint[0][1] >= min_obstacle_height;
 }
 ```
+
+This ensures that the footprint's y-coordinate is at least as large as the minimum obstacle height.
+
+Another common pattern is ensuring physical constraints are maintained:
+
+```rospec
+node type dwa_local_planner_type {
+    optional param max_vel_x: MeterSecond = 0.55;
+    optional param min_vel_x: MeterSecond = 0.0;
+} where {
+    max_vel_x > min_vel_x;
+}
+```
+
+This enforces that the maximum velocity must be greater than the minimum velocity.
+
+## Type Aliases
+
+To improve readability and reusability, rospec allows you to define type aliases:
+
+```rospec
+type alias Meter: double;
+type alias MeterSecond: float;
+type alias Second: float;
+```
+
+This example defines domain-specific types for physical units, making specifications more expressive and easier to understand.
+
+## Arguments
+
+Arguments are command-line inputs provided when launching nodes:
+
+```rospec
+node type stereo_image_proc_type {
+    argument manager: string;
+}
+```
+
+Similar to parameters, arguments can be required or optional with default values.
+
+## Putting It All Together
+
+A complete node specification might look like:
+
+```rospec
+node type planning_scene_warehouse_viewer_t {
+    context is_simulation: bool;
+
+    optional argument use_monitor: bool = false;
+    optional argument use_collision_map: bool = false;
+    optional param use_robot_data: bool = false;
+} where {
+    is_simulation -> use_monitor;
+    is_simulation -> !use_robot_data;
+}
+```
+
+This specification defines a planning scene warehouse viewer node that:
+1. Has contextual knowledge about whether it's running in simulation
+2. Has optional arguments for monitoring and collision map usage
+3. Has an optional parameter for using robot data
+4. Enforces relationships between the simulation context and other parameters
+
+When integrators use this specification, rospec can verify that their configuration respects all these requirements, preventing misconfigurations before deployment.

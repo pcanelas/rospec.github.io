@@ -9,7 +9,7 @@ permalink: /
 # <img src="assets/images/logo.svg" alt="rospec logo" style="height: 40px; vertical-align: middle;"> rospec - A Domain-Specific Language for ROS-based Robot Software
 {: .fs-9 }
 
-Ensuring the correct configuration and integration of your ROS components
+Ensuring the correct configuration and integration of your ROS components.
 {: .fs-6 .fw-300 }
 
 [Get Started](getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
@@ -19,10 +19,12 @@ Ensuring the correct configuration and integration of your ROS components
 
 ## What is rospec?
 
-rospec is a domain-specific language designed to specify and verify component configurations and their integration in ROS-based robot software. With rospec, you can:
+rospec is a domain-specific language designed to specify and verify component configurations and their integration in ROS-based robot software. 
+With rospec, you can:
 
 {: .note }
-Component-based robot software frameworks like ROS allow developers to quickly compose and execute systems by focusing on configuring and integrating reusable components. However, these components often lack documentation on how to configure and integrate them correctly, leading to misconfigurations that can cause unpredictable and potentially dangerous robot behaviors.
+Component-based robot software frameworks like ROS allow developers to quickly compose and execute systems by focusing on configuring and integrating reusable components. 
+However, these components often lack documentation on how to configure and integrate them correctly, leading to misconfigurations that can cause unpredictable and potentially dangerous robot behaviors.
 
 - **Define component specifications** with explicit parameter types, constraints, and dependencies;
 - **Verify system integrations** to ensure components are correctly configured and connected;
@@ -54,22 +56,22 @@ In this example, rospec ensures that the camera's frame rate is within the allow
 {: .new }
 rospec provides a formal way to specify and verify component configurations and integrations, reducing the risks associated with misconfigured robot systems.
 
-- **Designed for ROS**: Built from the ground up with ROS concepts and patterns in mind
-- **Expressive Type System**: Uses liquid types to express constraints on parameter values
-- **Comprehensive Verification**: Checks parameter types, bounds, dependencies, communication patterns, and more
-- **Two Stakeholder Views**: Addresses both component writers who create reusable components and integrators who build systems
+- **Designed for ROS**: Built from the ground up with ROS concepts and patterns in mind;
+- **Expressive Type System**: Uses liquid types to express constraints on parameter values;
+- **Comprehensive Verification**: Checks parameter types, bounds, dependencies, communication patterns, and more;
+- **Two Stakeholder Views**: Addresses both component writers who create reusable components and integrators who build systems.
 
 ## Features
 
 rospec supports verification of multiple kinds of misconfigurations:
 
-- **Parameter Type Checking**: Ensures parameters have correct types
-- **Value Constraints**: Enforces bounds and other restrictions on parameter values
-- **Parameter Dependencies**: Verifies relationships between parameters (e.g., one parameter requiring another)
-- **Communication Verification**: Checks publisher-subscriber, service, and action connections
-- **QoS Compatibility**: Ensures Quality of Service settings are compatible
-- **TF Frame Verification**: Validates transform tree connectivity
-- **Context Validation**: Checks that components are deployed in appropriate contexts
+- **Parameter Type Checking**: Ensures parameters have correct types;
+- **Value Constraints**: Enforces bounds and other restrictions on parameter values;
+- **Parameter Dependencies**: Verifies relationships between parameters (e.g., one parameter requiring another);
+- **Communication Verification**: Checks publisher-subscriber, service, and action connections;
+- **QoS Compatibility**: Ensures Quality of Service settings are compatible;
+- **TF Frame Verification**: Validates transform tree connectivity;
+- **Context Validation**: Checks that components are deployed in appropriate contexts.
 
 ## Research Paper
 
@@ -77,14 +79,14 @@ rospec is based on research from Carnegie Mellon University and University of Li
 
 ```
 @inproceedings{canelas2025rospec,
-  title     = {ROSpec: A Domain-Specific Language for ROS-based Robot Software},
-  author    = {Canelas, Paulo and Schmerl, Bradley and Fonseca, Alcides and Timperley, Christopher S.},
-  booktitle = {Journal of the ACM},
-  volume    = {37},
-  number    = {4},
-  pages     = {26},
-  year      = {2025},
-  doi       = {XXXXXXX.XXXXXXX}
+  title     = {},
+  author    = {},
+  booktitle = {},
+  volume    = {},
+  number    = {},
+  pages     = {},
+  year      = {},
+  doi       = {}
 }
 ```
 
