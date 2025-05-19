@@ -1,8 +1,0 @@
-message alias RestrictedQuaternion: geometry_msgs/Quaternion {
-    field x: float64;
-    field y: float64;
-    field z: float64;
-    field w: float64;
-} where {
-    (x + y + z + w) != 0;
-}

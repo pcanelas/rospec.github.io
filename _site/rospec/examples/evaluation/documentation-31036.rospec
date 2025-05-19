@@ -1,3 +1,0 @@
-node type gmapping_type {
-    context positioning: Enum[Vertical, Horizontal, Tilted] where {_ != Tilted};
-}

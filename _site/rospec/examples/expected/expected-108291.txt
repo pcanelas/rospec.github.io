@@ -1,1 +1,0 @@
-Node instance stereo_image_proc is not subtype of Node{manager: string} | Connections:  | Frames:  where Struct{}

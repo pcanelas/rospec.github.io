@@ -1,2 +1,0 @@
-Publisher not found for subscriber turtle2/cmd_vel
-Publisher not found for subscriber turtle1/pose

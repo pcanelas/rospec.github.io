@@ -294,341 +294,369 @@
     "relUrl": "/getting-started#next-steps"
   },"42": {
     "doc": "Home",
-    "title": " rospec - A Domain Specific Language for ROS-based Robot Software",
-    "content": "Ensuring the correct configuration and integration of your ROS components since 2025. ",
+    "title": " rospec - A Domain-Specific Language for ROS-based Robot Software",
+    "content": "Ensuring the correct configuration and integration of your ROS components . Get Started View on GitHub . ",
     "url": "/#-rospec---a-domain-specific-language-for-ros-based-robot-software",
     
     "relUrl": "/#-rospec---a-domain-specific-language-for-ros-based-robot-software"
   },"43": {
     "doc": "Home",
-    "title": "Getting started",
-    "content": "hi . hi . hi . hi . hi . @inproceedings{canelas2025rospec, authors = {}, title = {}, booktitle = {}, year = {2025}, doi = {}, } . ",
-    "url": "/#getting-started",
+    "title": "What is rospec?",
+    "content": "rospec is a domain-specific language designed to specify and verify component configurations and their integration in ROS-based robot software. With rospec, you can: . Component-based robot software frameworks like ROS allow developers to quickly compose and execute systems by focusing on configuring and integrating reusable components. However, these components often lack documentation on how to configure and integrate them correctly, leading to misconfigurations that can cause unpredictable and potentially dangerous robot behaviors. | Define component specifications with explicit parameter types, constraints, and dependencies; | Verify system integrations to ensure components are correctly configured and connected; | Detect misconfigurations early before they lead to runtime failures or dangerous behaviors; | Document component requirements for other developers in a formal, verifiable way. | . ",
+    "url": "/#what-is-rospec",
     
-    "relUrl": "/#getting-started"
+    "relUrl": "/#what-is-rospec"
   },"44": {
+    "doc": "Home",
+    "title": "Quick Example",
+    "content": "Here’s a simple example of a rospec specification for a camera node and its configuration: . node type camera_node_type { param frame_rate: double where {_ &gt; 0.0 &amp;&amp; _ &lt;= 30.0}; publishes to camera/image_raw: sensor_msgs/Image; } system { node instance main_camera: camera_node_type { param frame_rate = 15.0; # Valid configuration } } . In this example, rospec ensures that the camera’s frame rate is within the allowed range of (0, 30] frames per second, helping prevent performance issues or hardware damage from invalid configurations. ",
+    "url": "/#quick-example",
+    
+    "relUrl": "/#quick-example"
+  },"45": {
+    "doc": "Home",
+    "title": "Why rospec?",
+    "content": "rospec provides a formal way to specify and verify component configurations and integrations, reducing the risks associated with misconfigured robot systems. | Designed for ROS: Built from the ground up with ROS concepts and patterns in mind | Expressive Type System: Uses liquid types to express constraints on parameter values | Comprehensive Verification: Checks parameter types, bounds, dependencies, communication patterns, and more | Two Stakeholder Views: Addresses both component writers who create reusable components and integrators who build systems | . ",
+    "url": "/#why-rospec",
+    
+    "relUrl": "/#why-rospec"
+  },"46": {
+    "doc": "Home",
+    "title": "Features",
+    "content": "rospec supports verification of multiple kinds of misconfigurations: . | Parameter Type Checking: Ensures parameters have correct types | Value Constraints: Enforces bounds and other restrictions on parameter values | Parameter Dependencies: Verifies relationships between parameters (e.g., one parameter requiring another) | Communication Verification: Checks publisher-subscriber, service, and action connections | QoS Compatibility: Ensures Quality of Service settings are compatible | TF Frame Verification: Validates transform tree connectivity | Context Validation: Checks that components are deployed in appropriate contexts | . ",
+    "url": "/#features",
+    
+    "relUrl": "/#features"
+  },"47": {
+    "doc": "Home",
+    "title": "Research Paper",
+    "content": "rospec is based on research from Carnegie Mellon University and University of Lisbon. For a detailed explanation of the language design, formal semantics, and evaluation, check out our paper: . @inproceedings{canelas2025rospec, title = {ROSpec: A Domain-Specific Language for ROS-based Robot Software}, author = {Canelas, Paulo and Schmerl, Bradley and Fonseca, Alcides and Timperley, Christopher S.}, booktitle = {Journal of the ACM}, volume = {37}, number = {4}, pages = {26}, year = {2025}, doi = {XXXXXXX.XXXXXXX} } . Ready to try it out? Get started now or check out our examples to see how rospec can help improve the reliability of your robot software. ",
+    "url": "/#research-paper",
+    
+    "relUrl": "/#research-paper"
+  },"48": {
     "doc": "Home",
     "title": "Home",
     "content": " ",
     "url": "/",
     
     "relUrl": "/"
-  },"45": {
+  },"49": {
     "doc": "Language",
     "title": "Navigation",
     "content": "See the following pages to learn how to create your specifications in rospec. ",
     "url": "/docs/language/#navigation",
     
     "relUrl": "/docs/language/#navigation"
-  },"46": {
+  },"50": {
     "doc": "Language",
     "title": "Language",
     "content": " ",
     "url": "/docs/language/",
     
     "relUrl": "/docs/language/"
-  },"47": {
+  },"51": {
     "doc": "Components",
     "title": "Navigation",
     "content": "The default page layout supports various navigation features: . ",
     "url": "/docs/components/#navigation",
     
     "relUrl": "/docs/components/#navigation"
-  },"48": {
+  },"52": {
     "doc": "Components",
     "title": "Components",
     "content": " ",
     "url": "/docs/components/",
     
     "relUrl": "/docs/components/"
-  },"49": {
+  },"53": {
     "doc": "System Integration",
     "title": "Integration Specifications in rospec",
     "content": "Integration specifications define how different components work together in a ROS-based system. This ensures that components are correctly configured and connected, preventing misconfigurations that could lead to unpredictable behavior. ",
     "url": "/system#integration-specifications-in-rospec",
     
     "relUrl": "/system#integration-specifications-in-rospec"
-  },"50": {
+  },"54": {
     "doc": "System Integration",
     "title": "System Definition",
     "content": "The basic structure for defining a system in rospec: . system { // Node instances node instance &lt;node_name&gt;: &lt;node_type&gt; { // Parameter assignments param &lt;param_name&gt; = &lt;value&gt;; ... // Remapping remap &lt;original_topic&gt; to &lt;new_topic&gt;; } // Additional node instances ... } . ",
     "url": "/system#system-definition",
     
     "relUrl": "/system#system-definition"
-  },"51": {
+  },"55": {
     "doc": "System Integration",
     "title": "Node Instantiation",
     "content": "Creating instances of previously defined node types: . system { node instance move_group: move_group_type { param elbow_joint/max_acceleration = 0.5; param elbow_joint/min_velocity = 0.1; param elbow_joint/max_velocity = 2.0; param elbow_joint/has_velocity_limits = true; } } . ",
     "url": "/system#node-instantiation",
     
     "relUrl": "/system#node-instantiation"
-  },"52": {
+  },"56": {
     "doc": "System Integration",
     "title": "Parameter Assignment",
     "content": "Assigning values to parameters defined in the node type: . node instance laser_scan_matcher: laser_scan_matcher_type { param distance_to_obstacle_service = \"get_distance_to_obstacle\"; param use_sim_time = true; context is_simulation = true; } . ",
     "url": "/system#parameter-assignment",
     
     "relUrl": "/system#parameter-assignment"
-  },"53": {
+  },"57": {
     "doc": "System Integration",
     "title": "Topic Remapping",
     "content": "Redirecting topics to different names: . node instance hector_map_server: hector_map_server_type { remap /hector_map_server/get_distance_to_obstacle to get_distance_to_obstacle; } . ",
     "url": "/system#topic-remapping",
     
     "relUrl": "/system#topic-remapping"
-  },"54": {
+  },"58": {
     "doc": "System Integration",
     "title": "Connection Verification",
     "content": "When a system is defined, rospec verifies: . | Publisher-Subscriber Connections: Ensuring that for each subscriber, there is a matching publisher with a compatible message type | Service Provider-Consumer Connections: Checking that service consumers have corresponding service providers | QoS Compatibility: Validating that Quality of Service settings are compatible between publishers and subscribers | TF Frame Connectivity: Ensuring that the TF tree is properly connected | . ",
     "url": "/system#connection-verification",
     
     "relUrl": "/system#connection-verification"
-  },"55": {
+  },"59": {
     "doc": "System Integration",
     "title": "Plugin Integration",
     "content": "Integrating plugins with nodes: . plugin instance right_arm: right_arm_type { param tip_name = \"right_gripper\"; param root_name = \"base_link\"; } node instance arm_kinematics: arm_kinematics_constraint_aware_type { param group = right_arm; // Assigns the plugin to the node } . ",
     "url": "/system#plugin-integration",
     
     "relUrl": "/system#plugin-integration"
-  },"56": {
+  },"60": {
     "doc": "System Integration",
     "title": "Context Validation",
     "content": "Ensuring that components are deployed in the correct context: . node instance navigation_stack: navigation_stack_type { context is_simulation = true; param use_sim_time = true; // Must match the context } . ",
     "url": "/system#context-validation",
     
     "relUrl": "/system#context-validation"
-  },"57": {
+  },"61": {
     "doc": "System Integration",
     "title": "System Integration",
     "content": " ",
     "url": "/system",
     
     "relUrl": "/system"
-  },"58": {
+  },"62": {
     "doc": "Parameter Dependencies",
     "title": "Parameter Dependencies in rospec",
     "content": "One of the powerful features of rospec is the ability to express and verify dependencies between parameters. This allows component writers to document and enforce complex relationships that must be maintained for correct operation. ",
     "url": "/parameter-dependencies.html#parameter-dependencies-in-rospec",
     
     "relUrl": "/parameter-dependencies.html#parameter-dependencies-in-rospec"
-  },"59": {
+  },"63": {
     "doc": "Parameter Dependencies",
     "title": "Basic Dependencies",
     "content": "The most common form of dependency is a simple implication between parameters: . node type controller_type { optional param use_velocity_limits: bool = false; optional param max_velocity: double; optional param min_velocity: double; } where { use_velocity_limits -&gt; exists(max_velocity); use_velocity_limits -&gt; exists(min_velocity); } . This specifies that if use_velocity_limits is true, then both max_velocity and min_velocity must be defined. ",
     "url": "/parameter-dependencies.html#basic-dependencies",
     
     "relUrl": "/parameter-dependencies.html#basic-dependencies"
-  },"60": {
+  },"64": {
     "doc": "Parameter Dependencies",
     "title": "Value Dependencies",
     "content": "Dependencies can also involve specific parameter values: . node type amcl_type { optional param laser_model_type: LaserModelType = LikelihoodField; optional param z_hit: double = 0.5; optional param z_max: double = 0.05; optional param z_rand: double = 0.5; optional param z_short: double = 0.005; } where { laser_model_type == Beam -&gt; z_hit + z_max + z_rand + z_short == 1; laser_model_type == LikelihoodField -&gt; z_hit + z_rand == 1; } . This example from the AMCL node shows how the meaning and constraints on certain parameters depend on the value of the laser_model_type parameter. ",
     "url": "/parameter-dependencies.html#value-dependencies",
     
     "relUrl": "/parameter-dependencies.html#value-dependencies"
-  },"61": {
+  },"65": {
     "doc": "Parameter Dependencies",
     "title": "Existence Dependencies",
     "content": "You can use the exists() function to check if an optional parameter is defined: . node type navigation_stack_type { optional param global_planner: string; optional param global_planner_frequency: double; } where { exists(global_planner) -&gt; exists(global_planner_frequency); } . This ensures that if a global planner is specified, its frequency must also be defined. ",
     "url": "/parameter-dependencies.html#existence-dependencies",
     
     "relUrl": "/parameter-dependencies.html#existence-dependencies"
-  },"62": {
+  },"66": {
     "doc": "Parameter Dependencies",
     "title": "Context Dependencies",
     "content": "rospec allows expressing dependencies between context values and parameters: . node type laser_scan_matcher_type { context is_simulation: bool; optional param use_sim_time: bool = false; } where { is_simulation -&gt; use_sim_time; } . This ensures that if the component is deployed in a simulation context, the use_sim_time parameter must be true. ",
     "url": "/parameter-dependencies.html#context-dependencies",
     
     "relUrl": "/parameter-dependencies.html#context-dependencies"
-  },"63": {
+  },"67": {
     "doc": "Parameter Dependencies",
     "title": "Numeric Relationships",
     "content": "This example ensures that if min and max velocities are defined, min must be less than max, and if a default velocity is defined, it must fall within the allowed range. ",
     "url": "/parameter-dependencies.html#numeric-relationships",
     
     "relUrl": "/parameter-dependencies.html#numeric-relationships"
-  },"64": {
+  },"68": {
     "doc": "Parameter Dependencies",
     "title": "Multiple Parameter Dependencies",
     "content": "This enforces that the rolling_window and static_map parameters cannot both be true, and if rolling_window is true, size parameters must be defined, while if static_map is true, size parameters must not be defined. ",
     "url": "/parameter-dependencies.html#multiple-parameter-dependencies",
     
     "relUrl": "/parameter-dependencies.html#multiple-parameter-dependencies"
-  },"65": {
+  },"69": {
     "doc": "Parameter Dependencies",
     "title": "Symbolic Dependencies",
     "content": "rospec supports symbolic variables in dependencies: . ",
     "url": "/parameter-dependencies.html#symbolic-dependencies",
     
     "relUrl": "/parameter-dependencies.html#symbolic-dependencies"
-  },"66": {
+  },"70": {
     "doc": "Parameter Dependencies",
     "title": "Parameter Dependencies",
     "content": "(Coming soon) . ",
     "url": "/parameter-dependencies.html",
     
     "relUrl": "/parameter-dependencies.html"
-  },"67": {
+  },"71": {
     "doc": "Playground",
     "title": "Playground",
     "content": "Try writing rospec specifications and see the verification in action. ✓Verify ✕Clear ",
     "url": "/playground",
     
     "relUrl": "/playground"
-  },"68": {
+  },"72": {
     "doc": "Plugins",
     "title": "Plugins in rospec",
     "content": " ",
     "url": "/plugins#plugins-in-rospec",
     
     "relUrl": "/plugins#plugins-in-rospec"
-  },"69": {
+  },"73": {
     "doc": "Plugins",
     "title": "Plugin Fundamentals",
     "content": "In ROS, plugins: . | Are dynamically loaded libraries that extend component functionality | Allow for modular design and flexible configuration | Are widely used in navigation, perception, and control systems | Often have their own configuration parameters and requirements | Can introduce misconfigurations if not properly documented and verified | . ",
     "url": "/plugins#plugin-fundamentals",
     
     "relUrl": "/plugins#plugin-fundamentals"
-  },"70": {
+  },"74": {
     "doc": "Plugins",
     "title": "Specifying Plugins in rospec",
     "content": "rospec provides a specific syntax for defining plugin types: . plugin type right_arm_type { param tip_name: string; param root_name: string; optional param robot_description: string = \"robot_description\"; optional param tf_safety_timeout: Second = 0.0; } . Similar to node types, plugin types can include: . | Required and optional parameters with types and constraints | Connections to topics and services | TF frame broadcasts and listeners | Parameter dependencies | . ",
     "url": "/plugins#specifying-plugins-in-rospec",
     
     "relUrl": "/plugins#specifying-plugins-in-rospec"
-  },"71": {
+  },"75": {
     "doc": "Plugins",
     "title": "Plugin Usage in Nodes",
     "content": "Nodes can use plugins by declaring parameters of type Plugin: . node type arm_kinematics_constraint_aware_type { param group: Plugin; } . ",
     "url": "/plugins#plugin-usage-in-nodes",
     
     "relUrl": "/plugins#plugin-usage-in-nodes"
-  },"72": {
+  },"76": {
     "doc": "Plugins",
     "title": "Instantiating Plugins",
     "content": "When configuring a system, you create plugin instances and assign them to nodes: . system { plugin instance right_arm: right_arm_type { param tip_name = \"right_gripper\"; param root_name = \"base_link\"; } node instance arm_kinematics: arm_kinematics_constraint_aware_type { param group = right_arm; // Assigns the plugin to the node } } . ",
     "url": "/plugins#instantiating-plugins",
     
     "relUrl": "/plugins#instantiating-plugins"
-  },"73": {
+  },"77": {
     "doc": "Plugins",
     "title": "Plugins",
     "content": "(Coming soon) . ",
     "url": "/plugins",
     
     "relUrl": "/plugins"
-  },"74": {
+  },"78": {
     "doc": "TF Frames",
     "title": "TF Frames in rospec",
     "content": "Transform frames (TF) are a critical component of ROS-based robotic systems, providing a way to track spatial relationships between different parts of a robot and its environment. rospec provides dedicated syntax for specifying and verifying TF frame relationships. ",
     "url": "/tf-frames#tf-frames-in-rospec",
     
     "relUrl": "/tf-frames#tf-frames-in-rospec"
-  },"75": {
+  },"79": {
     "doc": "TF Frames",
     "title": "TF Fundamentals",
     "content": "In ROS, the TF system: . | Tracks relationships between coordinate frames over time | Allows transforming points, vectors, and poses between different frames | Organizes frames in a tree structure, with each frame having a single parent | Facilitates distributed computing by providing consistent frame data to all nodes | . Misconfigurations in TF are common and can lead to serious issues: . | Missing transforms causing navigation failures | Incorrect frame relationships leading to collisions | Outdated transforms resulting in incorrect planning | . ",
     "url": "/tf-frames#tf-fundamentals",
     
     "relUrl": "/tf-frames#tf-fundamentals"
-  },"76": {
+  },"80": {
     "doc": "TF Frames",
     "title": "Specifying TF Frames in rospec",
     "content": "rospec provides two primary ways to specify TF frame relationships: . 1. Broadcasts . When a node publishes transformations: . node type base_controller_type { broadcast odom to base_link; } . This indicates that the node broadcasts the transformation from the odom frame to the base_link frame. 2. Listeners . When a node requires transformations from other nodes: . node type laser_scan_matcher_type { listens base_link to laser; } . This indicates that the node needs to know the transformation from base_link to laser, which must be provided by another node. ",
     "url": "/tf-frames#specifying-tf-frames-in-rospec",
     
     "relUrl": "/tf-frames#specifying-tf-frames-in-rospec"
-  },"77": {
+  },"81": {
     "doc": "TF Frames",
     "title": "TF Frames with Parameters",
     "content": "Often, frame names are configurable parameters: . node type amcl_type { param global_frame: string = \"map\"; param odom_frame: string = \"odom\"; param base_frame: string = \"base_link\"; broadcast content(global_frame) to content(odom_frame); broadcast content(odom_frame) to content(base_frame); } . The content() function in rospec dynamically resolves parameter values for frame names. ",
     "url": "/tf-frames#tf-frames-with-parameters",
     
     "relUrl": "/tf-frames#tf-frames-with-parameters"
-  },"78": {
+  },"82": {
     "doc": "TF Frames",
     "title": "TF Tree Verification",
     "content": "rospec automatically verifies the TF tree by: . | Checking for missing transforms: Ensuring that for every frame a node listens to, there is a corresponding broadcaster | Validating tree structure: Ensuring each frame has exactly one parent | Checking for cycles: Ensuring there are no loops in the transform tree | . For example, given: . node instance amcl: amcl_type { broadcast map to odom; } node instance laser_scan_matcher: laser_scan_matcher_type { broadcast odom to base_link; listens base_link to laser; } node instance laser_driver: laser_driver_type { // Missing transform broadcast from base_link to laser } . rospec would detect: . Error: Missing transform broadcast in the TF tree. Node 'laser_scan_matcher' listens to transform from 'base_link' to 'laser', but no node broadcasts this transform. at system.spec:15:3 . ",
     "url": "/tf-frames#tf-tree-verification",
     
     "relUrl": "/tf-frames#tf-tree-verification"
-  },"79": {
+  },"83": {
     "doc": "TF Frames",
     "title": "TF Frames",
     "content": "(Coming soon) . ",
     "url": "/tf-frames",
     
     "relUrl": "/tf-frames"
-  },"80": {
+  },"84": {
     "doc": "Type System",
     "title": "Type System",
     "content": "rospec uses a rich type system built on liquid and dependent types to express constraints and relationships between configuration values. This enables precise specification and verification of component configurations. ",
     "url": "/type-system#type-system",
     
     "relUrl": "/type-system#type-system"
-  },"81": {
+  },"85": {
     "doc": "Type System",
     "title": "Basic Types",
     "content": "rospec supports the following primitive types: . | Type | Description | Examples | . | bool | Boolean values | true, false | . | int | Integer values | -1, 0, 42 | . | int8, int16, int32, int64 | Sized integers | 127, -32768 | . | uint8, uint16, uint32, uint64 | Unsigned integers | 255, 65535 | . | float | Floating-point numbers | 3.14159, -0.5 | . | double | Double-precision floating point | 1.23456789, -2.71828 | . | string | Text values | \"robot_name\", \"base_link\" | . | t | message type | geometry_msgs/Twist, sensor_msgs/LaserScan | . ",
     "url": "/type-system#basic-types",
     
     "relUrl": "/type-system#basic-types"
-  },"82": {
+  },"86": {
     "doc": "Type System",
     "title": "Refined Types (Liquid Types)",
     "content": "rospec uses liquid types to express constraints on values: . param max_speed: double where {_ &gt;= 0.0 &amp;&amp; _ &lt;= 10.0}; param retry_count: int where {_ &gt; 0 &amp;&amp; _ &lt; 10}; . The underscore (_) represents the value being constrained. ",
     "url": "/type-system#refined-types-liquid-types",
     
     "relUrl": "/type-system#refined-types-liquid-types"
-  },"83": {
+  },"87": {
     "doc": "Type System",
     "title": "Type Aliases",
     "content": "You can define aliases for types to improve code readability: . type alias LaserModelType: Enum[Beam, LikelihoodField, LikelihoodFieldProb]; type alias Meter: double; type alias Radian: double; type alias NodeName: string; . ",
     "url": "/type-system#type-aliases",
     
     "relUrl": "/type-system#type-aliases"
-  },"84": {
+  },"88": {
     "doc": "Type System",
     "title": "Enumerations",
     "content": " ",
     "url": "/type-system#enumerations",
     
     "relUrl": "/type-system#enumerations"
-  },"85": {
+  },"89": {
     "doc": "Type System",
     "title": "Message Types",
     "content": "rospec automatically understands standard ROS message types: . publishes to cmd_vel: geometry_msgs/Twist; subscribes to laser_scan: sensor_msgs/LaserScan; provides service get_map: nav_msgs/GetMap; . ",
     "url": "/type-system#message-types",
     
     "relUrl": "/type-system#message-types"
-  },"86": {
+  },"90": {
     "doc": "Type System",
     "title": "Message Alias and Field Specifications",
     "content": "You can define message aliases with field-specific constraints: . message alias ImageWith16Encoding: sensor_msgs/Image { field header: Header; field encoding: ImageEncoding16; field data: Millimeter[]; } . This allows for more specific type checking when components exchange messages. ",
     "url": "/type-system#message-alias-and-field-specifications",
     
     "relUrl": "/type-system#message-alias-and-field-specifications"
-  },"87": {
+  },"91": {
     "doc": "Type System",
     "title": "Optional Types",
     "content": "Parameters can be marked as optional with default values: . optional param timeout: double = 30.0; optional param retry_count: int = 3; optional param node_name: string = \"default_node\"; . ",
     "url": "/type-system#optional-types",
     
     "relUrl": "/type-system#optional-types"
-  },"88": {
+  },"92": {
     "doc": "Type System",
     "title": "Arrays and Collections",
     "content": "rospec supports array types: . param gain_values: double[] where {length(_) == 3}; param joint_names: string[]; . ",
     "url": "/type-system#arrays-and-collections",
     
     "relUrl": "/type-system#arrays-and-collections"
-  },"89": {
+  },"93": {
     "doc": "Type System",
     "title": "Physical Units",
     "content": "rospec encourages specifying physical units for clarity: . type alias Meter: double; type alias Millimeter: double; type alias Radian: double; type alias Degree: double; param wheel_radius: Meter = 0.1; param joint_limit: Radian where {_ &gt;= 0.0 &amp;&amp; _ &lt;= 3.14159}; . ",
     "url": "/type-system#physical-units",
     
     "relUrl": "/type-system#physical-units"
-  },"90": {
+  },"94": {
     "doc": "Type System",
     "title": "Type System",
     "content": "(Coming soon) . ",

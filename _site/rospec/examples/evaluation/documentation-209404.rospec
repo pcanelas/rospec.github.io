@@ -1,3 +1,0 @@
-node type move_base_t {
-    optional param base_local_planner: Plugin = default(TrajectoryPlannerROS);
-}

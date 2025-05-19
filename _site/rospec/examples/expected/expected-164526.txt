@@ -1,1 +1,0 @@
-Provider not found for service get_distance_to_obstacle

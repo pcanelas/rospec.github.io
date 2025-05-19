@@ -1,3 +1,0 @@
-node type uv_cam_node_type {
-    optional param format_mode: Enum[RGB, YUYV, MJPG] = RGB;
-}

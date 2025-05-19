@@ -1,4 +1,0 @@
-message turtlesim/Velocity {
-    field linear: float32;
-    field angular: float32;
-}

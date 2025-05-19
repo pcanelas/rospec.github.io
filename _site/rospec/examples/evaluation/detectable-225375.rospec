@@ -1,7 +1,0 @@
-node type ekf_localization_node_type {
-    subscribes to /set_pose: geometry_msgs/Pose;
-}
-
-system {
-    node instance ekf_localization_node: ekf_localization_node_type { }
-}
