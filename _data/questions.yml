@@ -14,7 +14,7 @@
     - 'MESSAGE: Conflicting-Publishers'
     - 'NAME: Remapping'
   status: Detectable
-  writer: "type alias Modes: Enum[SXGA15Hz, VGA30Hz, VGA25Hz, QVGA25Hz, QVGA30Hz, QVGA60Hz, QQVGA25Hz, QQVGA30Hz, QQVGA60Hz];\n\nnode type openni_node_type {\n    optional param depth_frame_id: string = \"/openni_depth_optical_frame\";\n    optional param rgb_frame_id: string = \"/openni_rgb_optical_frame\";\n    optional param image_mode: Modes = VGA30Hz;\n    optional param depth_mode: Modes = VGA30Hz;\n    optional param use_indices: bool = false;\n    optional param depth_registration: bool = false;\n    optional param depth_time_offset: Second where {_ >= -1 and _ <= 1} = 0.0;\n    optional param image_time_offset: Second where {_ >= -1 and _ <= 1} = 0.0;\n\n    publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1} # assuming {depth_registration};\n}"
+  writer: "type alias Modes: Enum[SXGA15Hz, VGA30Hz, VGA25Hz, QVGA25Hz, QVGA30Hz, QVGA60Hz, QQVGA25Hz, QQVGA30Hz, QQVGA60Hz];\n\nnode type openni_node_type {\n    optional param depth_frame_id: string = \"/openni_depth_optical_frame\";\n    optional param rgb_frame_id: string = \"/openni_rgb_optical_frame\";\n    optional param image_mode: Modes = VGA30Hz;\n    optional param depth_mode: Modes = VGA30Hz;\n    optional param use_indices: bool = false;\n    optional param depth_registration: bool = false;\n    optional param depth_time_offset: Second where {_ >= -1 and _ <= 1} = 0.0;\n    optional param image_time_offset: Second where {_ >= -1 and _ <= 1} = 0.0;\n\n    publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1};\n}"
   integrator: "    node instance openni_node1: openni_node_type {\n        param depth_registration = true;    \n    }\n\n    node instance openni_node2: openni_node_type {\n        param depth_registration = true;\n        param rgb_frame_id = \"/openni_rgb_optical_frame_2\";\n        param depth_frame_id = \"/openni_depth_optical_frame_2\";\n    }"
 - question: 173503
   misconfiguration:
@@ -28,7 +28,7 @@
   misconfiguration:
     - 'PARAMETER: Incorrect'
   status: Detectable
-  writer: "node type openni_node_type {\n    optional param depth_registration: bool = false;\n\n    publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1}; # assuming {depth_registration};\n}\n\nnode type amcl_type {\n    optional param depth_registration: bool = false;\n\n    publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1}; # assuming {depth_registration};\n}"
+  writer: "node type openni_node_type {\n    optional param depth_registration: bool = false;\n\n    publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1};\n}\n\nnode type amcl_type {\n    optional param depth_registration: bool = false;\n\n    publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1};\n}"
   integrator: "    node instance openni_node1: openni_node_type {\n        param depth_registration = true;    \n    }\n\n    node instance amcl: amcl_type {\n        param depth_registration = true;\n    }"
 - question: 201031
   misconfiguration:
@@ -380,7 +380,7 @@
   misconfiguration:
     - 'PARAMETER: Missing'
   status: Documentation
-  writer: "node type ardrone_autonomy_type {\n    optional param enable_navdata_pressure_raw: bool = false;\n    publishes to enable_navdata_pressure_raw: ardrone_autonomy/navdata_pressure_raw; # assuming {enable_navdata_pressure_raw};\n}"
+  writer: "node type ardrone_autonomy_type {\n    optional param enable_navdata_pressure_raw: bool = false;\n    publishes to enable_navdata_pressure_raw: ardrone_autonomy/navdata_pressure_raw;\n}"
   integrator: '-'
 - question: 207352
   misconfiguration:
@@ -496,7 +496,7 @@
     - 'NODE: Missing'
     - 'CONTEXTUAL: HARDWARE: Sensors'
   status: Detectable
-  writer: "node type rtabmap {\n     optional param publish_tf: bool = false\n\n     broadcast map to odom; # assuming {publish_tf};\n}\n\nnode type robot_localization_type {\n    param map_frame: string;\n    param odom_frame: string;\n\n    broadcast content(map_frame) to content(odom_frame);\n}"
+  writer: "node type rtabmap {\n     optional param publish_tf: bool = false\n\n     broadcast map to odom;\n}\n\nnode type robot_localization_type {\n    param map_frame: string;\n    param odom_frame: string;\n\n    broadcast content(map_frame) to content(odom_frame);\n}"
   integrator: "    node instance rtab: rtabmap { }\n\n    node instance  robot_localization: robot_localization_type {\n        param map_frame = \"map\";\n        param odom_frame = \"odom\";\n    }"
 - question: 226175
   misconfiguration:
@@ -659,7 +659,7 @@
   misconfiguration:
     - 'PARAMETER: Incorrect'
   status: Detectable
-  writer: "node type amcl_type {\n    optional param tf_broadcast: bool = false;\n    broadcast map to odom; #assuming {tf_broadcast};\n}\n\nnode type ekf_node_type {\n    broadcast map to odom;\n}"
+  writer: "node type amcl_type {\n    optional param tf_broadcast: bool = false;\n    broadcast map to odom;\n}\n\nnode type ekf_node_type {\n    broadcast map to odom;\n}"
   integrator: "    node instance amcl: amcl_type { }\n\n    node instance ekf_node: ekf_node_type { }"
 - question: 255893
   misconfiguration:
@@ -786,13 +786,13 @@
     - 'LAUNCH: Includes'
     - 'CONTEXTUAL: Simulation-vs-Real'
   status: Detectable
-  writer: "node type planning_scene_warehouse_viewer_t {\n    context is_simulation: bool;\n\n    optional argument use_monitor: bool = false;\n    optional argument use_collision_map: bool = false;\n    optional param use_robot_data: bool = false;\n\n    subscribes to /joint_states: sensor_msgs/JointState; # assuming {use_monitor};\n} where {\n    is_simulation -> use_monitor;\n    is_simulation -> !use_robot_data;\n}"
+  writer: "node type planning_scene_warehouse_viewer_t {\n    context is_simulation: bool;\n\n    optional argument use_monitor: bool = false;\n    optional argument use_collision_map: bool = false;\n    optional param use_robot_data: bool = false;\n\n    subscribes to /joint_states: sensor_msgs/JointState;\n} where {\n    is_simulation -> use_monitor;\n    is_simulation -> !use_robot_data;\n}"
   integrator: "    node instance planning_scene_warehouse_viewer: planning_scene_warehouse_viewer_t {\n        context is_simulation = true;\n    }"
 - question: 283932
   misconfiguration:
     - 'TF: Missing-Transform'
   status: Detectable
-  writer: "node type custom_node_type {\n    broadcast camera_rgb_frame to camera_link;\n}\n\nnode type freenect_node_type {\n    optional param publish_tf: bool = true;\n\n    broadcast camera_link to camera_rgb_frame; # assuming {publish_tf};\n}"
+  writer: "node type custom_node_type {\n    broadcast camera_rgb_frame to camera_link;\n}\n\nnode type freenect_node_type {\n    optional param publish_tf: bool = true;\n\n    broadcast camera_link to camera_rgb_frame;\n}"
   integrator: "    node instance custom_node: custom_node_type { }\n\n    node instance freenect_node: freenect_node_type { }"
 - question: 284325
   misconfiguration:
@@ -1194,7 +1194,7 @@
   misconfiguration:
     - 'PARAMETER: Incorrect'
   status: Detectable
-  writer: "node type rgbdslam_type {\n    optional param individual_cloud_out_topic: string = \"topic_points\";\n    optional param store_pointclouds: bool = true;\n\n    publishes to content(individual_cloud_out_topic): sensor_msgs/PointCloud2; # assuming {store_pointclouds};\n}\n\nnode type custom_node_type {\n    # This is used to mimic the attempt to access the information from this topic\n    subscribes to /rgbdslam/batch_clouds: sensor_msgs/PointCloud2;\n}"
+  writer: "node type rgbdslam_type {\n    optional param individual_cloud_out_topic: string = \"topic_points\";\n    optional param store_pointclouds: bool = true;\n\n    publishes to content(individual_cloud_out_topic): sensor_msgs/PointCloud2;\n}\n\nnode type custom_node_type {\n    # This is used to mimic the attempt to access the information from this topic\n    subscribes to /rgbdslam/batch_clouds: sensor_msgs/PointCloud2;\n}"
   integrator: "    node instance rgbdslam: rgbdslam_type {\n        param individual_cloud_out_topic = \"/rgbdslam/batch_clouds\";\n        param store_pointclouds = false;\n    }\n    node instance custom_node custom_node_type { }"
 - question: 54279
   misconfiguration:
