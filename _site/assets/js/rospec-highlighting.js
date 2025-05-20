@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
           'provides consumes subscribes';
         
         const ROSPEC_KEYWORDS = 
-          'node plugin policy rules attach message service action ' +
+          'node argument plugin policy rules attach message service action ' +
           'qos frame link hierarchy field from nodelet instance ' +
           'expects system ensures and or optional topic param where response ' +
           'request feedback remaps external verify setting type alias context';

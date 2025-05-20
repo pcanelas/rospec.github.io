@@ -953,7 +953,7 @@
     - 'CONTEXTUAL: HARDWARE: Compute'
   status: Detectable
   writer: "node type rgbdslam_type {\n    param fixed_frame_name: string;\n    param ground_truth_frame_name: string;\n    param base_frame_name: string;\n    param fixed_camera: bool;\n} where {\n    base_frame_name == \"odom\" -> !exists(fixed_camera);\n}"
-  integrator: "    tance rgbdslam: rgbdslam_type {\n        param fixed_frame_name = \"/map\";\n        param ground_truth_frame_name = \"\";\n        param base_frame_name = \"/odom\";\n        param fixed_camera = true;\n    }"
+  integrator: "    node instance rgbdslam: rgbdslam_type {\n        param fixed_frame_name = \"/map\";\n        param ground_truth_frame_name = \"\";\n        param base_frame_name = \"/odom\";\n        param fixed_camera = true;\n    }"
 - question: 336055
   misconfiguration:
     - 'OTHER: Documentation'
