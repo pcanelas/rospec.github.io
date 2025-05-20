@@ -8,7 +8,21 @@ nav_order: 5
 
 # Evaluation
 
-This page shows the evaluation of misconfigurations that rospec can currently detect or document.
+This page shows the evaluation of rospec's ability to detect or document misconfigurations in ROS-based robot software.
+
+## Methodology
+
+Our evaluation analyzed 182 real-world questions from [ROS Answers](https://answers.ros.org/), the previous primary Q&A platform for the ROS community. 
+We categorized each question based on whether rospec could:
+
+- **Detectable** the misconfiguration automatically through static analysis.
+- **Document** the issue through improved component specification;
+- **Not Support** the particular issue (beyond current capabilities);
+- **Out of Scope / Missing Context** the issue was not related to misconfiguration or lacked sufficient context for analysis.
+
+For "Detectable" and "Documentation" categories, we created rospec specifications demonstrating how to prevent these real-world problems.
+
+The table below shows examples from the "Detectable" and "Documentation" categories.
 
 <table class="evaluation-table">
   <thead>
