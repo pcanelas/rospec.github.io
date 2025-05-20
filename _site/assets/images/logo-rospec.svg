@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg viewBox="70 70 500 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- ROS Grid Pattern - Main components -->
+  <g>
+    <!-- Top row -->
+    <circle cx="100" cy="100" r="20" fill="#1d3557" />
+    <circle cx="150" cy="100" r="12" fill="#697a95" opacity="0.9" />
+    <circle cx="200" cy="100" r="20" fill="#1d3557" />
+    
+    <!-- Middle row -->
+    <circle cx="100" cy="150" r="12" fill="#697a95" opacity="0.9" />
+    <circle cx="150" cy="150" r="25" fill="#1d3557" /> <!-- Central hub (larger) -->
+    <circle cx="200" cy="150" r="12" fill="#697a95" opacity="0.9" />
+    
+    <!-- Bottom row -->
+    <circle cx="100" cy="200" r="20" fill="#1d3557" />
+    <circle cx="150" cy="200" r="12" fill="#697a95" opacity="0.9" />
+    <circle cx="200" cy="200" r="20" fill="#1d3557" />
+  </g>
+  
+  <!-- Integration lines connecting components with visible gaps on all connections -->
+  <g stroke="#1d3557" stroke-width="2.5" stroke-linecap="butt">
+    <!-- Horizontal connections - with clear gaps -->
+    <!-- Top row horizontal connections -->
+    <line x1="120" y1="100" x2="135" y2="100" />
+    <line x1="165" y1="100" x2="180" y2="100" />
+    
+    <!-- Middle row horizontal connections - completely separated -->
+    <line x1="115" y1="150" x2="126" y2="150" />
+    <line x1="172" y1="150" x2="185" y2="150" />
+    
+    <!-- Bottom row horizontal connections -->
+    <line x1="120" y1="200" x2="135" y2="200" />
+    <line x1="165" y1="200" x2="180" y2="200" />
+    
+    <!-- Vertical connections - with clear gaps -->
+    <!-- Left column vertical connections -->
+    <line x1="100" y1="120" x2="100" y2="135" />
+    <line x1="100" y1="165" x2="100" y2="180" />
+    
+    <!-- Middle column vertical connections -->
+    <line x1="150" y1="115" x2="150" y2="125" />
+    <line x1="150" y1="175" x2="150" y2="185" />
+    
+    <!-- Right column vertical connections -->
+    <line x1="200" y1="120" x2="200" y2="135" />
+    <line x1="200" y1="165" x2="200" y2="180" />
+    
+    <!-- Diagonal connections - with clear gaps -->
+    <line x1="117" y1="117" x2="132" y2="132" stroke-width="2" />
+    <line x1="183" y1="117" x2="168" y2="132" stroke-width="2" />
+    <line x1="117" y1="183" x2="132" y2="168" stroke-width="2" />
+    <line x1="183" y1="183" x2="168" y2="168" stroke-width="2" />
+  </g>
+  
+  <!-- Configuration validation symbols -->
+  <g>
+    <!-- Central node - type checking symbol -->
+    <path d="M140 145 L160 145" stroke="#ffffff" stroke-width="2" />
+    <path d="M140 150 L160 150" stroke="#ffffff" stroke-width="2" />
+    <path d="M140 155 L160 155" stroke="#ffffff" stroke-width="2" />
+    <path d="M145 158 L155 158" stroke="#4d96ff" stroke-width="2" />
+    
+    <!-- Top-left node - check symbol -->
+    <path d="M95 100 L100 105 L108 93" stroke="#ffffff" stroke-width="2" fill="none" />
+    
+    <!-- Top-right node - configuration symbol -->
+    <rect x="193" y="96" width="14" height="8" fill="none" stroke="#ffffff" stroke-width="1.5" rx="1" />
+    <path d="M195 96 L195 104" stroke="#ffffff" stroke-width="1.5" />
+    <path d="M199 96 L199 104" stroke="#ffffff" stroke-width="1.5" />
+    <path d="M203 96 L203 104" stroke="#ffffff" stroke-width="1.5" />
+    
+    <!-- Bottom-left node - TF frame relationship symbol -->
+    <g>
+      <!-- TF frame relationship (TF-Graph property) -->
+      <path d="M94 193 L106 193" stroke="#ffffff" stroke-width="1.5" /> <!-- Top -->
+      <path d="M94 193 L94 205" stroke="#ffffff" stroke-width="1.5" /> <!-- Left -->
+      <path d="M106 193 L106 205" stroke="#ffffff" stroke-width="1.5" /> <!-- Right -->
+      <path d="M94 205 L106 205" stroke="#ffffff" stroke-width="1.5" /> <!-- Bottom -->
+      
+      <!-- Connection arrow (representing the parent-child relationship) -->
+      <path d="M100 196 L100 202" stroke="#4d96ff" stroke-width="1.5" />
+      <path d="M97 199 L100 196 L103 199" stroke="#4d96ff" stroke-width="1.5" fill="none" />
+    </g>
+    
+    <!-- Bottom-right node - specification symbol -->
+    <path d="M194 198 L206 198" stroke="#ffffff" stroke-width="1.5" />
+    <path d="M194 202 L201 202" stroke="#ffffff" stroke-width="1.5" />
+    <path d="M203 202 L206 202" stroke="#4d96ff" stroke-width="1.5" />
+  </g>
+  
+  <!-- Text "rospec" -->
+  <text x="240" y="185" font-family="Arial, sans-serif" font-size="100" font-weight="bold" fill="#1d3557">rospec</text>
+</svg>
