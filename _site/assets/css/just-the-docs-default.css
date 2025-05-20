@@ -8269,39 +8269,88 @@ tr.spec-row td {
   border-bottom: 1px solid #e1e4e8;
 }
 
+/* Updated Styles for the Show Specification buttons */
 .spec-toggle {
-  cursor: pointer;
-  padding: 0.6rem 1.2rem;
-  background-color: #f8f9fa;
-  color: #4a5568;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  transition: all 0.2s ease;
-  font-size: 0.9rem;
+  /* Base styling */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  font-size: 0.85rem;
   font-weight: 500;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  position: relative;
+  color: #2c3e50;
+  background: linear-gradient(to bottom, #ffffff, #f4f5f7);
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
   overflow: hidden;
-}
-.spec-toggle:hover {
-  background-color: #edf2f7;
-  border-color: #cbd5e0;
-  color: #2d3748;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-  transform: translateY(-1px);
-}
-.spec-toggle:active, .spec-toggle.active {
-  background-color: #e2e8f0;
-  border-color: #cbd5e0;
-  color: #1a202c;
-  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.05);
-  transform: translateY(0);
-}
-.spec-toggle span {
-  position: relative;
-  z-index: 1;
+  transition: all 0.2s ease;
+  /* Add a subtle code pattern background */
+  background-image: linear-gradient(to bottom, #ffffff, #f4f5f7), repeating-linear-gradient(45deg, rgba(44, 62, 80, 0.03), rgba(44, 62, 80, 0.03) 10px, transparent 10px, transparent 20px);
+  /* Add a subtle left border accent */
+  border-left: 3px solid #3498db;
 }
 
+.spec-toggle::before {
+  content: "{ }";
+  margin-right: 8px;
+  font-family: monospace;
+  font-weight: bold;
+  color: #3498db;
+}
+
+/* Hover state */
+.spec-toggle:hover {
+  background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-color: #b0bec5;
+}
+
+/* Active state */
+.spec-toggle:active,
+.spec-toggle.active {
+  background: linear-gradient(to bottom, #e9ecef, #f8f9fa);
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* When the spec is shown (active state) */
+.spec-toggle.active {
+  color: #2c3e50;
+  border-left: 3px solid #3caee7;
+}
+
+.spec-toggle.active::before {
+  content: "{ }";
+  color: #3caee7;
+}
+
+/* Adding a pulsing effect when the button is active */
+@keyframes pulse-border {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 175, 218, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(231, 76, 60, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+  }
+}
+.spec-toggle.active {
+  animation: pulse-border 2s infinite;
+}
+
+/* Mobile-friendly adjustments */
+@media (max-width: 768px) {
+  .spec-toggle {
+    width: 100%;
+    padding: 10px;
+  }
+}
 /* Modern Playground Container */
 .playground-container {
   margin: 2rem 0;

@@ -20,9 +20,7 @@ We categorized each question based on whether rospec could:
 - **Not Support** the particular issue (beyond current capabilities);
 - **Out of Scope / Missing Context** the issue was not related to misconfiguration or lacked sufficient context for analysis.
 
-For "Detectable" and "Documentation" categories, we created rospec specifications demonstrating how to prevent these real-world problems.
-
-The table below shows examples from the "Detectable" and "Documentation" categories.
+For <span class="status-pill status-detectable">Detectable</span> and <span class="status-pill status-documentation">Documentation</span> categories, we created rospec specifications demonstrating how to prevent these real-world problems.
 
 <table class="evaluation-table">
   <thead>
