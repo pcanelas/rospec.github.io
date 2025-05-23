@@ -103,14 +103,6 @@ system {
 
 This example shows two node instances: an AMCL localization node and a custom node that provides transform information used by AMCL.
 
-## Topic Remapping
-ROS allows remapping topics and services at runtime, which is essential for component reuse. rospec supports this through the `remap` keyword:
-
-```rospec
-node instance hector_map_server: hector_map_server_type {
-    remap /hector_map_server/get_distance_to_obstacle to get_distance_to_obstacle;
-}
-```
 
 This remaps a service provided by the `hector_map_server` node to a different name, allowing it to connect with other components that expect the service at this new name.
 

@@ -101,7 +101,8 @@ This allows for more specific type checking when components exchange messages. I
 - It requires the `encoding` field to be one of the values in the `ImageEncoding16` enumeration
 - The `data` field must contain values with the `Millimeter` type
 
-This specialization helps prevent subtle misconfigurations in image processing pipelines, where different components might expect specific image encodings. By explicitly declaring these requirements, rospec can verify that components will correctly interpret the image data they receive.
+This specialization helps prevent misconfigurations in image processing pipelines, where different components might expect specific image encodings. 
+By explicitly declaring these requirements, rospec can verify that components will correctly interpret the image data they receive.
 
 ## Optional Types
 
@@ -118,22 +119,18 @@ Optional parameters do not need to be explicitly specified when creating a node 
 - `retry_count` defaults to 3 attempts
 - `node_name` defaults to "default_node"
 
-This allows component writers to provide sensible defaults while still giving integrators the flexibility to override them when needed. It also reduces the configuration burden for commonly used components by requiring only non-standard parameters to be explicitly defined.
+This allows component writers to provide defaults while still giving integrators the flexibility to override them when needed. 
+It also reduces the configuration burden for commonly used components by requiring only non-standard parameters to be explicitly defined.
 
-## Arrays and Collections
+## Arrays
 
 rospec supports array types:
 
 ```rospec
-param gain_values: double[] where {length(_) == 3};
 param joint_names: string[];
 ```
 
-Arrays are used to represent collections of values. In these examples:
-- `gain_values` must be an array of exactly 3 double values, typically representing PID controller gains (proportional, integral, derivative)
-- `joint_names` is a variable-length array of strings representing robot joint identifiers
-
-The constraint on `gain_values` ensures that all three required gain parameters are provided, preventing incomplete controller configurations. This is a common source of misconfiguration in ROS systems where multi-value parameters must have the correct dimensionality.
+Arrays are used to represent collections of values. For instance, `joint_names` is a variable-length array of strings representing robot joint identifiers.
 
 ## Physical Units
 

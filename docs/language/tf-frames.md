@@ -22,16 +22,6 @@ In ROS, the transform system:
 - Tracks the evolution of these relationships over time
 - Provides a distributed framework where different components can contribute transforms
 
-Common misconfigurations in transform frames include:
-
-- Missing transforms creating disconnected frame segments
-- Multiple components broadcasting the same transform
-- Incorrect parent-child relationships
-- Outdated or stale transforms
-
-These issues can lead to serious problems like navigation failures, collisions, or unpredictable motion. 
-rospec helps prevent these problems through static verification of transform relationships.
-
 ## Specifying Transform Broadcasts
 
 Components that publish transforms use the `broadcast` keyword:
