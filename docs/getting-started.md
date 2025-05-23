@@ -11,45 +11,61 @@ nav_order: 2
 ## Prerequisites
 Before you begin, ensure you have the following installed:
 - [Python 3.9](https://www.python.org/downloads/) or higher installed on your system;
-- [Poetry](https://python-poetry.org/), for dependency management tool in Python.
+- [uv (>=0.7.6)](https://docs.astral.sh/uv/getting-started/installation/), a fast Python package manager and project manager.
 
 ## Installation
-rospec can be installed either via [pip]() or from [source](https://github.com/pcanelas/rospec).
+rospec can be installed either via pip or from [source](https://github.com/pcanelas/rospec).
 
 ### Install via pip
 
-You can install rospec using pip, which is the recommended method for most users. Open a terminal and run the following command to install rospec and check its version:
+You can install rospec using pip, which is the recommended method for most users. We recommend using uv for faster installation and better dependency management:
+
+```bash
+# Create and activate a virtual environment
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install rospec
+uv add rospec
+
+# Check the installation
+rospec --version
+```
+
+Alternatively, you can use traditional pip:
 
 ```bash
 pip install rospec
 rospec --version
 ```
 
-
 ### Install from source
 
 Installing from source is useful if you want to contribute to the project or if you need the latest features that are not yet available in the pip version.
 To install from source, follow these steps:
 
-1. Clone the repository and navigate to the project directory;
-```markdown
+1. Clone the repository and navigate to the project directory:
+```bash
 git clone https://github.com/pcanelas/rospec.git
 cd rospec
 ```
-2. Install dependencies using Poetry
-```markdown
-poetry install
+
+2. Create a virtual environment and install dependencies using uv:
+```bash
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+uv sync
 ```
-3. Activate the virtual environment
-```markdown
-poetry shell
+
+3. For development (includes testing and linting tools):
+```bash
+uv sync --extra dev
 ```
 
 The virtual environment will be activated, and you can run rospec commands from there.
 
 {: .note }
-We recommend installing rospec using pip in a virtual environment to avoid conflicts with other Python packages. You can create a virtual environment using `python -m venv venv` and activate it with `source venv/bin/activate` (Linux/Mac) or `venv\Scripts\activate` (Windows).
-
+We recommend installing rospec using uv in a virtual environment to avoid conflicts with other Python packages and for faster dependency resolution. uv automatically manages virtual environments and provides significantly faster installation than traditional pip.
 
 ## Basic Workflow
 
@@ -93,7 +109,34 @@ Run rospec to verify your configurations:
 rospec --specifications path/to/your/specifications.rospec
 ```
 
-rospec will analyze your specifications and report any misconfigurations.
+If you installed from source and are in development mode:
+
+```bash
+uv run rospec --specifications path/to/your/specifications.rospec
+```
+
+rospec will analyze your specifications and report any misconfigurations. In the example above, it would detect that `-15.0` violates the constraint `_ > 0.0 && _ <= 30.0`.
+
+## Development Commands
+
+If you're contributing to rospec or working with the source code, here are useful commands:
+
+```bash
+# Run tests
+uv run pytest
+
+# Format code
+uv run ruff format
+
+# Check code quality
+uv run ruff check
+
+# Type checking
+uv run mypy src/
+
+# Install pre-commit hooks
+uv run pre-commit install
+```
 
 ## Next Steps
 
@@ -103,4 +146,4 @@ Now that you've created your first component specification, you can:
 - Explore [component connections](component-connections.html)
 - See [real-world examples](examples.html)
 
-Happy specifying!
+Happy specifyi
