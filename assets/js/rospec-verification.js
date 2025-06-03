@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
  * Test if the server is reachable
  */
 function testServerConnection() {
-  const serverUrl = 'http://194.117.20.223:8000/api/status'; // Updated with correct IP
+  const serverUrl = 'http://194.117.20.223:8000/api/status';
   console.log(`Testing server connection to: ${serverUrl}`);
   
   fetch(serverUrl, { 

@@ -76,6 +76,8 @@ system {
   </tbody>
 </table>
 
+<script src="{{ '/pyodide/pyodide.js' | relative_url }}"></script>
+
 <!-- Include evaluation.js for toggle functionality -->
 <script src="{{ '/assets/js/evaluation.js' | relative_url }}"></script>
 
