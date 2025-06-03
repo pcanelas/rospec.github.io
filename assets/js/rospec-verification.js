@@ -4,7 +4,7 @@
  */
 document.addEventListener('DOMContentLoaded', function() {
   // Add verify buttons to all rospec code blocks in the evaluation table
-  //addVerifyButtons(); // TODO: remove to enable
+  addVerifyButtons(); // Enabled to use verification
   
   // Set up styles for verification UI
   addVerificationStyles();
@@ -17,16 +17,35 @@ document.addEventListener('DOMContentLoaded', function() {
  * Test if the server is reachable
  */
 function testServerConnection() {
-  fetch('/api/status', { method: 'GET' })
+  const serverUrl = 'http://194.117.20.223:8000/api/status'; // Updated with correct IP
+  console.log(`Testing server connection to: ${serverUrl}`);
+  
+  fetch(serverUrl, { 
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Accept': 'text/plain',
+    }
+  })
     .then(response => {
+      console.log(`Server test response status: ${response.status}`);
       if (response.ok) {
-        console.log('RoSpec verification server is reachable');
+        console.log('✅ RoSpec verification server is reachable');
+        return response.text();
       } else {
-        console.warn('RoSpec verification server returned non-OK status:', response.status);
+        console.warn(`⚠️ RoSpec verification server returned non-OK status: ${response.status}`);
+        throw new Error(`Status: ${response.status}`);
       }
     })
+    .then(text => {
+      console.log(`Server response: ${text}`);
+    })
     .catch(error => {
-      console.warn('RoSpec verification server not reachable:', error.message);
+      console.error('❌ RoSpec verification server not reachable:', error.message);
+      console.error('Please check:');
+      console.error('1. Server is running on the correct IP and port');
+      console.error('2. Firewall allows connections to port 8000');
+      console.error('3. CORS is properly configured on the server');
     });
 }
 
@@ -126,7 +145,6 @@ function handleVerifyClick(event) {
     });
 }
 
-
 /**
  * Send rospec code to the verification endpoint
  * @param {string} code - The rospec code to verify
@@ -136,23 +154,33 @@ async function verifyRospecCode(code) {
   console.log('Sending code for verification');
   
   try {
-    // Update this URL to point to your server
-    const apiUrl = 'http://194.117.10.223:8000/api/verify-rospec';
+    // Updated with the CORRECT IP address from your server
+    const apiUrl = 'http://194.117.20.223:8000/api/verify-rospec';
     
     console.log(`Sending verification request to: ${apiUrl}`);
+    console.log(`Code to verify (first 100 chars): ${code.substring(0, 100)}...`);
     
-    const response = await fetch(apiUrl, {
+    const requestOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'text/plain',
       },
       body: JSON.stringify({ code: code }),
-    });
+      mode: 'cors',
+    };
+    
+    console.log('Request options:', requestOptions);
+    
+    const response = await fetch(apiUrl, requestOptions);
     
     console.log(`Server response status: ${response.status}`);
+    console.log('Response headers:', [...response.headers.entries()]);
     
     if (!response.ok) {
-      throw new Error(`Server responded with status: ${response.status}`);
+      const errorText = await response.text();
+      console.error(`Server error response: ${errorText}`);
+      throw new Error(`Server responded with status: ${response.status} - ${errorText}`);
     }
     
     const result = await response.text();
@@ -160,7 +188,14 @@ async function verifyRospecCode(code) {
     return result;
   } catch (error) {
     console.error('Error during verification request:', error);
-    throw error;
+    
+    if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+      throw new Error('Cannot connect to verification server. Please check if the server is running and accessible.');
+    } else if (error.message.includes('CORS')) {
+      throw new Error('CORS error: The server is not allowing requests from this domain.');
+    } else {
+      throw error;
+    }
   }
 }
 
