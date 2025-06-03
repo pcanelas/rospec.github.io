@@ -1,3 +1,12 @@
+/**
+ * RoSpec Playground Script with Pyodide
+ * Interactive playground for writing and verifying rospec code
+ */
+
+let pyodide = null;
+let pyodideReady = false;
+let initializationPromise = null;
+
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Load required libraries if not already loaded
@@ -9,7 +18,152 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Error loading libraries:', error);
         displayError('Failed to load editor libraries. Please refresh the page and try again.');
       });
+    
+    // Initialize Pyodide (but don't wait for it)
+    setTimeout(() => {
+      initializationPromise = initializePyodide();
+    }, 500);
   });
+
+/**
+ * Initialize Pyodide and set up the verification environment
+ */
+async function initializePyodide() {
+  console.log('Initializing Pyodide for playground...');
+  
+  try {
+    // Wait for loadPyodide to be available if it's not already
+    if (typeof loadPyodide === 'undefined') {
+      console.log('Waiting for Pyodide to be available...');
+      await waitForPyodide();
+    }
+    
+    // Load Pyodide
+    console.log('Loading Pyodide...');
+    pyodide = await loadPyodide();
+    console.log('Pyodide loaded successfully');
+    
+    // Install required packages
+    console.log('Installing required packages...');
+    await pyodide.loadPackage("micropip");
+    const micropip = pyodide.pyimport("micropip");
+    
+    // Install lark first with specific version
+    console.log('Installing lark==1.2.2...');
+    await micropip.install("lark==1.2.2");
+    console.log('Lark 1.2.2 installed');
+    
+    // Install rospec package - should work now with minimal dependencies
+    console.log('Installing rospec package...');
+    try {
+      // Try latest version first
+      console.log('Trying latest rospec version...');
+      await micropip.install("rospec");
+      console.log('RoSpec package installed (latest version)');
+    } catch (error1) {
+      console.log('Latest version failed, trying specific version...');
+      try {
+        // Try specific version 
+        await micropip.install("rospec==0.0.2");
+        console.log('RoSpec package installed (version 0.0.2)');
+      } catch (error2) {
+        console.log('Specific version failed, trying without dependencies...');
+        try {
+          // Try without dependencies as fallback
+          await micropip.install("rospec==0.0.2", {deps: false});
+          console.log('RoSpec package installed (no deps)');
+        } catch (error3) {
+          console.log('All installation methods failed');
+          throw new Error(`Could not install rospec package. Errors: ${error1.message}, ${error2.message}, ${error3.message}`);
+        }
+      }
+    }
+    
+    // Set up the verification function in Python
+    await setupVerificationFunction();
+    
+    pyodideReady = true;
+    console.log('✅ Pyodide verification environment ready for playground');
+    
+  } catch (error) {
+    console.error('❌ Failed to initialize Pyodide:', error);
+    pyodideReady = false;
+    throw error;
+  }
+}
+
+/**
+ * Wait for loadPyodide to be available
+ */
+function waitForPyodide(maxWaitTime = 10000) {
+  return new Promise((resolve, reject) => {
+    const checkInterval = 100;
+    let elapsedTime = 0;
+    
+    const check = () => {
+      if (typeof loadPyodide !== 'undefined') {
+        resolve();
+      } else if (elapsedTime >= maxWaitTime) {
+        reject(new Error('Pyodide not available after waiting'));
+      } else {
+        elapsedTime += checkInterval;
+        setTimeout(check, checkInterval);
+      }
+    };
+    
+    check();
+  });
+}
+
+/**
+ * Set up the Python verification function in Pyodide
+ */
+async function setupVerificationFunction() {
+  pyodide.runPython(`
+import sys
+import traceback
+
+def verify_rospec_code(code):
+    """
+    Verify rospec code using the rospec library
+    
+    Args:
+        code (str): The rospec code to verify
+        
+    Returns:
+        str: Error message if verification fails, empty string if successful
+    """
+    try:
+        # Import rospec modules (using the pip package structure)
+        from rospec.language.frontend import parse_program
+        from rospec.types_database.ttypes_loader import get_ros_types, get_native_types
+        from rospec.verification.context import Context
+        from rospec.verification.definition_formation import program_formation
+        
+        # Parse the program
+        parsed_program = parse_program(code)
+        
+        # Load context with ROS types
+        context = Context()
+        context = get_ros_types(context)
+        context = get_native_types(context)
+        
+        # Verify the program
+        errors = program_formation(context, parsed_program)
+        
+        if errors:
+            return "\\n".join(errors)
+        else:
+            return ""
+            
+    except Exception as e:
+        # Get full traceback for debugging
+        error_details = traceback.format_exc()
+        return f"Verification error: {str(e)}\\n\\nDetails:\\n{error_details}"
+  `);
+  
+  console.log('Python verification function set up for playground');
+}
   
   // Function to dynamically load required libraries
   function loadRequiredLibraries() {
@@ -219,38 +373,125 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Simulate verification of the code
-  function verifyCode(editor) {
+  // Verify code using Pyodide
+  async function verifyCode(editor) {
     const code = editor.getValue();
     
     // Show loading animation
     showLoadingAnimation(true);
     
-    // Simulate API call delay
-    setTimeout(() => {
-      // Simple validation example - in a real implementation, this would call an API
-      const errors = validateCode(code);
-      
-      if (errors.length > 0) {
-        displayErrors(errors, editor);
-      } else {
-        clearErrors();
-        displaySuccess();
+    // Clear previous error markers in the editor
+    for (let i = 0; i < editor.doc.lineCount(); i++) {
+      editor.doc.removeLineClass(i, 'background', 'error-line-background');
+    }
+    
+    try {
+      // Wait for Pyodide to be ready if it's still initializing
+      if (!pyodideReady) {
+        displayLoadingMessage('Initializing verification environment...');
+        await initializationPromise;
       }
       
+      // Check if initialization succeeded
+      if (!pyodideReady) {
+        throw new Error('Verification environment failed to initialize');
+      }
+      
+      // Verify code using Pyodide
+      const result = await verifyRospecCodePyodide(code);
+      console.log(`Verification complete. Result length: ${result.length}`);
+      
+      if (result.trim() === '') {
+        // Success case
+        clearErrors();
+        displaySuccess();
+      } else {
+        // Parse and display errors
+        const errors = parseVerificationErrors(result);
+        displayErrors(errors, editor);
+      }
+    } catch (error) {
+      // Handle error
+      console.error('Verification error:', error);
+      const errors = [{
+        line: 1,
+        message: `Verification failed: ${error.message}`
+      }];
+      displayErrors(errors, editor);
+    } finally {
       // Hide loading animation
       showLoadingAnimation(false);
-    }, 1000);
+    }
   }
-  
-  // Simple code validation for demonstration
-  function validateCode(code) {
-    const errors = []
+
+  /**
+   * Verify rospec code using Pyodide
+   * @param {string} code - The rospec code to verify
+   * @returns {Promise<string>} - The verification result
+   */
+  async function verifyRospecCodePyodide(code) {
+    console.log('Verifying code with Pyodide in playground');
+    
+    try {
+      // Call the Python verification function
+      const result = pyodide.runPython(`verify_rospec_code(${JSON.stringify(code)})`);
+      console.log(`Verification result: ${result.substring(0, 100)}${result.length > 100 ? '...' : ''}`);
+      return result;
+    } catch (error) {
+      console.error('Error during Pyodide verification:', error);
+      throw new Error(`Pyodide verification failed: ${error.message}`);
+    }
+  }
+
+  /**
+   * Parse verification errors from the result string
+   * @param {string} errorString - The error string from verification
+   * @returns {Array} - Array of error objects
+   */
+  function parseVerificationErrors(errorString) {
+    const errors = [];
+    const lines = errorString.split('\n');
+    
+    for (const line of lines) {
+      if (line.trim()) {
+        // Try to extract line numbers from error messages
+        // This is a simple heuristic - you might need to adjust based on your error format
+        const lineMatch = line.match(/line (\d+)/i);
+        const lineNumber = lineMatch ? parseInt(lineMatch[1]) : 1;
+        
+        errors.push({
+          line: lineNumber,
+          message: line.trim()
+        });
+      }
+    }
+    
+    // If no errors were parsed, create a generic error
+    if (errors.length === 0) {
       errors.push({
         line: 1,
-        message: 'Currently, could not connect to server.'
+        message: errorString.trim() || 'Unknown verification error'
       });
+    }
+    
     return errors;
+  }
+
+  /**
+   * Display loading message
+   * @param {string} message - The loading message
+   */
+  function displayLoadingMessage(message) {
+    const errorTab = document.getElementById('errorTab');
+    errorTab.style.display = 'block';
+    errorTab.innerHTML = '';
+    
+    // Create loading header
+    const header = document.createElement('div');
+    header.className = 'loading-tab-header';
+    header.innerHTML = `<svg class="loading-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" stroke-dasharray="31.416" stroke-dashoffset="31.416"><animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/><animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/></circle></svg>
+                       <span>${message}</span>`;
+    errorTab.appendChild(header);
   }
   
   // Display validation errors
@@ -258,11 +499,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const errorTab = document.getElementById('errorTab');
     errorTab.style.display = 'block';
     errorTab.innerHTML = '';
-    
-    // Clear previous error markers in the editor
-    for (let i = 0; i < editor.doc.lineCount(); i++) {
-      editor.doc.removeLineClass(i, 'background', 'error-line-background');
-    }
     
     // Create error tab header
     const header = document.createElement('div');
@@ -286,23 +522,27 @@ document.addEventListener('DOMContentLoaded', function() {
       errorItem.appendChild(errorMessage);
       
       // Line number with location icon
-      const errorLine = document.createElement('div');
-      errorLine.className = 'error-line';
-      errorLine.innerHTML = `<svg class="location-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                            Line ${error.line}`;
-      errorItem.appendChild(errorLine);
-      
-      // Make the error clickable to jump to the line
-      errorItem.addEventListener('click', () => {
-        editor.setCursor({line: error.line - 1, ch: 0});
-        editor.focus();
-      });
+      if (error.line > 0) {
+        const errorLine = document.createElement('div');
+        errorLine.className = 'error-line';
+        errorLine.innerHTML = `<svg class="location-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                              Line ${error.line}`;
+        errorItem.appendChild(errorLine);
+        
+        // Make the error clickable to jump to the line
+        errorItem.addEventListener('click', () => {
+          editor.setCursor({line: error.line - 1, ch: 0});
+          editor.focus();
+        });
+        
+        // Add error markers to the editor
+        const line = error.line - 1;
+        if (line >= 0 && line < editor.doc.lineCount()) {
+          editor.doc.addLineClass(line, 'background', 'error-line-background');
+        }
+      }
       
       errorList.appendChild(errorItem);
-      
-      // Add error markers to the editor
-      const line = error.line - 1;
-      editor.doc.addLineClass(line, 'background', 'error-line-background');
     });
     
     errorTab.appendChild(errorList);
