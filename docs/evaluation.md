@@ -63,11 +63,7 @@ For <span class="status-pill status-detectable">Detectable</span> and <span clas
     {% if row.writer != blank and row.writer != "-" %}
     <tr id="spec-{{ row.question }}" class="spec-row">
         <td colspan="4">
-            <pre><code class="rospec-code">{{ row.writer | escape }}{% if row.integrator != blank and row.integrator != "-" %}
-
-system {
-{{ row.integrator | escape }}
-}{% endif %}</code></pre>
+            <pre><code class="rospec-code">{{ row.specification | escape }}</code></pre>
         </td>
     </tr>
     {% endif %}

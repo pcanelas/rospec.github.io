@@ -2,6 +2,9 @@
     optional param group: Plugin = default(right_arm_type);
 }
 
+type alias Second: double where {_ &gt;= 0.0};
+type alias Natural: int where {_ &gt;= 0};
+
 plugin type right_arm_type {
     optional param tip_name: string = &quot;&quot;;
     optional param root_name: string = &quot;&quot;;
@@ -23,7 +26,6 @@ plugin type kdlkinematicsplugin {
     optional param kinematics_solver_timeout: Second = 0.05;
     optional param kinematics_solver_attemps: Natural = 3;
     optional param namespace: string = &quot;kdl_kinematics_plugin&quot;;
-
 }
 
 system {
@@ -41,7 +43,9 @@ system {
     }
 
     plugin instance KDLKinematicsPlugin: kdlkinematicsplugin { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/11547" target="_blank" rel="noopener noreferrer"> 11547 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="11547"><span>Show Specification</span></button><tr id="spec-11547" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias Modes: Enum[SXGA15Hz, VGA30Hz, VGA25Hz, QVGA25Hz, QVGA30Hz, QVGA60Hz, QQVGA25Hz, QQVGA30Hz, QQVGA60Hz];
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/11547" target="_blank" rel="noopener noreferrer"> 11547 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="11547"><span>Show Specification</span></button><tr id="spec-11547" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias Modes: Enum[SXGA15Hz, VGA30Hz, VGA25Hz, QVGA25Hz, QVGA30Hz, QVGA60Hz, QQVGA25Hz, QQVGA30Hz, QQVGA60Hz];
+type alias Second: float;
 
 node type openni_node_type {
     optional param depth_frame_id: string = &quot;/openni_depth_optical_frame&quot;;
@@ -58,7 +62,7 @@ node type openni_node_type {
 
 system {
     node instance openni_node1: openni_node_type {
-        param depth_registration = true;    
+        param depth_registration = true;
     }
 
     node instance openni_node2: openni_node_type {
@@ -66,7 +70,8 @@ system {
         param rgb_frame_id = &quot;/openni_rgb_optical_frame_2&quot;;
         param depth_frame_id = &quot;/openni_depth_optical_frame_2&quot;;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/173503" target="_blank" rel="noopener noreferrer"> 173503 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">MESSAGE: Periodic</span> <span class="label-misconfiguration">TIME: Frequency</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="173503"><span>Show Specification</span></button><tr id="spec-173503" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias Distro: OrderedEnum[Ardent, Bouncy, Crystal, Dashing, Eloquent, Foxy, Galactic, Humble, Iron, Jazzy, Kilted];
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/173503" target="_blank" rel="noopener noreferrer"> 173503 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">MESSAGE: Periodic</span> <span class="label-misconfiguration">TIME: Frequency</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="173503"><span>Show Specification</span></button><tr id="spec-173503" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias Distro: OrderedEnum[Ardent, Bouncy, Crystal, Dashing, Eloquent, Foxy, Galactic, Humble, Iron, Jazzy, Kilted];
 
 type alias Hertz: double;
 
@@ -75,29 +80,37 @@ node type joy_node_type {
 
     optional param autorepeat_rate: Hertz = 0.0;
     optional param deadzone: double where {-1.0 &lt;= _ and _ &lt;= 1.0} = 0.05;
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/190483" target="_blank" rel="noopener noreferrer"> 190483 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="190483"><span>Show Specification</span></button><tr id="spec-190483" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type openni_node_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/190483" target="_blank" rel="noopener noreferrer"> 190483 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="190483"><span>Show Specification</span></button><tr id="spec-190483" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type openni_node_type {
     optional param depth_registration: bool = false;
 
-    publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1};
+    publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1}; 
 }
 
 node type amcl_type {
     optional param depth_registration: bool = false;
 
-    publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1};
+    publishes to camera/depth/points: sensor_msgs/PointCloud2 where {count(publishers(_)) == 1}; 
 }
 
 system {
     node instance openni_node1: openni_node_type {
-        param depth_registration = true;    
+        param depth_registration = true;
     }
 
     node instance amcl: amcl_type {
         param depth_registration = true;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/201031" target="_blank" rel="noopener noreferrer"> 201031 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">TYPES: Color-Format</span> <span class="label-misconfiguration">TYPES: Transformations</span> <span class="label-misconfiguration">NODE: Missing</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="201031"><span>Show Specification</span></button><tr id="spec-201031" class="spec-row"><td colspan="4"><pre><code class="rospec-code">message alias RGBImage: sensor_msgs/Image {
-    field height: int where {_ &gt;= 0};
-    field width: int where {_ &gt;= 0};
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/201031" target="_blank" rel="noopener noreferrer"> 201031 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">TYPES: Color-Format</span> <span class="label-misconfiguration">TYPES: Transformations</span> <span class="label-misconfiguration">NODE: Missing</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="201031"><span>Show Specification</span></button><tr id="spec-201031" class="spec-row"><td colspan="4"><pre><code class="rospec-code">message alias RGBImage: sensor_msgs/Image {
+    field height: uint32 where {_ &gt;= 0};
+    field width: uint32 where {_ &gt;= 0};
+
+    field header: std_msgs/Header;
+    field encoding: string;
+    field is_bigendian: uint8;
+    field step: uint32;
+    field data: uint8[];
 }
 
 type alias Natural: int where {_ &gt;= 0};
@@ -111,17 +124,20 @@ node type svo_node_type {
     subscribes to content(cam_topic): RGBImage;
 }
 
-system {
-    node instance svo: svo_node_type {
-        param cam_topic = &quot;svo/ardrone/front/image_raw&quot;;
-    }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/210414" target="_blank" rel="noopener noreferrer"> 210414 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NAME: Namespaces</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="210414"><span>Show Specification</span></button><tr id="spec-210414" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias Distro: OrderedEnum[DiamondBlack, Electrict, Fuerte, Groovy, Hydro, Indigo, Jade, Kinetic, Lunar, Melodic, Noetic];
+# The following is an example of how to use the svo_node_type in a system, it doesn&#39;t fully address the question issues.
+# system {
+#    node instance svo: svo_node_type {
+#        param cam_topic = &quot;svo/ardrone/front/image_raw&quot;;
+#    }
+# }
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/210414" target="_blank" rel="noopener noreferrer"> 210414 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NAME: Namespaces</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="210414"><span>Show Specification</span></button><tr id="spec-210414" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias Distro: OrderedEnum[DiamondBlack, Electrict, Fuerte, Groovy, Hydro, Indigo, Jade, Kinetic, Lunar, Melodic, Noetic];
 
 node type move_base_type {
-    context distribution: Distro = Hydro;
+    optional context distribution: Distro = Hydro;
 
     optional param GlobalPlanner/use_dijkstra: bool = false;
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/217551" target="_blank" rel="noopener noreferrer"> 217551 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="217551"><span>Show Specification</span></button><tr id="spec-217551" class="spec-row"><td colspan="4"><pre><code class="rospec-code">policy instance depth10qos: qos {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/217551" target="_blank" rel="noopener noreferrer"> 217551 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="217551"><span>Show Specification</span></button><tr id="spec-217551" class="spec-row"><td colspan="4"><pre><code class="rospec-code">policy instance depth10qos: qos {
     setting history = KeepLast;
     setting depth = 10;
 }
@@ -133,8 +149,9 @@ node type worker_type {
 
 system {
     node instance worker1: worker_type {}
-    node instance worker2: worker_type {}
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/232853" target="_blank" rel="noopener noreferrer"> 232853 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Dependency</span> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Mechanical</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="232853"><span>Show Specification</span></button><tr id="spec-232853" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type move_base_type {
+    node instance worker2s: worker_type {}
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/232853" target="_blank" rel="noopener noreferrer"> 232853 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Dependency</span> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Mechanical</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="232853"><span>Show Specification</span></button><tr id="spec-232853" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type move_base_type {
     param cost_scaling_factor: double;
     param inflation_radius: double;
     param robot_radius: double;
@@ -145,7 +162,8 @@ system {
 
 system {
     node instance move_base:  move_base_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/235375" target="_blank" rel="noopener noreferrer"> 235375 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="235375"><span>Show Specification</span></button><tr id="spec-235375" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type joint_state_publisher_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/235375" target="_blank" rel="noopener noreferrer"> 235375 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="235375"><span>Show Specification</span></button><tr id="spec-235375" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type joint_state_publisher_type {
     publishes to joint_states: sensor_msgs/JointState where {count(publishers(_)) == 1};
 }
 
@@ -153,28 +171,22 @@ node type custom_node_type {
     publishes to joint_states: sensor_msgs/JointState where {count(publishers(_)) == 1};
 }
 
-system {
+system{
     node instance joint_state_publisher: joint_state_publisher_type {}
     node instance custom_node: custom_node_type {}
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/30235" target="_blank" rel="noopener noreferrer"> 30235 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">CALIBRATION: Camera</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="30235"><span>Show Specification</span></button><tr id="spec-30235" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type uv_cam_node_type {
-    optional param format_mode: Enum[RGB, YUYV, MJPG] = RGB;
-
-    optional param contrast: float;
-    optional param exposure: float;
-    optional param gain: float;
-    optional param saturation: float;
 }
-
-system {
-    node instance uv_camera_node: uv_camera_node_type {}
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/316168" target="_blank" rel="noopener noreferrer"> 316168 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">DSL: Robot-Localization</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="316168"><span>Show Specification</span></button><tr id="spec-316168" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ekf_localization_node_type {
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/30235" target="_blank" rel="noopener noreferrer"> 30235 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">CALIBRATION: Camera</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="30235"><span>Show Specification</span></button><tr id="spec-30235" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type uv_cam_node_type {
+    optional param format_mode: Enum[RGB, YUYV, MJPG] = RGB;
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/316168" target="_blank" rel="noopener noreferrer"> 316168 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">DSL: Robot-Localization</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="316168"><span>Show Specification</span></button><tr id="spec-316168" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ekf_localization_node_type {
     # Parameter that provides an initial state
     param initial_state: int[][];
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/364801" target="_blank" rel="noopener noreferrer"> 364801 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Dependency</span> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: MoveIt</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Actuators</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Mechanical</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="364801"><span>Show Specification</span></button><tr id="spec-364801" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type move_group_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/364801" target="_blank" rel="noopener noreferrer"> 364801 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Dependency</span> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: MoveIt</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Actuators</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Mechanical</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="364801"><span>Show Specification</span></button><tr id="spec-364801" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type move_group_type {
     param elbow_joint/max_acceleration: double where {_ &gt;= 0};
-    param elbow_joint/min_velocity: double;
-    param elbow_joint/max_velocity: double;
-    param angle_wraparound: bool;
+    #param elbow_joint/min_velocity: double;
+    optional param elbow_joint/max_velocity: double = 2.0;
+    #param angle_wraparound: bool;
 
     optional param elbow_joint/has_velocity_limits: bool = false;
     optional param elbow_joint/has_acceleration_limits: bool = false;
@@ -189,13 +201,15 @@ system {
         param elbow_joint/has_acceleration_limits = false;
         param elbow_joint/has_velocity_limits = false;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/108291" target="_blank" rel="noopener noreferrer"> 108291 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Namespaces</span> <span class="label-misconfiguration">NODE: Missing</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="108291"><span>Show Specification</span></button><tr id="spec-108291" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type stereo_image_proc_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/108291" target="_blank" rel="noopener noreferrer"> 108291 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Namespaces</span> <span class="label-misconfiguration">NODE: Missing</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="108291"><span>Show Specification</span></button><tr id="spec-108291" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type stereo_image_proc_type {
     argument manager: string;
 }
 
 system {
     node instance stereo_image_proc: stereo_image_proc_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/11095" target="_blank" rel="noopener noreferrer"> 11095 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">CONTEXTUAL: Simulation-vs-Real</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="11095"><span>Show Specification</span></button><tr id="spec-11095" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type laser_scan_matcher_node {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/11095" target="_blank" rel="noopener noreferrer"> 11095 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">CONTEXTUAL: Simulation-vs-Real</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="11095"><span>Show Specification</span></button><tr id="spec-11095" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type laser_scan_matcher_node {
     context is_simulation: bool;
     optional param use_sim_time: bool = false;
 
@@ -210,42 +224,57 @@ system {
         context is_simulation = true;
         param use_sim_time = false;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/12516" target="_blank" rel="noopener noreferrer"> 12516 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Periodic</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="12516"><span>Show Specification</span></button><tr id="spec-12516" class="spec-row"><td colspan="4"><pre><code class="rospec-code"># turtlesim/Velocity was replaced with geometry_msgs/Twist
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/12516" target="_blank" rel="noopener noreferrer"> 12516 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Periodic</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="12516"><span>Show Specification</span></button><tr id="spec-12516" class="spec-row"><td colspan="4"><pre><code class="rospec-code"># turtlesim/Velocity was replaced with geometry_msgs/Twist
+type alias RadSeconds : float;
+
 message alias AnnotatedVector3: geometry_msgs/Vector3 {
     field x: RadSeconds;
     field y: RadSeconds;
     field z: RadSeconds;
 }
 
-message alias UnitsVelocity: turtlesim/Velocity {
+message alias UnitsVelocity: geometry_msgs/Twist {
     field linear: AnnotatedVector3;
     field angular: AnnotatedVector3;
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/142456" target="_blank" rel="noopener noreferrer"> 142456 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Color-Format</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="142456"><span>Show Specification</span></button><tr id="spec-142456" class="spec-row"><td colspan="4"><pre><code class="rospec-code">policy instance depth5qos: qos {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/142456" target="_blank" rel="noopener noreferrer"> 142456 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Color-Format</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="142456"><span>Show Specification</span></button><tr id="spec-142456" class="spec-row"><td colspan="4"><pre><code class="rospec-code">policy instance depth5qos: qos {
     setting history = KeepLast;
     setting depth = 5;
 }
 
-policy instance depth5qos: qos {
+policy instance depth1qos: qos {
     setting history = KeepLast;
     setting depth = 1;
+}
+
+policy instance RGB8: color_format {
+    setting format = RGB8;
+}
+
+policy instance Grayscale: color_format {
+    setting format = Grayscale;
 }
 
 node type openni_camera_driver_depth_type {
     optional param depth_registration: bool = true;
 
     @qos{depth1qos}
-    publishes to /camera/rgb/image_raw: Grayscale;
+    @color_format{Grayscale}
+    publishes to /camera/rgb/image_raw: sensor_msgs/Image;
 }
 
 node type custom_node_type {
     @qos{depth5qos}
-    subscribes to /camera/rgb/image_raw: RGB8;
+    @color_format{RGB8}
+    subscribes to /camera/rgb/image_raw: sensor_msgs/Image;
 }
 
 system {
     node instance custom_node: custom_node_type { }
     node instance openni_camera_driver: openni_camera_driver_depth_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/164526" target="_blank" rel="noopener noreferrer"> 164526 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">NAME: Remapping</span> <span class="label-misconfiguration">NAME: Namespaces</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="164526"><span>Show Specification</span></button><tr id="spec-164526" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type hector_object_tracker_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/164526" target="_blank" rel="noopener noreferrer"> 164526 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">NAME: Remapping</span> <span class="label-misconfiguration">NAME: Namespaces</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="164526"><span>Show Specification</span></button><tr id="spec-164526" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type hector_object_tracker_type {
     optional param distance_to_obstacle_service: string = &quot;get_distance_to_obstacle&quot;;
 
     publishes to visualization_marker: visualization_msgs/Marker;
@@ -258,9 +287,9 @@ node type hector_map_server_type {
 
 system {
     node instance hector_object_tracker: hector_object_tracker_type { }
-
     node instance hector_map_server: hector_map_server_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/165661" target="_blank" rel="noopener noreferrer"> 165661 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span> <span class="label-misconfiguration">DSL: Robot-Localization</span> <span class="label-misconfiguration">CALIBRATION: Odometry</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="165661"><span>Show Specification</span></button><tr id="spec-165661" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type robot_localization_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/165661" target="_blank" rel="noopener noreferrer"> 165661 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span> <span class="label-misconfiguration">DSL: Robot-Localization</span> <span class="label-misconfiguration">CALIBRATION: Odometry</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="165661"><span>Show Specification</span></button><tr id="spec-165661" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type robot_localization_type {
      param imu0_config: bool[4][3];
      param imu0_differential: bool[2][3];
 } where {
@@ -275,35 +304,42 @@ system {
                               [false, false, false]];
          param imu0_differential = [[false, false, false], [false, false, false]];
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/185909" target="_blank" rel="noopener noreferrer"> 185909 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">CONTEXTUAL: Application-Environment</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="185909"><span>Show Specification</span></button><tr id="spec-185909" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type hokuyo_node_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/185909" target="_blank" rel="noopener noreferrer"> 185909 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">CONTEXTUAL: Application-Environment</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="185909"><span>Show Specification</span></button><tr id="spec-185909" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type hokuyo_node_type {
     context environment: Enum[ObstacleLayout, EmptyLayout] where {_ == ObstacleLayout};
 }
 
-system {
+system{
     node instance hokuyo_node: hokuyo_node_type {
         context environment = EmptyLayout;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/188919" target="_blank" rel="noopener noreferrer"> 188919 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">CONTEXTUAL: Simulation-vs-Real</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="188919"><span>Show Specification</span></button><tr id="spec-188919" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type laser_scan_matcher_node_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/188919" target="_blank" rel="noopener noreferrer"> 188919 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">CONTEXTUAL: Simulation-vs-Real</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="188919"><span>Show Specification</span></button><tr id="spec-188919" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type laser_scan_matcher_node_type {
     optional context is_simulation: bool = false;
     optional param use_sim_time: bool = false;
 } where {
     is_simulation -&gt; use_sim_time;
 }
 
+
 system {
     node instance laser_scan_matcher_node: laser_scan_matcher_node_type {
-        context is_simulation = false;
-        param use_sim_time = true;
+        context is_simulation = true;
+        param use_sim_time = false;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/190126" target="_blank" rel="noopener noreferrer"> 190126 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="190126"><span>Show Specification</span></button><tr id="spec-190126" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type camera_calibration_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/190126" target="_blank" rel="noopener noreferrer"> 190126 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="190126"><span>Show Specification</span></button><tr id="spec-190126" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type camera_calibration_type {
     consumes service /camera/set_camera_info: sensor_msgs/SetCameraInfo;
 }
 
 system {
     node instance camera_calibration: camera_calibration_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/12977" target="_blank" rel="noopener noreferrer"> 12977 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="12977"><span>Show Specification</span></button><tr id="spec-12977" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type move_base_type {
-    param local_costmap/min_obstacle_height: Meter; 
-    param local_costmap/footprint: double[4][2]; 
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/12977" target="_blank" rel="noopener noreferrer"> 12977 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="12977"><span>Show Specification</span></button><tr id="spec-12977" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias Meter: double;
+
+node type move_base_type {
+    param local_costmap/min_obstacle_height: Meter;
+    param local_costmap/footprint: double[4][2];
 } where {
     local_costmap/footprint[0][1] &gt;= local_costmap/min_obstacle_height;
 }
@@ -313,13 +349,13 @@ system {
         param local_costmap/min_obstacle_height = 0.10;
         param local_costmap/footprint = [[-0.4, -0.4], [-0.4, 0.4], [0.4, 0.4], [0.4, 0.4]];
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/195289" target="_blank" rel="noopener noreferrer"> 195289 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="195289"><span>Show Specification</span></button><tr id="spec-195289" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/195289" target="_blank" rel="noopener noreferrer"> 195289 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="195289"><span>Show Specification</span></button><tr id="spec-195289" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
     consumes service static_map: nav_msgs/GetMap;
 }
 
 node type map_server_type {
     optional param topic_name: string = &quot;map&quot;;
-    
     provides service content(topic_name): nav_msgs/LoadMap;
 }
 
@@ -330,7 +366,8 @@ system {
     node instance map_server: map_server_type {
         param topic_name = &quot;30lx&quot;;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/200387" target="_blank" rel="noopener noreferrer"> 200387 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NODE: Missing</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="200387"><span>Show Specification</span></button><tr id="spec-200387" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type obstacle_layer_t {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/200387" target="_blank" rel="noopener noreferrer"> 200387 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NODE: Missing</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="200387"><span>Show Specification</span></button><tr id="spec-200387" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type obstacle_layer_t {
     optional param z_voxels: int = 0;
     optional param observation_sources: Plugin[] = [];
 } where {
@@ -343,19 +380,19 @@ system {
         param observation_sources = [scan, bump, irring_scan];
     }
     # ... information about each plugin
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/204073" target="_blank" rel="noopener noreferrer"> 204073 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">TYPES: Physical-Units</span> <span class="label-misconfiguration">TF: Incorrect-Transform</span> <span class="label-misconfiguration">DSL: Robot-Localization</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="204073"><span>Show Specification</span></button><tr id="spec-204073" class="spec-row"><td colspan="4"><pre><code class="rospec-code">message alias AnnotatedMessage: nav_msgs/Odometry {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/204073" target="_blank" rel="noopener noreferrer"> 204073 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">TYPES: Physical-Units</span> <span class="label-misconfiguration">TF: Incorrect-Transform</span> <span class="label-misconfiguration">DSL: Robot-Localization</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="204073"><span>Show Specification</span></button><tr id="spec-204073" class="spec-row"><td colspan="4"><pre><code class="rospec-code">message alias AnnotatedMessage: nav_msgs/Odometry {
     # ...
+    field header: std_msgs/Header;
+    field child_frame_id: string;
     field pose: geometry_msgs/PoseWithCovariance;
-    field twist: geometry_msgs/Quaternions;
+    field twist: geometry_msgs/TwistWithCovariance;
 }
 
 node type ekf_localization_node_type {
     broadcast world_frame to base_link;
 }
-
-system {
-
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/204321" target="_blank" rel="noopener noreferrer"> 204321 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NAME: Remapping</span> <span class="label-misconfiguration">NAME: Namespaces</span> <span class="label-misconfiguration">LAUNCH: Includes</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="204321"><span>Show Specification</span></button><tr id="spec-204321" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type move_base_t {
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/204321" target="_blank" rel="noopener noreferrer"> 204321 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NAME: Remapping</span> <span class="label-misconfiguration">NAME: Namespaces</span> <span class="label-misconfiguration">LAUNCH: Includes</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="204321"><span>Show Specification</span></button><tr id="spec-204321" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type move_base_t {
     publishes to cmd_vel: geometry_msgs/Twist;
 }
 
@@ -365,18 +402,18 @@ node type rosaria_node_t {
 
 system {
     node instance move_base: move_base_t {
-        remaps cmd_vel to ~cmd_vel;
+        # remaps cmd_vel to ~cmd_vel;
     }
     node instance rosaria_node: rosaria_node_t { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/206849" target="_blank" rel="noopener noreferrer"> 206849 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="206849"><span>Show Specification</span></button><tr id="spec-206849" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ardrone_autonomy_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/206849" target="_blank" rel="noopener noreferrer"> 206849 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="206849"><span>Show Specification</span></button><tr id="spec-206849" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ardrone_autonomy_type {
     optional param enable_navdata_pressure_raw: bool = false;
-    publishes to enable_navdata_pressure_raw: ardrone_autonomy/navdata_pressure_raw;
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/207352" target="_blank" rel="noopener noreferrer"> 207352 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Format</span> <span class="label-misconfiguration">OTHER: Documentation</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="207352"><span>Show Specification</span></button><tr id="spec-207352" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type gmapping_type {
-    # since no publishes are provided, this acts as documentation
-    broadcast map to odom;
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/209404" target="_blank" rel="noopener noreferrer"> 209404 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="209404"><span>Show Specification</span></button><tr id="spec-209404" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type move_base_t {
+    publishes to enable_navdata_pressure_raw: ardrone_autonomy/navdata_pressure_raw; 
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/207352" target="_blank" rel="noopener noreferrer"> 207352 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Format</span> <span class="label-misconfiguration">OTHER: Documentation</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="207352"><span>Show Specification</span></button><tr id="spec-207352" class="spec-row"><td colspan="4"><pre><code class="rospec-code"></code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/209404" target="_blank" rel="noopener noreferrer"> 209404 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="209404"><span>Show Specification</span></button><tr id="spec-209404" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type move_base_t {
     optional param base_local_planner: Plugin = default(TrajectoryPlannerROS);
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/209450" target="_blank" rel="noopener noreferrer"> 209450 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Physical-Units</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="209450"><span>Show Specification</span></button><tr id="spec-209450" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16,
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/209450" target="_blank" rel="noopener noreferrer"> 209450 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Physical-Units</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="209450"><span>Show Specification</span></button><tr id="spec-209450" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16,
                                 16UC1, 16UC2, 16UC3, 16UC4, 16SC1, 16SC2, 16SC3, 16SC4,
                                 BAYER_RGGB16, BAYER_BGGR16, BAYER_GBRG16, BAYER_GRBG16
 ];
@@ -407,7 +444,8 @@ message alias ImageWith32Encoding: sensor_msgs/Image {
     field width: uint32;
     field is_bigendian: uint8;
     field step: uint32;
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/210583" target="_blank" rel="noopener noreferrer"> 210583 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NODE: Incorrect</span> <span class="label-misconfiguration">CONTEXTUAL: Simulation-vs-Real</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="210583"><span>Show Specification</span></button><tr id="spec-210583" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type fake_localization_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/210583" target="_blank" rel="noopener noreferrer"> 210583 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NODE: Incorrect</span> <span class="label-misconfiguration">CONTEXTUAL: Simulation-vs-Real</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="210583"><span>Show Specification</span></button><tr id="spec-210583" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type fake_localization_type {
     context is_simulation: bool where {_ == true};
 }
 
@@ -415,7 +453,8 @@ system {
     node instance fake_localization: fake_localization_type {
         context is_simulation = false;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/214816" target="_blank" rel="noopener noreferrer"> 214816 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">TF: Missing-Transform</span> <span class="label-misconfiguration">DSL: Robot-Localization</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="214816"><span>Show Specification</span></button><tr id="spec-214816" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ekf_localization {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/214816" target="_blank" rel="noopener noreferrer"> 214816 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">TF: Missing-Transform</span> <span class="label-misconfiguration">DSL: Robot-Localization</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="214816"><span>Show Specification</span></button><tr id="spec-214816" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ekf_localization {
     optional param twist0: string = &quot;&quot;;
     optional param twist0_config: string[] = [false, false, false,
                         false, false, false,
@@ -434,14 +473,16 @@ system {
                                false, false, true,
                                false, false, false];
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/218573" target="_blank" rel="noopener noreferrer"> 218573 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="218573"><span>Show Specification</span></button><tr id="spec-218573" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type usb_cam_node {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/218573" target="_blank" rel="noopener noreferrer"> 218573 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="218573"><span>Show Specification</span></button><tr id="spec-218573" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type usb_cam_node {
     publishes to image: sensor_msgs/Image where {count(publishers(_)) == 1};
 }
 
 system {
     node instance usb_cam1: usb_cam_node { }
     node instance usb_cam2: usb_cam_node { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/221925" target="_blank" rel="noopener noreferrer"> 221925 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Navigation-Stack</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="221925"><span>Show Specification</span></button><tr id="spec-221925" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias MeterSecond : float;
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/221925" target="_blank" rel="noopener noreferrer"> 221925 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Navigation-Stack</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="221925"><span>Show Specification</span></button><tr id="spec-221925" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias MeterSecond : float;
 
 node type dwa_local_planner_type {
     optional param max_vel_x: MeterSecond = 0.55;
@@ -452,7 +493,8 @@ system {
     node instance dwa_local_planner: dwa_local_planner_type {
         param penalize_negative_x = true;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/223521" target="_blank" rel="noopener noreferrer"> 223521 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Incorrect-Transform</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="223521"><span>Show Specification</span></button><tr id="spec-223521" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type kinect2_bridge_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/223521" target="_blank" rel="noopener noreferrer"> 223521 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Incorrect-Transform</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="223521"><span>Show Specification</span></button><tr id="spec-223521" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type kinect2_bridge_type {
     publishes to /kinect2/sd/image_depth_rect: sensor_msgs/Image;
     publishes to /kinect2/sd/camera_info: sensor_msgs/CameraInfo;
 
@@ -472,28 +514,26 @@ node type kinect2_filtering_type {
 
 node type pointcloud_to_laserscan_type {
     subscribes to /kinect2/pointcloud_filtered: sensor_msgs/PointCloud2;
-
     publishes to /scan2: sensor_msgs/LaserScan;
-
-    listen target_frame from kinect2_link;
+    listen target_frame to kinect2_link;
 }
 
 system {
     node instance kinect2_bridge : kinect2_bridge_type { }
-
     node instance  depth_to_pointcloud: depth_to_pointcloud_type { }
-
     node instance  pointcloud_to_laserscan: pointcloud_to_laserscan_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/225375" target="_blank" rel="noopener noreferrer"> 225375 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: No-Publisher</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="225375"><span>Show Specification</span></button><tr id="spec-225375" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ekf_localization_node_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/225375" target="_blank" rel="noopener noreferrer"> 225375 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: No-Publisher</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="225375"><span>Show Specification</span></button><tr id="spec-225375" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ekf_localization_node_type {
     subscribes to /set_pose: geometry_msgs/Pose;
 }
 
 system {
     node instance ekf_localization_node: ekf_localization_node_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/225694" target="_blank" rel="noopener noreferrer"> 225694 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Robot-Localization</span> <span class="label-misconfiguration">NODE: Missing</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="225694"><span>Show Specification</span></button><tr id="spec-225694" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type rtabmap {
-     optional param publish_tf: bool = false
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/225694" target="_blank" rel="noopener noreferrer"> 225694 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Robot-Localization</span> <span class="label-misconfiguration">NODE: Missing</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="225694"><span>Show Specification</span></button><tr id="spec-225694" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type rtabmap {
+     optional param publish_tf: bool = false;
 
-     broadcast map to odom;
+     broadcast map to odom; 
 }
 
 node type robot_localization_type {
@@ -510,8 +550,9 @@ system {
         param map_frame = &quot;map&quot;;
         param odom_frame = &quot;odom&quot;;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/227092" target="_blank" rel="noopener noreferrer"> 227092 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Missing-Transform</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="227092"><span>Show Specification</span></button><tr id="spec-227092" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type custom_node {
-    subscribes to /tilt_controller/command: std_msgs/Float64;
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/227092" target="_blank" rel="noopener noreferrer"> 227092 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Missing-Transform</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="227092"><span>Show Specification</span></button><tr id="spec-227092" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type custom_node {
+    #subscribes to /tilt_controller/command: std_msgs/Float64;
     broadcast /tilt_laser to laser;
 }
 
@@ -522,7 +563,8 @@ node type rviz_type {
 system {
     node instance node: custom_node { }
     node instance rviz: rviz_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/227128" target="_blank" rel="noopener noreferrer"> 227128 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Missing-Transform</span> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="227128"><span>Show Specification</span></button><tr id="spec-227128" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type node0_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/227128" target="_blank" rel="noopener noreferrer"> 227128 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Missing-Transform</span> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="227128"><span>Show Specification</span></button><tr id="spec-227128" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type node0_type {
     publishes to /car/odometry: nav_msgs/Odometry;
 
     broadcast odom to base_footprint;
@@ -556,7 +598,8 @@ system {
     node instance robot_localization_ekf: robot_localization_ekf_type { }
 
     # The arguments and parameters are not define to provide a minimal example of the misconfiguration
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/229722" target="_blank" rel="noopener noreferrer"> 229722 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="229722"><span>Show Specification</span></button><tr id="spec-229722" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type gazebo_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/229722" target="_blank" rel="noopener noreferrer"> 229722 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="229722"><span>Show Specification</span></button><tr id="spec-229722" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type gazebo_type {
     argument paused: bool;
     argument use_sim_time: bool;
     argument gui: bool;
@@ -567,7 +610,7 @@ system {
     broadcast odom to base_footprint;
 }
 
-node type robot_pose_ek_type {
+node type robot_pose_ekf_type {
      publishes to tf: tf2_msgs/TFMessage;
 }
 
@@ -579,13 +622,14 @@ system {
     node instance gazebo: gazebo_type {
         argument paused = false;
         argument use_sim_time = true;
-        argument gui = true; 
+        argument gui = true;
     }
 
     node instance robot_pose_ekf: robot_pose_ekf_type { }
 
     node instance gmapping: gmapping_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/231458" target="_blank" rel="noopener noreferrer"> 231458 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Compute</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="231458"><span>Show Specification</span></button><tr id="spec-231458" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type rgbdslam_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/231458" target="_blank" rel="noopener noreferrer"> 231458 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Compute</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="231458"><span>Show Specification</span></button><tr id="spec-231458" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type rgbdslam_type {
     optional param topic_image_mono: string = &quot;/camera/rgb/image_color&quot;;
     optional param camera_info_topic: string = &quot;/camera/rgb/camera_info&quot;;
     optional param topic_image_depth: string = &quot;/camera/depth_registered/sw_registered/image_rect_raw&quot;;
@@ -601,18 +645,16 @@ system {
         param camera_info_topic = &quot;/camera/depth/image_raw&quot;;
         param topic_image_depth = &quot;/camera/depth/points&quot;;
         param topic_points = &quot;/camera_link&quot;;
-        param base_frame_name = &quot;/camera_link&quot;; 
+        param base_frame_name = &quot;/camera_link&quot;;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/239888" target="_blank" rel="noopener noreferrer"> 239888 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Namespaces</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="239888"><span>Show Specification</span></button><tr id="spec-239888" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/239888" target="_blank" rel="noopener noreferrer"> 239888 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Namespaces</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="239888"><span>Show Specification</span></button><tr id="spec-239888" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
     context number_of_robots: int;
     optional param tf_prefix: string = &quot;&quot;;
 } where {
     number_of_robots &gt; 1 == exists(tf_prefix);
 }
-
-system {
-
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/250138" target="_blank" rel="noopener noreferrer"> 250138 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NODE: Incorrect</span> <span class="label-misconfiguration">CONTEXTUAL: Application-Environment</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="250138"><span>Show Specification</span></button><tr id="spec-250138" class="spec-row"><td colspan="4"><pre><code class="rospec-code">plugin type teb_local_planner_t {
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/250138" target="_blank" rel="noopener noreferrer"> 250138 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NODE: Incorrect</span> <span class="label-misconfiguration">CONTEXTUAL: Application-Environment</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="250138"><span>Show Specification</span></button><tr id="spec-250138" class="spec-row"><td colspan="4"><pre><code class="rospec-code">plugin type teb_local_planner_t {
     optional param orientation_mode: int = 1;
     optional param global_plan_overwrite_orientation: bool = false;
 } where {
@@ -623,16 +665,19 @@ system {
     plugin instance teb_local_planner: teb_local_planner_t {
         param orientation_mode = 2;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/253726" target="_blank" rel="noopener noreferrer"> 253726 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">LAUNCH: Duplication</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="253726"><span>Show Specification</span></button><tr id="spec-253726" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ratslam_ros_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/253726" target="_blank" rel="noopener noreferrer"> 253726 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">LAUNCH: Duplication</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="253726"><span>Show Specification</span></button><tr id="spec-253726" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ratslam_ros_type {
     # ...
 }
+
 
 system {
     node instance ratslam_ros: ratslam_ros_type { }
     node instance ratslam_ros: ratslam_ros_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/255713" target="_blank" rel="noopener noreferrer"> 255713 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="255713"><span>Show Specification</span></button><tr id="spec-255713" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/255713" target="_blank" rel="noopener noreferrer"> 255713 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="255713"><span>Show Specification</span></button><tr id="spec-255713" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
     optional param tf_broadcast: bool = false;
-    broadcast map to odom;
+    broadcast map to odom; 
 }
 
 node type ekf_node_type {
@@ -641,9 +686,9 @@ node type ekf_node_type {
 
 system {
     node instance amcl: amcl_type { }
-
     node instance ekf_node: ekf_node_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/257637" target="_blank" rel="noopener noreferrer"> 257637 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="257637"><span>Show Specification</span></button><tr id="spec-257637" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type custom_node_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/257637" target="_blank" rel="noopener noreferrer"> 257637 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="257637"><span>Show Specification</span></button><tr id="spec-257637" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type custom_node_type {
     publishes to odom: nav_msgs/Odometry;
     broadcast odom to base_link;
 }
@@ -657,12 +702,12 @@ node type hector_mapping_type {
 
 system {
     node instance custom_node: custom_node_type { }
-
     node instance hector_mapping: hector_mapping_type {
         param odom_frame = &quot;base_link&quot;;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/257935" target="_blank" rel="noopener noreferrer"> 257935 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="257935"><span>Show Specification</span></button><tr id="spec-257935" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type custom_node_type {
-    subscribes to imu_data: sensor_msgs/Imu; 
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/257935" target="_blank" rel="noopener noreferrer"> 257935 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="257935"><span>Show Specification</span></button><tr id="spec-257935" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type custom_node_type {
+    subscribes to imu_data: sensor_msgs/Imu;
 }
 
 node type gazebo_ros_imu_type {
@@ -670,10 +715,10 @@ node type gazebo_ros_imu_type {
 }
 
 system {
-    node type custom_node_type { }
-
-    node type gazebo_ros_imu_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/259561" target="_blank" rel="noopener noreferrer"> 259561 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="259561"><span>Show Specification</span></button><tr id="spec-259561" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type custom_node_1 {
+    node instance custom_node: custom_node_type { }
+    node instance gazebo: gazebo_ros_imu_type { }
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/259561" target="_blank" rel="noopener noreferrer"> 259561 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="259561"><span>Show Specification</span></button><tr id="spec-259561" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type custom_node_1 {
     publishes to falconPose: geometry_msgs/Pose;
 }
 
@@ -684,7 +729,8 @@ node type custom_node_2 {
 system {
     node instance custom_node1: custom_node_1 { }
     node instance custom_node2: custom_node_2 { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/260640" target="_blank" rel="noopener noreferrer"> 260640 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Color-Format</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="260640"><span>Show Specification</span></button><tr id="spec-260640" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16,
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/260640" target="_blank" rel="noopener noreferrer"> 260640 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Color-Format</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="260640"><span>Show Specification</span></button><tr id="spec-260640" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias ImageEncoding16: Enum[RGB16, RGBA16, BGR16, BGRA16, MONO16,
                                 16UC1, 16UC2, 16UC3, 16UC4, 16SC1, 16SC2, 16SC3, 16SC4,
                                 BAYER_RGGB16, BAYER_BGGR16, BAYER_GBRG16, BAYER_GRBG16
 ];
@@ -715,7 +761,8 @@ message alias ImageWith32Encoding: sensor_msgs/Image {
     field width: uint32;
     field is_bigendian: uint8;
     field step: uint32;
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/266708" target="_blank" rel="noopener noreferrer"> 266708 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Namespaces</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="266708"><span>Show Specification</span></button><tr id="spec-266708" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type image_proc_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/266708" target="_blank" rel="noopener noreferrer"> 266708 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Namespaces</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="266708"><span>Show Specification</span></button><tr id="spec-266708" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type image_proc_type {
     optional param queue_size: int = 5;
 
     subscribes to image_raw: sensor_msgs/Image;
@@ -724,7 +771,10 @@ message alias ImageWith32Encoding: sensor_msgs/Image {
     publishes to image_mono: sensor_msgs/Image;
     publishes to image_rect: sensor_msgs/Image;
     # ...
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/27979" target="_blank" rel="noopener noreferrer"> 27979 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Dead-Write</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span> <span class="label-misconfiguration">OTHER: Documentation</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="27979"><span>Show Specification</span></button><tr id="spec-27979" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type sicklms {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/27979" target="_blank" rel="noopener noreferrer"> 27979 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Dead-Write</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span> <span class="label-misconfiguration">OTHER: Documentation</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="27979"><span>Show Specification</span></button><tr id="spec-27979" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias Rate: int where {_ &gt; 0};
+
+node type sicklms {
     context device_resolution: double;
 
     optional param use_rep_117: bool = true;
@@ -736,15 +786,16 @@ message alias ImageWith32Encoding: sensor_msgs/Image {
     optional param resolution: double = 0.0;
     optional param connect_delay: double = 0.0;
 
-    publishes to scan: sensor_msgs/Laserscan;
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/280412" target="_blank" rel="noopener noreferrer"> 280412 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NODE: Missing</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="280412"><span>Show Specification</span></button><tr id="spec-280412" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type turtlesim_node {
+    publishes to scan: sensor_msgs/LaserScan;
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/280412" target="_blank" rel="noopener noreferrer"> 280412 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NODE: Missing</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="280412"><span>Show Specification</span></button><tr id="spec-280412" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type turtlesim_node_type {
     subscribes to turtle2/cmd_vel: geometry_msgs/Twist;
     publishes to turtle2/pose: geometry_msgs/Pose;
 }
 
-node type turtle_tf_broadcast {
+node type turtle_tf_broadcast_type {
     param turtle: string;
-    subscribes to content(turtle)/pose: geometry_msgs/Pose;
+    subscribes to content(turtle): geometry_msgs/Pose;
     broadcast content(turtle) to world;
 }
 
@@ -754,11 +805,12 @@ node type turtle_tf_listener {
 }
 
 system {
-    node instance turtlesim_node: turtlesim_node { }
-    node instance turtle1_tf_broadcast: turtle_tf_broadcast {
-        param turtle = &quot;turtle1&quot;;
+    node instance turtlesim_node: turtlesim_node_type { }
+    node instance turtle1_tf_broadcast: turtle_tf_broadcast_type {
+        param turtle = &quot;turtle1/pose&quot;;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/28163" target="_blank" rel="noopener noreferrer"> 28163 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">LAUNCH: Includes</span> <span class="label-misconfiguration">CONTEXTUAL: Simulation-vs-Real</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="28163"><span>Show Specification</span></button><tr id="spec-28163" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type planning_scene_warehouse_viewer_t {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/28163" target="_blank" rel="noopener noreferrer"> 28163 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">LAUNCH: Includes</span> <span class="label-misconfiguration">CONTEXTUAL: Simulation-vs-Real</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="28163"><span>Show Specification</span></button><tr id="spec-28163" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type planning_scene_warehouse_viewer_t {
     context is_simulation: bool;
 
     optional argument use_monitor: bool = false;
@@ -775,21 +827,22 @@ system {
     node instance planning_scene_warehouse_viewer: planning_scene_warehouse_viewer_t {
         context is_simulation = true;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/283932" target="_blank" rel="noopener noreferrer"> 283932 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Missing-Transform</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="283932"><span>Show Specification</span></button><tr id="spec-283932" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type custom_node_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/283932" target="_blank" rel="noopener noreferrer"> 283932 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Missing-Transform</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="283932"><span>Show Specification</span></button><tr id="spec-283932" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type custom_node_type {
     broadcast camera_rgb_frame to camera_link;
 }
 
 node type freenect_node_type {
     optional param publish_tf: bool = true;
 
-    broadcast camera_link to camera_rgb_frame;
+    broadcast camera_link to camera_rgb_frame; 
 }
 
 system {
     node instance custom_node: custom_node_type { }
-
     node instance freenect_node: freenect_node_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/285062" target="_blank" rel="noopener noreferrer"> 285062 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NAME: Namespaces</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="285062"><span>Show Specification</span></button><tr id="spec-285062" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type map_server_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/285062" target="_blank" rel="noopener noreferrer"> 285062 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NAME: Namespaces</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="285062"><span>Show Specification</span></button><tr id="spec-285062" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type map_server_type {
     optional param frame_id: string = &quot;map&quot;;
     optional param use_map_topic: bool = false;
 } where {
@@ -801,8 +854,9 @@ system {
         param frame_id = &quot;/map&quot;;
         param use_map_topic = false;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/285266" target="_blank" rel="noopener noreferrer"> 285266 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Physical-Units</span> <span class="label-misconfiguration">CONTEXTUAL: Simulation-vs-Real</span> <span class="label-misconfiguration">OTHER: Documentation</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="285266"><span>Show Specification</span></button><tr id="spec-285266" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias MeterPerSecond: float;
-type alias RadianPerSecond: float;
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/285266" target="_blank" rel="noopener noreferrer"> 285266 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Physical-Units</span> <span class="label-misconfiguration">CONTEXTUAL: Simulation-vs-Real</span> <span class="label-misconfiguration">OTHER: Documentation</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="285266"><span>Show Specification</span></button><tr id="spec-285266" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias MeterPerSecond: float64;
+type alias RadianPerSecond: float64;
 
 message alias LinearVector3: geometry_msgs/Vector3 {
     field x: MeterPerSecond;
@@ -819,7 +873,8 @@ message alias AngularVector3: geometry_msgs/Vector3 {
 message alias AnnotatedTwist: geometry_msgs/Twist {
     field linear: LinearVector3;
     field angular: AngularVector3;
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/296720" target="_blank" rel="noopener noreferrer"> 296720 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">OTHER: Simulation</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="296720"><span>Show Specification</span></button><tr id="spec-296720" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type joint_controller_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/296720" target="_blank" rel="noopener noreferrer"> 296720 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">OTHER: Simulation</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="296720"><span>Show Specification</span></button><tr id="spec-296720" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type joint_controller_type {
     context is_simulation: bool;
     optional param use_sim_time: bool = false;
 } where {
@@ -830,8 +885,17 @@ system {
     node instance joint_controller: joint_controller_type {
         context is_simulation = true;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/29953" target="_blank" rel="noopener noreferrer"> 29953 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Constraints</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="29953"><span>Show Specification</span></button><tr id="spec-29953" class="spec-row"><td colspan="4"><pre><code class="rospec-code">message alias RestrictedPointCloud2: sensor_msgs/PointCloud2 {
-    field data: unint8[];
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/29953" target="_blank" rel="noopener noreferrer"> 29953 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Constraints</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="29953"><span>Show Specification</span></button><tr id="spec-29953" class="spec-row"><td colspan="4"><pre><code class="rospec-code">message alias RestrictedPointCloud2: sensor_msgs/PointCloud2 {
+    field data: uint8[];
+    field header: std_msgs/Header;
+    field height: uint32;
+    field width: uint32;
+    field fields: sensor_msgs/PointField[];
+    field is_bigendian: bool;
+    field point_step: uint32;
+    field row_step: uint32;
+    field is_dense: bool;
 } where {
     data[0] &lt; data[len(data) - 1];
 }
@@ -851,9 +915,11 @@ node type laser_scan_matcher_type {
 } where {
     !use_cloud_input -&gt; !exists(cloud_range_min);
     !use_cloud_input -&gt; !exists(cloud_range_max);
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/31036" target="_blank" rel="noopener noreferrer"> 31036 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Transformations</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="31036"><span>Show Specification</span></button><tr id="spec-31036" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type gmapping_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/31036" target="_blank" rel="noopener noreferrer"> 31036 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Transformations</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="31036"><span>Show Specification</span></button><tr id="spec-31036" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type gmapping_type {
     context positioning: Enum[Vertical, Horizontal, Tilted] where {_ != Tilted};
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/316037" target="_blank" rel="noopener noreferrer"> 316037 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Incorrect-Transform</span> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="316037"><span>Show Specification</span></button><tr id="spec-316037" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/316037" target="_blank" rel="noopener noreferrer"> 316037 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Incorrect-Transform</span> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="316037"><span>Show Specification</span></button><tr id="spec-316037" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
     # I believe these are actually in params, that then we provide and amcl does the broadcast, but I abstracted that here
     broadcast map to odom;
 }
@@ -864,9 +930,9 @@ node type static_transform_publisher {
 
 system {
     node instance amcl: amcl_type { }
-
     node instance map_to_odom: static_transform_publisher { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/319065" target="_blank" rel="noopener noreferrer"> 319065 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="319065"><span>Show Specification</span></button><tr id="spec-319065" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/319065" target="_blank" rel="noopener noreferrer"> 319065 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="319065"><span>Show Specification</span></button><tr id="spec-319065" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
     param odom_model_type: Enum[DiffCorrected, OmniCorrected];
     optional param lazer_z_hit: double = 0.95;
     optional param odom_alpha1: double = 0.2;
@@ -886,27 +952,30 @@ system {
         param odom_alpha1 = 4.0;
         param odom_alpha2 = 0.9;
         param odom_alpha3 = 0.2;
-        param odom_alpha4 = 0.2;   
+        param odom_alpha4 = 0.2;
+        #param odom_alpha5 = 0.2;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/320389" target="_blank" rel="noopener noreferrer"> 320389 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span> <span class="label-misconfiguration">TF: Incorrect-Transform</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="320389"><span>Show Specification</span></button><tr id="spec-320389" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type rgbd_sync_type {
-    publishes to /rgbd_image: sensor_images/Image;
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/320389" target="_blank" rel="noopener noreferrer"> 320389 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span> <span class="label-misconfiguration">TF: Incorrect-Transform</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="320389"><span>Show Specification</span></button><tr id="spec-320389" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type rgbd_sync_type {
+    publishes to /rgbd_image: sensor_msgs/Image;
 }
 
 node type zed_wrapper_node_type {
-    publishes to /rgbd_image: sensor_images/Image;
+    publishes to /rgbd_image: sensor_msgs/Image;
 }
 
 node type rtabmap_type {
-    subscribes to rgbd_image: sensor_images/Image where {count(publishers(_)) == 1};
+    subscribes to rgbd_image: sensor_msgs/Image where {count(publishers(_)) == 1};
 }
 
 system {
     node instance rgbd_sync: rgbd_sync_type { }
     node instance zed_wrapper_node: zed_wrapper_node_type { }
     node instance rtabmap: rtabmap_type {
-        remaps rgbd_image to /rgbd_image;
+        #remaps rgbd_image to /rgbd_image;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/325712" target="_blank" rel="noopener noreferrer"> 325712 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">TF: Incorrect-Transform</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="325712"><span>Show Specification</span></button><tr id="spec-325712" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ekf_localization_node_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/325712" target="_blank" rel="noopener noreferrer"> 325712 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">TF: Incorrect-Transform</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="325712"><span>Show Specification</span></button><tr id="spec-325712" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ekf_localization_node_type {
     broadcast map to odom;
     broadcast odom to base_link; # Abstracted, these are set in parameters, but in this case the configuration is this one
 }
@@ -917,13 +986,13 @@ node type static_transform_publisher {
 
 system {
     node instance ekf_localization_node: ekf_localization_node_type { }
-
     node instance static_transform: static_transform_publisher { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/33175" target="_blank" rel="noopener noreferrer"> 33175 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Compute</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="33175"><span>Show Specification</span></button><tr id="spec-33175" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type rgbdslam_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/33175" target="_blank" rel="noopener noreferrer"> 33175 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Compute</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="33175"><span>Show Specification</span></button><tr id="spec-33175" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type rgbdslam_type {
     param fixed_frame_name: string;
     param ground_truth_frame_name: string;
     param base_frame_name: string;
-    param fixed_camera: bool;
+    optional param fixed_camera: bool = false;
 } where {
     base_frame_name == &quot;odom&quot; -&gt; !exists(fixed_camera);
 }
@@ -932,14 +1001,16 @@ system {
     node instance rgbdslam: rgbdslam_type {
         param fixed_frame_name = &quot;/map&quot;;
         param ground_truth_frame_name = &quot;&quot;;
-        param base_frame_name = &quot;/odom&quot;;
+        param base_frame_name = &quot;odom&quot;;
         param fixed_camera = true;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/336055" target="_blank" rel="noopener noreferrer"> 336055 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">OTHER: Documentation</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="336055"><span>Show Specification</span></button><tr id="spec-336055" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias Radian: float;
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/336055" target="_blank" rel="noopener noreferrer"> 336055 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">OTHER: Documentation</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="336055"><span>Show Specification</span></button><tr id="spec-336055" class="spec-row"><td colspan="4"><pre><code class="rospec-code">type alias Radian: float;
 
 node type imu_compass_driver_type {
     optional param /imu/declination: Radian = 0.0;
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/336221" target="_blank" rel="noopener noreferrer"> 336221 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="336221"><span>Show Specification</span></button><tr id="spec-336221" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type move_base_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/336221" target="_blank" rel="noopener noreferrer"> 336221 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="336221"><span>Show Specification</span></button><tr id="spec-336221" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type move_base_type {
     publishes to initialpose: geometry_msgs/PoseWithCovarianceStamped;
 }
 
@@ -951,9 +1022,17 @@ node type new_amcl_type {
 }
 
 system {
-    node instance move_base: move_base_type { }
-    node instance amcl: new_amcl_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/340683" target="_blank" rel="noopener noreferrer"> 340683 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span> <span class="label-misconfiguration">TF: Duplication</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="340683"><span>Show Specification</span></button><tr id="spec-340683" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type local_costmap_t {
+    node instance move_base: move_base_type {
+        #publishes to initialpose: geometry_msgs/PoseWithCovarianceStamped;
+    }
+
+    node instance amcl: new_amcl_type {
+        # argument model: Enum[Burger, Waffle, WafflePi];
+        # argument move_forward_only: bool = false;
+        #subscribes to initialpose_dqn: geometry_msgs/PoseWithCovarianceStamped;
+    }
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/340683" target="_blank" rel="noopener noreferrer"> 340683 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">MESSAGE: Conflicting-Publishers</span> <span class="label-misconfiguration">TF: Duplication</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="340683"><span>Show Specification</span></button><tr id="spec-340683" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type local_costmap_t {
     param global_frame: string;
     param robot_base_frame: string;
 
@@ -987,7 +1066,8 @@ system {
         param base_frame_id = &quot;base_link&quot;;
         param global_frame_id = &quot;/map&quot;;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/350740" target="_blank" rel="noopener noreferrer"> 350740 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Robot-Localization</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="350740"><span>Show Specification</span></button><tr id="spec-350740" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type navsat_transform_node_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/350740" target="_blank" rel="noopener noreferrer"> 350740 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Robot-Localization</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="350740"><span>Show Specification</span></button><tr id="spec-350740" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type navsat_transform_node_type {
     context version: OrderedEnum[V2, V221, V223];
     context yaw_orientation: Enum[North, East, West, South];
 
@@ -1005,8 +1085,8 @@ system {
         context yaw_orientation = East;
         param yaw_offset = 3.14159265359;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/360477" target="_blank" rel="noopener noreferrer"> 360477 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="360477"><span>Show Specification</span></button><tr id="spec-360477" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type laserscan_multi_merger_type {
-
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/360477" target="_blank" rel="noopener noreferrer"> 360477 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="360477"><span>Show Specification</span></button><tr id="spec-360477" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type laserscan_multi_merger_type {
     publishes to laserscan_multi_merger/parameter_descriptions: dynamic_reconfigure/ConfigDescription;
     publishes to laserscan_multi_merger/parameter_updates: dynamic_reconfigure/Config;
     publishes to merged_cloud: sensor_msgs/PointCloud2;
@@ -1038,9 +1118,11 @@ system {
     node instance ira_laser_tools: ira_laser_tools_type {
         param laserscan_topics = [&quot;/sensor_1/points&quot;, &quot;/sensor_2/points&quot;];
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/374209" target="_blank" rel="noopener noreferrer"> 374209 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">LAUNCH: Arguments</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="374209"><span>Show Specification</span></button><tr id="spec-374209" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type component_manager_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/374209" target="_blank" rel="noopener noreferrer"> 374209 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">LAUNCH: Arguments</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="374209"><span>Show Specification</span></button><tr id="spec-374209" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type component_manager_type {
     optional argument use_intra_process_comms: bool = false;
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/378462" target="_blank" rel="noopener noreferrer"> 378462 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Robot-Localization</span> <span class="label-misconfiguration">NAME: Mismatches</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="378462"><span>Show Specification</span></button><tr id="spec-378462" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ekf_filter_node_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/378462" target="_blank" rel="noopener noreferrer"> 378462 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Robot-Localization</span> <span class="label-misconfiguration">NAME: Mismatches</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="378462"><span>Show Specification</span></button><tr id="spec-378462" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ekf_filter_node_type {
     optional param world_frame: string = &quot;odom&quot;;
 }
 
@@ -1048,7 +1130,8 @@ system {
     node instance ekf_filter_node:  ekf_filter_node_type {
         param worl_frame = &quot;map&quot;;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/379101" target="_blank" rel="noopener noreferrer"> 379101 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Missing-Transform</span> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="379101"><span>Show Specification</span></button><tr id="spec-379101" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type robot_state_publisher {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/379101" target="_blank" rel="noopener noreferrer"> 379101 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Missing-Transform</span> <span class="label-misconfiguration">NAME: Remapping</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="379101"><span>Show Specification</span></button><tr id="spec-379101" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type robot_state_publisher_type {
     context number_of_robots: int;
     optional param tf_prefix: string = &quot;&quot;;
 } where {
@@ -1059,11 +1142,12 @@ system {
     node instance robot_state_publisher: robot_state_publisher_type {
         context number_of_robots = 2;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/390380" target="_blank" rel="noopener noreferrer"> 390380 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="390380"><span>Show Specification</span></button><tr id="spec-390380" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type op_motion_simulator_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/390380" target="_blank" rel="noopener noreferrer"> 390380 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="390380"><span>Show Specification</span></button><tr id="spec-390380" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type op_motion_simulator_type {
     context object_avoidance: bool;
 
     optional param simObjNumber: int = 5;
-    optional param GuassianErrorFactor: int = 0;
+    optional param GaussianErrorFactor: int = 0;
     optional param pointCloudPointsNumber: int = 75;
     optional param useNavGoalToSetStaticObstacle: bool = true;
 } where {
@@ -1074,7 +1158,8 @@ system {
     node instance op_motion_simulation: op_motion_simulator_type {
         context object_avoidance = true;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/393902" target="_blank" rel="noopener noreferrer"> 393902 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Robot-Localization</span> <span class="label-misconfiguration">CALIBRATION: Odometry</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="393902"><span>Show Specification</span></button><tr id="spec-393902" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ekf_filter_node_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/393902" target="_blank" rel="noopener noreferrer"> 393902 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">DSL: Robot-Localization</span> <span class="label-misconfiguration">CALIBRATION: Odometry</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="393902"><span>Show Specification</span></button><tr id="spec-393902" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type ekf_filter_node_type {
     param odom0_config: bool[];
     optional param two_d_mode: bool = false;
 } where {
@@ -1083,7 +1168,7 @@ system {
 
 system {
     node instance ekf_filter_node: ekf_filter_node_type {
-        param odom0_config = 
+        param odom0_config =
                    [false,  false,  false,
                     false, false, false,
                     false, false, false,
@@ -1091,7 +1176,8 @@ system {
                     false, false, false];
         param two_d_mode = true;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/401185" target="_blank" rel="noopener noreferrer"> 401185 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">PARAMETER: Defaults</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="401185"><span>Show Specification</span></button><tr id="spec-401185" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/401185" target="_blank" rel="noopener noreferrer"> 401185 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">PARAMETER: Defaults</span> <span class="label-misconfiguration">DSL: Navigation-Stack</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="401185"><span>Show Specification</span></button><tr id="spec-401185" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
     optional param set_initial_pose: bool = false;
     optional param always_reset_initial_pose: bool = false;
 
@@ -1134,7 +1220,8 @@ system {
             },
         };
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/405765" target="_blank" rel="noopener noreferrer"> 405765 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NAME: Remapping</span> <span class="label-misconfiguration">OTHER: Documentation</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="405765"><span>Show Specification</span></button><tr id="spec-405765" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type custom_node_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/405765" target="_blank" rel="noopener noreferrer"> 405765 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NAME: Remapping</span> <span class="label-misconfiguration">OTHER: Documentation</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="405765"><span>Show Specification</span></button><tr id="spec-405765" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type custom_node_type {
     subscribes to /robo/cmd_vel: geometry_msgs/Twist;
 }
 
@@ -1148,7 +1235,8 @@ system {
     node instance nav2_controller: nav2_controller_type {
         # missing: remaps /cmd_vel to /robo/cmd_vel;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/41000" target="_blank" rel="noopener noreferrer"> 41000 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Incorrect-Transform</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="41000"><span>Show Specification</span></button><tr id="spec-41000" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/41000" target="_blank" rel="noopener noreferrer"> 41000 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Incorrect-Transform</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="41000"><span>Show Specification</span></button><tr id="spec-41000" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
     optional param odom: string = &quot;odom&quot;;
     optional param map: string = &quot;map&quot;;
 
@@ -1164,9 +1252,15 @@ system {
     node instance amcl: amcl_type {
         param odom = &quot;odom_error&quot;;
     }
-
     node instance custom_node: custom_node_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/45556" target="_blank" rel="noopener noreferrer"> 45556 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="45556"><span>Show Specification</span></button><tr id="spec-45556" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type action_server_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/45556" target="_blank" rel="noopener noreferrer"> 45556 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">DSL: Navigation-Stack</span> <span class="label-misconfiguration">NAME: Mismatches</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="45556"><span>Show Specification</span></button><tr id="spec-45556" class="spec-row"><td colspan="4"><pre><code class="rospec-code">message MoveBaseAction {
+    request field goal: move_base_msgs/MoveBaseGoal;
+    response field result: move_base_msgs/MoveBaseResult;
+    feedback field feedback: move_base_msgs/MoveBaseFeedback;
+}
+
+node type action_server_type {
     provides service move_base: MoveBaseAction;
 }
 
@@ -1176,13 +1270,13 @@ node type simple_move_type {
 
 system {
     node instance action_server: action_server_type { }
-
     node instance simple_move: simple_move_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/53228" target="_blank" rel="noopener noreferrer"> 53228 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="53228"><span>Show Specification</span></button><tr id="spec-53228" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type rgbdslam_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/53228" target="_blank" rel="noopener noreferrer"> 53228 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="53228"><span>Show Specification</span></button><tr id="spec-53228" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type rgbdslam_type {
     optional param individual_cloud_out_topic: string = &quot;topic_points&quot;;
     optional param store_pointclouds: bool = true;
 
-    publishes to content(individual_cloud_out_topic): sensor_msgs/PointCloud2;
+    publishes to content(individual_cloud_out_topic): sensor_msgs/PointCloud2; 
 }
 
 node type custom_node_type {
@@ -1192,11 +1286,13 @@ node type custom_node_type {
 
 system {
     node instance rgbdslam: rgbdslam_type {
-        param individual_cloud_out_topic = &quot;/rgbdslam/batch_clouds&quot;;
+        #param individual_cloud_out_topic = &quot;/rgbdslam/batch_clouds&quot;;
         param store_pointclouds = false;
     }
-    node instance custom_node custom_node_type { }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/59087" target="_blank" rel="noopener noreferrer"> 59087 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="59087"><span>Show Specification</span></button><tr id="spec-59087" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type hokuyo_node_type {
+
+    node instance custom_node: custom_node_type { }
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/59087" target="_blank" rel="noopener noreferrer"> 59087 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">CONTEXTUAL: HARDWARE: Sensors</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="59087"><span>Show Specification</span></button><tr id="spec-59087" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type hokuyo_node_type {
     context sensor_max_angle_fov: double;
     context sensor_min_angle_fov: double;
 
@@ -1205,7 +1301,8 @@ system {
 } where {
     min_ang_limit &lt;= sensor_min_angle_fov;
     max_ang_limit &lt;= sensor_max_angle_fov;
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/63179" target="_blank" rel="noopener noreferrer"> 63179 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Incorrect-Transform</span> <span class="label-misconfiguration">NAME: Namespaces</span> <span class="label-misconfiguration">OTHER: Simulation</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="63179"><span>Show Specification</span></button><tr id="spec-63179" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type rviz_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/63179" target="_blank" rel="noopener noreferrer"> 63179 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TF: Incorrect-Transform</span> <span class="label-misconfiguration">NAME: Namespaces</span> <span class="label-misconfiguration">OTHER: Simulation</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="63179"><span>Show Specification</span></button><tr id="spec-63179" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type rviz_type {
     context number_of_systems: int;
     optional param tf_prefix: string = &quot;&quot;;
 } where {
@@ -1216,7 +1313,8 @@ system {
     node instance rviz: rviz_type {
         context number_of_systems = 2;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/66176" target="_blank" rel="noopener noreferrer"> 66176 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">LAUNCH: Arguments</span> <span class="label-misconfiguration">OTHER: Simulation</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="66176"><span>Show Specification</span></button><tr id="spec-66176" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type hector_mapping_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/66176" target="_blank" rel="noopener noreferrer"> 66176 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Missing</span> <span class="label-misconfiguration">LAUNCH: Arguments</span> <span class="label-misconfiguration">OTHER: Simulation</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="66176"><span>Show Specification</span></button><tr id="spec-66176" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type hector_mapping_type {
     context is_simulation: bool;
     optional param use_sim_time: bool = false;
 } where {
@@ -1227,16 +1325,18 @@ system {
     node instance hector_mapping: hector_mapping_type {
         context is_simulation = true;
     }
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/9711" target="_blank" rel="noopener noreferrer"> 9711 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Constraints</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="9711"><span>Show Specification</span></button><tr id="spec-9711" class="spec-row"><td colspan="4"><pre><code class="rospec-code">message alias RestrictedQuaternion: geometry_msgs/Quaternion {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/9711" target="_blank" rel="noopener noreferrer"> 9711 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">TYPES: Constraints</span></div><td> <span class="status-pill status-documentation"> Documentation </span><td> <button class="spec-toggle" data-spec-id="9711"><span>Show Specification</span></button><tr id="spec-9711" class="spec-row"><td colspan="4"><pre><code class="rospec-code">message alias RestrictedQuaternion: geometry_msgs/Quaternion {
     field x: float64;
     field y: float64;
     field z: float64;
     field w: float64;
 } where {
     (x + y + z + w) != 0;
-}</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/98736" target="_blank" rel="noopener noreferrer"> 98736 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">TYPES: Constraints</span> <span class="label-misconfiguration">TF: Incorrect-Transform</span> <span class="label-misconfiguration">NODE: Missing</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="98736"><span>Show Specification</span></button><tr id="spec-98736" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
+}
+</code></pre><tr class="question-row"><td> <a href="https://answers.ros.org/question/98736" target="_blank" rel="noopener noreferrer"> 98736 </a><td><div class="misconfig-label-group"> <span class="label-misconfiguration">PARAMETER: Incorrect</span> <span class="label-misconfiguration">TYPES: Constraints</span> <span class="label-misconfiguration">TF: Incorrect-Transform</span> <span class="label-misconfiguration">NODE: Missing</span></div><td> <span class="status-pill status-detectable"> Detectable </span><td> <button class="spec-toggle" data-spec-id="98736"><span>Show Specification</span></button><tr id="spec-98736" class="spec-row"><td colspan="4"><pre><code class="rospec-code">node type amcl_type {
     broadcast map to odom;
-    broadcast odom to base_link; # Abstracted, these come from parameters and are not hardcoded
+    broadcast odom to base_link; 
 }
 
 node type static_transform_publisher_type {
@@ -1245,6 +1345,6 @@ node type static_transform_publisher_type {
 
 system {
     node instance amcl: amcl_type { }
-
     node instance map_to_odom: static_transform_publisher_type { }
-}</code></pre></table></div><script src="/pyodide/pyodide.js"></script> <script src="/assets/js/evaluation.js"></script> <script src="/assets/js/rospec-verification.js"></script></main><hr><footer><p><a href="#top" id="back-to-top">Back to top</a></p><div class="d-flex mt-2"></div></footer></div></div><div class="search-overlay"></div></div><script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.6/dist/mermaid.min.js"></script> <script> var config = {} ; mermaid.initialize(config); window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid')); </script> <script src="/assets/js/rospec-highlighting.js"></script> <script src="/assets/js/rospec-details-fix.js"></script>
+}
+</code></pre></table></div><script src="/pyodide/pyodide.js"></script> <script src="/assets/js/evaluation.js"></script> <script src="/assets/js/rospec-verification.js"></script></main><hr><footer><p><a href="#top" id="back-to-top">Back to top</a></p><div class="d-flex mt-2"></div></footer></div></div><div class="search-overlay"></div></div><script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.6/dist/mermaid.min.js"></script> <script> var config = {} ; mermaid.initialize(config); window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid')); </script> <script src="/assets/js/rospec-highlighting.js"></script> <script src="/assets/js/rospec-details-fix.js"></script>
