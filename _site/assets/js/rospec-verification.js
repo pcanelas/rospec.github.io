@@ -1,52 +1,143 @@
 /**
- * RoSpec Verification Script
- * Adds Verify buttons to rospec code blocks and handles verification with backend
+ * RoSpec Verification Script with Pyodide
+ * Adds Verify buttons to rospec code blocks and handles verification using Pyodide
  */
+
+let pyodide = null;
+let pyodideReady = false;
+let initializationPromise = null;
+
 document.addEventListener('DOMContentLoaded', function() {
   // Add verify buttons to all rospec code blocks in the evaluation table
-  //addVerifyButtons(); // Enabled to use verification
+  addVerifyButtons();
   
   // Set up styles for verification UI
   addVerificationStyles();
   
-  // Test the server connection
-  testServerConnection();
+  // Wait a bit for Pyodide to be available if it's still loading
+  setTimeout(() => {
+    initializationPromise = initializePyodide();
+  }, 500);
 });
 
 /**
- * Test if the server is reachable
+ * Wait for loadPyodide to be available
  */
-function testServerConnection() {
-  const serverUrl = 'http://194.117.20.223:8000/api/status';
-  console.log(`Testing server connection to: ${serverUrl}`);
-  
-  fetch(serverUrl, { 
-    method: 'GET',
-    mode: 'cors',
-    headers: {
-      'Accept': 'text/plain',
-    }
-  })
-    .then(response => {
-      console.log(`Server test response status: ${response.status}`);
-      if (response.ok) {
-        console.log('✅ RoSpec verification server is reachable');
-        return response.text();
+function waitForPyodide(maxWaitTime = 10000) {
+  return new Promise((resolve, reject) => {
+    const checkInterval = 100;
+    let elapsedTime = 0;
+    
+    const check = () => {
+      if (typeof loadPyodide !== 'undefined') {
+        resolve();
+      } else if (elapsedTime >= maxWaitTime) {
+        reject(new Error('Pyodide not available after waiting'));
       } else {
-        console.warn(`⚠️ RoSpec verification server returned non-OK status: ${response.status}`);
-        throw new Error(`Status: ${response.status}`);
+        elapsedTime += checkInterval;
+        setTimeout(check, checkInterval);
       }
-    })
-    .then(text => {
-      console.log(`Server response: ${text}`);
-    })
-    .catch(error => {
-      console.error('❌ RoSpec verification server not reachable:', error.message);
-      console.error('Please check:');
-      console.error('1. Server is running on the correct IP and port');
-      console.error('2. Firewall allows connections to port 8000');
-      console.error('3. CORS is properly configured on the server');
-    });
+    };
+    
+    check();
+  });
+}
+
+/**
+ * Initialize Pyodide and set up the verification environment
+ */
+async function initializePyodide() {
+  console.log('Initializing Pyodide...');
+  
+  try {
+    // Wait for loadPyodide to be available if it's not already
+    if (typeof loadPyodide === 'undefined') {
+      console.log('Waiting for Pyodide to be available...');
+      await waitForPyodide();
+    }
+    
+    // Use the locally available Pyodide (no indexURL to use local version)
+    console.log('Using locally available Pyodide...');
+    pyodide = await loadPyodide();
+    console.log('Pyodide loaded successfully');
+    
+    // Install required packages
+    console.log('Installing required packages...');
+    await pyodide.loadPackage("micropip");
+    const micropip = pyodide.pyimport("micropip");
+    console.log('Installed micropip')
+
+    // Install lark first with specific version
+    console.log('Installing lark==1.2.2...');
+    await micropip.install("lark==1.2.2");
+    console.log('Lark 1.2.2 installed');
+    
+    // Install rospec (skipping dependencies as requested)
+    console.log('Installing rospec package...');
+    await micropip.install("rospec==0.0.2", {deps: false});
+    console.log('RoSpec package installed');
+    
+    // Set up the verification function in Python
+    await setupVerificationFunction();
+    
+    pyodideReady = true;
+    console.log('✅ Pyodide verification environment ready');
+    
+  } catch (error) {
+    console.error('❌ Failed to initialize Pyodide:', error);
+    pyodideReady = false;
+    throw error;
+  }
+}
+
+/**
+ * Set up the Python verification function in Pyodide
+ */
+async function setupVerificationFunction() {
+  pyodide.runPython(`
+import sys
+import traceback
+
+def verify_rospec_code(code):
+    """
+    Verify rospec code using the rospec library
+    
+    Args:
+        code (str): The rospec code to verify
+        
+    Returns:
+        str: Error message if verification fails, empty string if successful
+    """
+    try:
+        # Import rospec modules (using the pip package structure)
+        from rospec.language.frontend import parse_program
+        from rospec.types_database.ttypes_loader import get_ros_types, get_native_types
+        from rospec.verification.context import Context
+        from rospec.verification.definition_formation import program_formation
+        
+        # Parse the program
+        parsed_program = parse_program(code)
+        
+        # Load context with ROS types
+        context = Context()
+        context = get_ros_types(context)
+        context = get_native_types(context)
+        
+        # Verify the program
+        errors = program_formation(context, parsed_program)
+        
+        if errors:
+            return "\\n".join(errors)
+        else:
+            return ""
+            
+    except Exception as e:
+        # Get full traceback for debugging
+        error_details = traceback.format_exc()
+        return f"Verification error: {str(e)}\\n\\nDetails:\\n{error_details}"
+  `);
+  
+  console.log('Python verification function set up');
 }
 
 /**
@@ -88,9 +179,7 @@ function addVerifyButtons() {
       container.appendChild(resultContainer);
       
       // Add click event listener to the button
-      verifyButton.addEventListener('click', handleVerifyClick);
-      
-      console.log(`Added verify button to spec row ${index + 1}`);
+      verifyButton.addEventListener('click', handleVerifyClick);      
     }
   });
 }
@@ -98,7 +187,7 @@ function addVerifyButtons() {
 /**
  * Handle verify button click event
  */
-function handleVerifyClick(event) {
+async function handleVerifyClick(event) {
   const button = event.currentTarget;
   const specId = button.dataset.specId;
   const container = button.closest('.rospec-verification-container');
@@ -119,83 +208,74 @@ function handleVerifyClick(event) {
   resultContainer.innerHTML = '';
   resultContainer.style.display = 'none';
   
-  // Send code to the verification endpoint
-  verifyRospecCode(code)
-    .then(result => {
-      console.log(`Verification complete. Result length: ${result.length}`);
-      
-      // Handle verification result
-      if (result.trim() === '') {
-        // Success case
-        showSuccessMessage(container);
-      } else {
-        // Error case
-        showErrorMessage(container, result);
-      }
-    })
-    .catch(error => {
-      // Handle error
-      console.error('Verification error:', error);
-      showErrorMessage(container, `Verification failed: ${error.message}`);
-    })
-    .finally(() => {
-      // Reset button state
-      button.classList.remove('loading');
-      button.disabled = false;
-    });
+  try {
+    // Wait for Pyodide to be ready if it's still initializing
+    if (!pyodideReady) {
+      showLoadingMessage(container, 'Initializing verification environment...');
+      await initializationPromise;
+    }
+    
+    // Check if initialization succeeded
+    if (!pyodideReady) {
+      throw new Error('Verification environment failed to initialize');
+    }
+    
+    // Verify code using Pyodide
+    const result = await verifyRospecCodePyodide(code);
+    console.log(`Verification complete. Result length: ${result.length}`);
+    
+    // Handle verification result
+    if (result.trim() === '') {
+      // Success case
+      showSuccessMessage(container);
+    } else {
+      // Error case
+      showErrorMessage(container, result);
+    }
+  } catch (error) {
+    // Handle error
+    console.error('Verification error:', error);
+    showErrorMessage(container, `Verification failed: ${error.message}`);
+  } finally {
+    // Reset button state
+    button.classList.remove('loading');
+    button.disabled = false;
+  }
 }
 
 /**
- * Send rospec code to the verification endpoint
+ * Show loading message while Pyodide is initializing
+ * @param {HTMLElement} container - The container element
+ * @param {string} message - The loading message
+ */
+function showLoadingMessage(container, message) {
+  const resultContainer = container.querySelector('.rospec-result-container');
+  
+  resultContainer.innerHTML = `
+    <div class="rospec-loading">
+      <div class="rospec-loading-icon">⏳</div>
+      <div class="rospec-loading-message">${message}</div>
+    </div>
+  `;
+  resultContainer.style.display = 'block';
+}
+
+/**
+ * Verify rospec code using Pyodide
  * @param {string} code - The rospec code to verify
  * @returns {Promise<string>} - The verification result
  */
-async function verifyRospecCode(code) {
-  console.log('Sending code for verification');
+async function verifyRospecCodePyodide(code) {
+  console.log('Verifying code with Pyodide');
   
   try {
-    // Updated with the CORRECT IP address from your server
-    const apiUrl = 'http://194.117.20.223:8000/api/verify-rospec';
-    
-    console.log(`Sending verification request to: ${apiUrl}`);
-    console.log(`Code to verify (first 100 chars): ${code.substring(0, 100)}...`);
-    
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'text/plain',
-      },
-      body: JSON.stringify({ code: code }),
-      mode: 'cors',
-    };
-    
-    console.log('Request options:', requestOptions);
-    
-    const response = await fetch(apiUrl, requestOptions);
-    
-    console.log(`Server response status: ${response.status}`);
-    console.log('Response headers:', [...response.headers.entries()]);
-    
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`Server error response: ${errorText}`);
-      throw new Error(`Server responded with status: ${response.status} - ${errorText}`);
-    }
-    
-    const result = await response.text();
-    console.log(`Received response: ${result.substring(0, 100)}${result.length > 100 ? '...' : ''}`);
+    // Call the Python verification function
+    const result = pyodide.runPython(`verify_rospec_code(${JSON.stringify(code)})`);
+    console.log(`Verification result: ${result.substring(0, 100)}${result.length > 100 ? '...' : ''}`);
     return result;
   } catch (error) {
-    console.error('Error during verification request:', error);
-    
-    if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-      throw new Error('Cannot connect to verification server. Please check if the server is running and accessible.');
-    } else if (error.message.includes('CORS')) {
-      throw new Error('CORS error: The server is not allowing requests from this domain.');
-    } else {
-      throw error;
-    }
+    console.error('Error during Pyodide verification:', error);
+    throw new Error(`Pyodide verification failed: ${error.message}`);
   }
 }
 
@@ -315,6 +395,34 @@ function addVerificationStyles() {
     .rospec-result-container {
       margin-top: 10px;
       display: none;
+    }
+    
+    /* Loading message styles */
+    .rospec-loading {
+      background-color: #e3f2fd;
+      color: #1565c0;
+      border: 1px solid #bbdefb;
+      border-radius: 4px;
+      padding: 12px;
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .rospec-loading-icon {
+      background-color: #2196f3;
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    
+    .rospec-loading-message {
+      flex-grow: 1;
     }
     
     /* Success message styles */
