@@ -4,7 +4,7 @@
  */
 document.addEventListener('DOMContentLoaded', function() {
   // Add verify buttons to all rospec code blocks in the evaluation table
-  addVerifyButtons();
+  // addVerifyButtons(); // TODO: remove to enable
   
   // Set up styles for verification UI
   addVerificationStyles();

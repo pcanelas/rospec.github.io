@@ -245,46 +245,11 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Simple code validation for demonstration
   function validateCode(code) {
-    const errors = [];
-    const lines = code.split('\n');
-    
-    // Check for basic syntax issues
-    let braceCount = 0;
-    let lineNumber = 1;
-    
-    for (const line of lines) {
-      // Count braces
-      for (const char of line) {
-        if (char === '{') braceCount++;
-        if (char === '}') braceCount--;
-      }
-      
-      // Very basic checks - in a real implementation, this would be much more sophisticated
-      if (line.includes('node type') && !line.includes('{')) {
-        errors.push({
-          line: lineNumber,
-          message: 'Node type declaration should be followed by an opening brace'
-        });
-      }
-      
-      if (line.includes('param') && !line.match(/param\s+\w+:\s*\w+/) && !line.includes('=')) {
-        errors.push({
-          line: lineNumber,
-          message: 'Parameter declaration requires a name and type'
-        });
-      }
-      
-      lineNumber++;
-    }
-    
-    // Check for unbalanced braces
-    if (braceCount !== 0) {
+    const errors = []
       errors.push({
         line: 1,
-        message: 'Unbalanced braces in the code'
+        message: 'Currently, could not connect to server.'
       });
-    }
-    
     return errors;
   }
   
