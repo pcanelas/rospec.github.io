@@ -4,7 +4,7 @@
  */
 document.addEventListener('DOMContentLoaded', function() {
   // Add verify buttons to all rospec code blocks in the evaluation table
-  // addVerifyButtons(); // TODO: remove to enable
+  addVerifyButtons(); // TODO: remove to enable
   
   // Set up styles for verification UI
   addVerificationStyles();
@@ -126,6 +126,7 @@ function handleVerifyClick(event) {
     });
 }
 
+
 /**
  * Send rospec code to the verification endpoint
  * @param {string} code - The rospec code to verify
@@ -135,14 +136,8 @@ async function verifyRospecCode(code) {
   console.log('Sending code for verification');
   
   try {
-    // The URL should be the absolute path to your Python script endpoint
-    // If your script is running on a different port or domain, you'll need to specify that
-    // Example: http://localhost:8000/api/verify-rospec
-    
-    // For local development:
-    const apiUrl = 'http://localhost:8000/api/verify-rospec';
-    // For production, use the relative path:
-    // const apiUrl = '/api/verify-rospec';
+    // Update this URL to point to your server
+    const apiUrl = 'http://194.117.10.223:8000/api/verify-rospec';
     
     console.log(`Sending verification request to: ${apiUrl}`);
     
