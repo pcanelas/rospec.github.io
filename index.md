@@ -37,7 +37,7 @@ Here's a simple example of a rospec specification for a camera node and its conf
 
 ```rospec
 node type camera_node_type {
-    param frame_rate: double where {_ > 0.0 && _ <= 30.0};
+    param frame_rate: double where {_ > 0.0 and _ <= 30.0};
     publishes to camera/image_raw: sensor_msgs/Image;
 }
 
@@ -76,7 +76,7 @@ rospec supports verification of multiple kinds of misconfigurations:
 ## Research Paper
 
 This is a research project within the [Software and Societal Systems Department (S3D)](https://s3d.cmu.edu/) and the [Robotics Institute](https://www.ri.cmu.edu/) at Carnegie Mellon University, and [LASIGE](https://lasige.pt/) at University of Lisbon. 
-For a detailed explanation of the language design, semantics, and evaluation, check out our paper:
+For a detailed explanation of the language design, semantics, and evaluation, check out our paper (currently under review):
 
 ```
 @inproceedings{canelas2025rospec,
