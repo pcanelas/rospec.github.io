@@ -799,7 +799,11 @@
     - 'MESSAGE: Format'
     - 'OTHER: Documentation'
   status: Documentation
-  specification: ""
+  specification: |
+    node type gmapping_type {
+      # since no publishes are provided, this acts as documentation
+      broadcast map to odom;
+    }
 
 - question: 209404
   misconfiguration:
