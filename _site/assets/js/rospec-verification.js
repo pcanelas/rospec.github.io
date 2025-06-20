@@ -74,7 +74,7 @@ async function initializePyodide() {
     
     // Install rospec (skipping dependencies as requested)
     console.log('Installing rospec package...');
-    await micropip.install("rospec==0.0.2", {deps: false});
+    await micropip.install("rospec==0.0.3", {deps: false});
     console.log('RoSpec package installed');
     
     // Set up the verification function in Python

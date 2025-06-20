@@ -288,7 +288,7 @@
   },"41": {
     "doc": "Home",
     "title": "Quick Example",
-    "content": "Here’s a simple example of a rospec specification for a camera node and its configuration: . node type camera_node_type { param frame_rate: double where {_ &gt; 0.0 &amp;&amp; _ &lt;= 30.0}; publishes to camera/image_raw: sensor_msgs/Image; } system { node instance main_camera: camera_node_type { param frame_rate = 15.0; # Valid configuration } } . In this example, rospec ensures that the camera’s frame rate is within the allowed range of (0, 30] frames per second, helping prevent performance issues or hardware damage from invalid configurations. ",
+    "content": "Here’s a simple example of a rospec specification for a camera node and its configuration: . node type camera_node_type { param frame_rate: double where {_ &gt; 0.0 and _ &lt;= 30.0}; publishes to camera/image_raw: sensor_msgs/Image; } system { node instance main_camera: camera_node_type { param frame_rate = 15.0; # Valid configuration } } . In this example, rospec ensures that the camera’s frame rate is within the allowed range of (0, 30] frames per second, helping prevent performance issues or hardware damage from invalid configurations. ",
     "url": "/#quick-example",
     
     "relUrl": "/#quick-example"
@@ -309,7 +309,7 @@
   },"44": {
     "doc": "Home",
     "title": "Research Paper",
-    "content": "This is a research project within the Software and Societal Systems Department (S3D) and the Robotics Institute at Carnegie Mellon University, and LASIGE at University of Lisbon. For a detailed explanation of the language design, semantics, and evaluation, check out our paper: . @inproceedings{canelas2025rospec, title = {}, author = {}, booktitle = {}, volume = {}, number = {}, pages = {}, year = {}, doi = {} } . Ready to try it out? Get started now or check out our examples to see how rospec can help improve the reliability of your robot software. ",
+    "content": "This is a research project within the Software and Societal Systems Department (S3D) and the Robotics Institute at Carnegie Mellon University, and LASIGE at University of Lisbon. For a detailed explanation of the language design, semantics, and evaluation, check out our paper (currently under review): . @inproceedings{canelas2025rospec, title = {}, author = {}, booktitle = {}, volume = {}, number = {}, pages = {}, year = {}, doi = {} } . Ready to try it out? Get started now or check out our examples to see how rospec can help improve the reliability of your robot software. ",
     "url": "/#research-paper",
     
     "relUrl": "/#research-paper"
