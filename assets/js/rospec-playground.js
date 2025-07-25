@@ -64,13 +64,13 @@ async function initializePyodide() {
       console.log('Latest version failed, trying specific version...');
       try {
         // Try specific version 
-        await micropip.install("rospec==0.0.3");
+        await micropip.install("rospec==0.1.0");
         console.log('RoSpec package installed (version 0.0.2)');
       } catch (error2) {
         console.log('Specific version failed, trying without dependencies...');
         try {
           // Try without dependencies as fallback
-          await micropip.install("rospec==0.0.3", {deps: false});
+          await micropip.install("rospec==0.1.0", {deps: false});
           console.log('RoSpec package installed (no deps)');
         } catch (error3) {
           console.log('All installation methods failed');
