@@ -79,15 +79,18 @@ This is a research project within the [Software and Societal Systems Department 
 For a detailed explanation of the language design, semantics, and evaluation, check out our paper (currently under review):
 
 ```
-@inproceedings{canelas2025rospec,
-  title     = {},
-  author    = {},
-  booktitle = {},
-  volume    = {},
-  number    = {},
-  pages     = {},
-  year      = {},
-  doi       = {}
+@article{canelas2025rospec,
+    author      = {Canelas, Paulo and Schmerl, Bradley and Fonseca, Alcides and Timperley, Christopher S.},
+    title       = {ROSpec: A Domain-Specific Language for ROS-Based Robot Software},
+    year        = {2025},
+    issue_date  = {October 2025},
+    publisher   = {Association for Computing Machinery},
+    volume      = {9},
+    number      = {OOPSLA2},
+    url         = {https://doi.org/10.1145/3763169},
+    journal     = {Proceedings of the ACM on Programming Languages},
+    articleno   = {391},
+    numpages    = {29},
 }
 ```
 
